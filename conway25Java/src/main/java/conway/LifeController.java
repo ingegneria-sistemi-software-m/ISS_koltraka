@@ -4,25 +4,20 @@ import conway.devices.ConwayOutput;
 
 public class LifeController {
     private int generationTime = 1000;
-    private  Life life;
+    private Life life;
     private IOutDev outdev;
 
-    public LifeController(Life game){  
+    public LifeController(Life game) {  
         this.life = game;
-        configureTheSystem();
-     }
-
-    protected void configureTheSystem() {
-		//CommUtils.outyellow("LifeController | doJob ");
-		life.createGrids();
-        outdev = new ConwayOutput(   );		
+        this.outdev = new ConwayOutput();	
     }
+
     
     //Called by ConwayInputMock
     public void start(){
 		System.out.println("---------Initial----------");
 		//La griglia è visualizzata con un ciclo
-		displayGrid();
+		this.life.getGrid().displayGrid(this.outdev);
 		play(); 		   	
     }
     
@@ -32,26 +27,15 @@ public class LifeController {
 			try {
 				TimeUnit.MILLISECONDS.sleep(generationTime);
 				System.out.println("---------Epoch --- "+i );
-				life.computeNextGen( outdev );
-				//La griglia è visualizzata  'on the fly'
-				//displayGrid();
+				life.computeNextGen();
+				this.life.getGrid().displayGrid(this.outdev);
+				
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}    	
     }
 
-	public void displayGrid() {
-		for (int i = 0; i < life.getRowsNum(); i++) {
-			for (int j = 0; j < life.getColsNum(); j++) {
-				if (life.getCellState(i,j) == 0) {
-					outdev.displayCell("0");
-                } else {
-                	outdev.displayCell("1");
-                }				 
-			}
-			outdev.displayCell("\n");
-		}
-	}
+	
 
 }

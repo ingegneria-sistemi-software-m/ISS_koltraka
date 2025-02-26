@@ -12,7 +12,6 @@ public class MainConway  {
         ConwayInputMock cim = new ConwayInputMock(cc,life);
         //start the system
         cim.simulateUserControl();
-        
     }
 
 }

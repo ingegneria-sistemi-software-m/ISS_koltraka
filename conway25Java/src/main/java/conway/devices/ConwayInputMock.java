@@ -14,9 +14,9 @@ public class ConwayInputMock {
 
     public void simulateUserControl(){
 		//USER CONTROL HERE ...
-        life.switchCellState( 1, 0 );
-		life.switchCellState( 1, 1 );
-		life.switchCellState( 1, 2 );		
+        life.getGrid().switchCellState( 0, 1 );
+		life.getGrid().switchCellState( 1, 1 );
+		life.getGrid().switchCellState( 2, 1 );		
 //		System.out.println("---------Initial----------");
 //		outdev.displayGrid();
 //		play(); 		   	
