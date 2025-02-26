@@ -22,7 +22,8 @@ public class Life {
         
         for(int i=-1; i<=1; i++) {
         	for(int j=-1; j<=1; j++) {
-        		if (!isBordo(row+i, col+j))
+        		// devo rimanere dentro la griglia e non devo contare me stesso come vicino
+        		if (!isFuoriGriglia(row+i, col+j) && !(i==0 && j==0))
 	            	count += this.grid.getCellState(row+i, col+j) == true ? 1 : 0;
             }
         }
@@ -30,11 +31,10 @@ public class Life {
         return count;
     }
 
-    private boolean isBordo(int x, int y) {
+    private boolean isFuoriGriglia(int x, int y) {
     	return x < 0 || y < 0 || x >= grid.getRows() || y >= grid.getCols();
     }
     
-    // TODO: non mi piace mischiare il calcolo della prossima generazione con la sua stampa
     protected void computeNextGen() {
         for (int i=0; i<this.grid.getRows(); i++) {
             for (int j=0; j<this.grid.getCols(); j++) {   	
@@ -83,9 +83,4 @@ public class Life {
 	public Grid getNextGrid() {
 		return nextGrid;
 	}
-
-    
- 
-
-
 }
