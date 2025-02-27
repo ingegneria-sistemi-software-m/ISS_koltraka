@@ -17,6 +17,11 @@ public class ConwayInputMock {
         life.getGrid().switchCellState( 0, 1 );
 		life.getGrid().switchCellState( 1, 1 );
 		life.getGrid().switchCellState( 2, 1 );		
+		life.computeNextGen();
+		
+		
+		
+		
 		
 		control.start();
     }

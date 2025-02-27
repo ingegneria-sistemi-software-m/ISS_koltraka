@@ -33,4 +33,32 @@ requirement analysis: capire quali sono le entità del dominio applicativo dai r
 - user stories: mettersi nei panni dei possibili utenti (ad esempio il player) e scrivere 
 in linguaggio naturale cosa dovrà fare il sistema dal suo punto di vista
 
-problem analysis: 
+
+
+
+
+
+
+- TDD introdotto
+
+
+- rischio grave comune nelle applicazioni web: le gui/frontend che fanno azioni pertinenti alla logica di buisness
+
+
+
+
+### Cosa si fa nel diario di bordo?
+- cosa scrivo nei requirement?
+    - copio i requirement del committente (o direttamente o come link)
+- interessante osservare dai requisiti, che ci siamo concentrati sulla pagina HTML e non sulla interazione con l'applicazione
+    - di nuovo separation of concerns
+- mettici pensieri come: "non includo il jar della logica di buisness"
+- Quali sono le idee che mi fanno arrivare al risultato?
+    - analisi dei requisiti
+    - analisi del problema
+    - progettazione
+    - il posto dove lo metto è qualificante
+        - le cose che metto nei requisiti sono REQUISITI, non vanno più modificati
+        - ...
+- le user stories dove le metto?
+    - qual'è lo user più importante?

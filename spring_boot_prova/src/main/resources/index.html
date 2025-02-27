@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket con Spring Boot</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #messages { margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <h1>WebSocket con Spring Boot</h1>
+    <button id="startBtn">START</button>
+    <div id="messages"></div>
+
+    <script>
+        let socket;
+        document.getElementById("startBtn").addEventListener("click", function() {
+            if (!socket || socket.readyState !== WebSocket.OPEN) {
+                socket = new WebSocket("ws://localhost:8080/ws");
+
+                socket.onopen = function() {
+                    console.log("Connessione WebSocket aperta");
+                };
+
+                socket.onmessage = function(event) {
+                    let messageDiv = document.createElement("div");
+                    messageDiv.textContent = event.data;
+                    document.getElementById("messages").appendChild(messageDiv);
+                };
+
+                socket.onclose = function() {
+                    console.log("Connessione WebSocket chiusa");
+                };
+            }
+        });
+    </script>
+
+</body>
+</html>

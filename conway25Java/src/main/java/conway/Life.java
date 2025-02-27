@@ -35,7 +35,7 @@ public class Life {
     	return x < 0 || y < 0 || x >= grid.getRows() || y >= grid.getCols();
     }
     
-    protected void computeNextGen() {
+    public void computeNextGen() {
         for (int i=0; i<this.grid.getRows(); i++) {
             for (int j=0; j<this.grid.getCols(); j++) {   	
                 int n = countNeighborsLive(i,j);

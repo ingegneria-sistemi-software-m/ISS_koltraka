@@ -13,3 +13,6 @@
         - Generazione di .project e .classpath: Il plugin genera automaticamente il file .project di Eclipse, che è necessario per riconoscere il progetto come un progetto Eclipse. Crea anche il file .classpath, che definisce il classpath per il progetto, inclusi i riferimenti alle dipendenze e le directory sorgente. 
 
         - Supporto per progetti Java: Per i progetti Java, il plugin configura automaticamente le cartelle di sorgente (src/main/java) e le cartelle di output (build/classes). **Gestisce anche le dipendenze dichiarate nel file build.gradle, assicurandosi che siano incluse nel classpath** di Eclipse.
+
+3. **A che cosa serve il plugin application**
+    - farà anche altro ma per adesso lo si sta solo utilizzando per definire la classe che contiene il main dell'applicazione 
