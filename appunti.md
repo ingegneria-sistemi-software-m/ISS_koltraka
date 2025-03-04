@@ -62,3 +62,40 @@ in linguaggio naturale cosa dovrà fare il sistema dal suo punto di vista
         - ...
 - le user stories dove le metto?
     - qual'è lo user più importante?
+
+
+---
+
+ACCORGIMENTI:
+- copiare ogni volta le unibolibs **che sono fuori**
+- fare apply se non le sta trovando
+
+workflow:
+- copiare
+
+
+MVC
+- model == codice che abbiamo già scritto
+- view == pagina html
+- **controller == springboot!**
+
+...
+
+differenza tra machine-to-machine (microservizi) 
+- automatizzazione del testing
+
+e human-to-machine(frontend) interfaces
+
+...
+
+Ajax o Websocket?
+
+...
+
+differenze tra @Controller e @RestController
+- una per HMI e l'altra MMI
+- una da pagine e l'altra del JSON
+
+
+
+guardare service discovery della websocket script
