@@ -116,3 +116,5 @@ Analisi:
     - ...
 - come faccio a trovare la macchina con il server?
 - pianificazione del test?
+
+**NB**: quando si lavora con le websocket è essenziale scrivere il file WebSocketConfiguration (guarda il suo caller)
