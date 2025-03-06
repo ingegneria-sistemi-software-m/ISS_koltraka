@@ -99,3 +99,20 @@ differenze tra @Controller e @RestController
 
 
 guardare service discovery della websocket script
+
+
+
+
+**Conway player**: scrivere un'applicazione Java che controlla il gioco, facendo finta di essere l'owner. Ovvero:
+- fa il "login"
+- inizializza la griglia in un certo modo
+- fa start
+- fa stop
+
+Analisi:
+- la macchina che serve il gioco è capace di inviare/ricevere messaggi su websocket
+    - start
+    - stop
+    - ...
+- come faccio a trovare la macchina con il server?
+- pianificazione del test?
