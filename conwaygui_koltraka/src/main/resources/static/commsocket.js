@@ -18,6 +18,7 @@ function discoverServiceUrl(){
 	 })
 	 .then(config => {
 	   serviceUrl = `${config.host}`
+	   console.log(serviceUrl)
 	   createSocketForGui(serviceUrl);
 	 })
 	 .catch(error => console.log('Errore:', error));
