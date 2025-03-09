@@ -4008,3 +4008,5 @@ Caused by: java.net.BindException: Indirizzo già in uso
 2025-03-08 18:22:24 [http-nio-7110-exec-1] - Initializing Spring DispatcherServlet 'dispatcherServlet'
 2025-03-08 18:22:24 [http-nio-7110-exec-1] - Initializing Servlet 'dispatcherServlet'
 2025-03-08 18:22:24 [http-nio-7110-exec-1] - Completed initialization in 1 ms
+2025-03-08 18:34:15 [SpringApplicationShutdownHook] - Commencing graceful shutdown. Waiting for active requests to complete
+2025-03-08 18:34:15 [tomcat-shutdown] - Graceful shutdown complete
