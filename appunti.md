@@ -155,5 +155,7 @@ sono sempre asincrono, non mi blocco
 # COMPITO PER CASA
 Fare l'interazione con l'oggetto interconnessione tra Player e Server
 - containerizzare il server in docker
+
+Eventualmente:
 **Analisi del problema**:
 voglio spezzare la GUI dal game server basata su MQTT simmetrica 
