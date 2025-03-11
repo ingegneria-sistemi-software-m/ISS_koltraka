@@ -44,13 +44,20 @@ public class PlayerClient {
 //        	
         	CommUtils.delay(2000);
         	
-        	sendMessage("cell-1-2");
-        	sendMessage("cell-2-2");
-        	sendMessage("cell-3-2");
-
+        	sendMessage("cell-10-10");
+        	sendMessage("cell-11-10");
+        	sendMessage("cell-12-10");
+        	
+        	new Thread(() -> {
+        	    System.out.println("Eseguo nel nuovo thread: " + Thread.currentThread().getName());
+        	    for(int i=0; i<5; i++) {
+        	    	CommUtils.outgreen("Player thread | i'm working");
+        	    	CommUtils.delay(1000);
+        	    }
+        	}).start();
             
-        	sendMessage("start");
-            CommUtils.delay(3000);
+//        	sendMessage("start");
+//            CommUtils.delay(3000);
 //            sendMessage("stop");
             
             

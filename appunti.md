@@ -118,3 +118,42 @@ Analisi:
 - pianificazione del test?
 
 **NB**: quando si lavora con le websocket è essenziale scrivere il file WebSocketConfiguration (guarda il suo caller)
+
+
+
+
+
+
+importanza interazioni asincrone
+- non c'è una receive esplicita bloccante
+- funzioni di callback
+
+**NB**: è la libreria di supporto alle websocket ad essere responsabile per la ricezione dei messaggi sulla websocket NON il caller. Quando riceve un messaggio la libreria invocherà la funzione di callback che il caller ha registrato tramite annotazione-
+
+
+
+mandare messaggi a mano è poco espressivo
+- voglio eliminare di star lavorando con TCP/UDP/HTTP/...
+- voglio solo il concetto di interconnessione e dato che non è disponibile me lo invento
+
+Voglio aggiungere astrazione in modo da ottenere Technology independece!
+- se cambio la tecnologia non cambia la mia applicazione 
+
+capisci meglio la differenza tra usare un pattern Observer nelle unibolibs rispetto al farsi gestire l'asincronismo dalla librerie websocket
+
+
+### tipi di messaggio
+
+...
+
+
+sono sempre asincrono, non mi blocco
+
+
+
+
+# COMPITO PER CASA
+Fare l'interazione con l'oggetto interconnessione tra Player e Server
+- containerizzare il server in docker
+**Analisi del problema**:
+voglio spezzare la GUI dal game server basata su MQTT simmetrica 
