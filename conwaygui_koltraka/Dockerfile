@@ -1,15 +1,15 @@
 #### Dockerfile in project conwaygui
 FROM eclipse-temurin:17.0.5_8-jre-focal as builder
 ## ADD extracts the tar
-ADD ./build/distributions/conwaygui-1.0.tar /
-WORKDIR /conwaygui-1.0/bin
+ADD ./build/distributions/conwaygui_koltraka-1.0.tar /
+WORKDIR /conwaygui_koltraka-1.0/bin
 COPY ./*.pl ./
 COPY ./*.json ./
 COPY ./*.bin ./
 COPY ./*.txt ./
 RUN mkdir logs
 
-CMD ["bash", "conwaygui"]
+CMD ["bash", "conwaygui_koltraka"]
 
 
 ## 1) gradlew distTar
