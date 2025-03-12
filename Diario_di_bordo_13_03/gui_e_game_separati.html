@@ -209,7 +209,30 @@ div.imagedesc{
    
 <title>TemplateToFill</title></head>
     
-
+<!--
+	<body onload="loadNav();">
+		<div id="openButton" class="openButton" onclick="openNav(true)">&#9776; Menu</div>
+		<div id="sidenav" class="sidenav">
+			<a class="closeButton" href="javascript:void(0)" onclick="closeNav(true)">&times;</a>
+			<a href=".README.html">ReadMe</a>
+			<a class="sprint" href="../../../Sprint0/Codice/userDocs/Cold%20Storage%20Service%20-%20Natali%20V3.html">Sprint0</a>
+			<a class="sprint" href="../../../Sprint1.0/Codice/userDocs/Sprint%201.0%20-%20V3.html">Sprint1.0</a>
+			<a class="sprint" href="../../../Sprint1.1/Codice/userDocs/Sprint%201.1%20-%20V3.html">Sprint1.1</a>
+			<a id="currentSprint" class="sprint" href="#">&#8211;&#8212; Sprint2 &#8212;&#8211;</a>
+			<div class="sidenavSection">
+				<a href="#Goal Sprint 2">Goal Sprint 2</a>
+				<a href="#Requisiti">Requisiti</a>
+				<a href="#Analisi dei Requisiti">Analisi dei Requisiti</a>
+				<a href="#Analisi del Problema">Analisi del Problema</a>
+				<a href="#Test Plan">Test Plan</a>
+				<a href="#Progettazione">Progettazione</a>
+				<a href="#Deployment">Deployment</a>
+			</div>
+			<p class="separator">&mdash;&mdash;&mdash;&ndash;&ndash;&mdash;&mdash;&mdash;</p>
+			<a class="sprint" href="../../../Sprint3/Codice/userDoc/Sprint%203.html">Sprint3</a>
+			<bottom-spacer/>
+		</div>
+-->
 <body>
 <div id="top">
 <h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE <font size="5"></font> </h1>
@@ -219,24 +242,21 @@ div.imagedesc{
 <h2>Introduction</h2>
  
  
-<h2>Requirements</h2> 
+<h2>Requirements</h2>
+
+ 
 <div class="remark">
-	Spezzare il servizio Conway Game of Life in due microservizi: uno che serve la GUI (frontend), e l'altro che supporta il gioco vero e proprio 
-	(fa evolvere la griglia e ne mantiene lo stato) 
+Copy here the EXACT text given by the customer.
 </div>
 
  
+
 <h2>Requirement analysis</h2>
+ 
 
  
 
 <h2>Problem analysis</h2>
-<div class="remark">
-	Spezzare un servizio monolitico in due microservizi richiede sicuramente che quest'ultimi comunichino per ottenere lo stesso risultato del caso
-	monolitico. In questo senso il microservizio di "frontend" dovrà sicuramente richiedere al microservizio del gioco i dati sullo stato della
-	griglia in modo tale da: poter generare una pagina HTML appropriata per gli utenti che si collegano quando il gioco è gia partito, inviare gli 
-	aggiornamenti relativi al susseguirsi delle varie epochi agli utenti che si sono connessi al servizio di frontend.
-</div>
  
 
 <h2>Test plans</h2> 
