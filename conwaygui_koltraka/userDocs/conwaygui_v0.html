@@ -236,6 +236,12 @@ div.imagedesc{
 	monolitico. In questo senso il microservizio di "frontend" dovrà sicuramente richiedere al microservizio del gioco i dati sullo stato della
 	griglia in modo tale da: poter generare una pagina HTML appropriata per gli utenti che si collegano quando il gioco è gia partito, inviare gli 
 	aggiornamenti relativi al susseguirsi delle varie epochi agli utenti che si sono connessi al servizio di frontend.
+
+	Gli utenti dovrebbero comunicare strettamente con il microservizo di frontend? Oppure possono connettersi direttamente anche con il microservizio
+	di gioco?
+
+	Forse il microservizio di frontend potrebbe restituire un riferimento al microservizio di gioco alla prima connesione di un utente piuttosto che 
+	fare continuamente da passacarte.
 </div>
  
 
