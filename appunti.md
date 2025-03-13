@@ -193,3 +193,11 @@ concetto di QOS dei messaggi.
 
 
 se faccio partire il subscriber dopo il pusblisher, il subscriber non vede niente.
+
+Separare in due microservizi il gioco dalla giu è utile perchè in questa maniera:
+- il gioco diventa indipendente dalla gui
+- il servizio diventa osservabile
+- posso avere più microservizi (gui, logger, AI, ...) che ricevono informazioni dal microservizio di gioco
+
+rifare conwaygui nella sua versione mqtt
+- nuovo progetto
