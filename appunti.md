@@ -159,3 +159,37 @@ Fare l'interazione con l'oggetto interconnessione tra Player e Server
 Eventualmente:
 **Analisi del problema**:
 voglio spezzare la GUI dal game server basata su MQTT simmetrica 
+
+
+
+
+### Alla fine di settimana prossima
+fare una paginetta in cui si evidenziano gli aspetti essenziali di quanto fatto in questa prima fase
+
+Keypoints:
+1) implementazione in java del gioco conway! 
+    - prima cosa che abbiamo fatto è stata il core buisness!
+    - non ci siamo lasciati distrarre dalle GUI 
+        - DOMAIN DRIVEN SOFTWARE DEVELOPMENT
+    - altri principi:
+        - divide et impera
+        - single responsability
+        - e inversione delle dipendenze con l'interfaccia IODev. Questa interfaccia è nata dal core buisness dato che è il gioco stesso ha 
+        il requisito di essere mostrato
+        - prototipazione per vedere se le cose funzionano
+        - "principio di ironman"
+            - embedding del sistema già funzionante in un framework che servisse la GUI
+            - mettere in evidenza la relazione tra springboot e il sistema
+        - **punto delicatissimo**: a quanto pare il fatto che il controller cambi lo stato del gioco modificando delle variabili è delicattisimo
+        - chi è che chiama i metodi del LifeController? Il controller di Spring!
+            - Che cosa provoca l'invocazione dei metodi del controller di Spring? I messaggi sulla websocket! Distinti dalla 
+2) l'invio di messaggi tramite websocket mi apre la possibilità alla M2M interactionù
+
+
+### MQTT
+l'interazione pub/sub serve a disaccoppiare mittenti e destinatari, l'unica cosa che condividono è l'indirizzo del broker.
+
+concetto di QOS dei messaggi.
+
+
+se faccio partire il subscriber dopo il pusblisher, il subscriber non vede niente.
