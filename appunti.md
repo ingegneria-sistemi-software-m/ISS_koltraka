@@ -188,6 +188,7 @@ Keypoints:
 
 ### MQTT
 l'interazione pub/sub serve a disaccoppiare mittenti e destinatari, l'unica cosa che condividono è l'indirizzo del broker.
+- l'unica dipendenza è quella del broker
 
 concetto di QOS dei messaggi.
 
@@ -201,3 +202,18 @@ Separare in due microservizi il gioco dalla giu è utile perchè in questa manie
 
 rifare conwaygui nella sua versione mqtt
 - nuovo progetto
+
+keypoint: vogliamo essere tecnology indipendent
+
+**NB**: non c'è paragone tra lo sforzo di tempo e pensiero che viene impiegato per implementare una comunicazione con paho rispetto a quello che spendo per implementare una comunicazione con librerie/astrazioni di più alto livello
+- sarebbe utile sperimentarlo sulla propria pelle facendolo a mano, sia con paho che con unibolibs
+- **compito per casa**: spezzare la gui da life con le due topic viste a lezione! (lifein, guiin)
+
+**OSS**: nel life controller prima non mi preoccupavo dell'input dato che a quello ci pensava la libreria delle websocket la quale invocava direttamente i metodi di lifecontroller. Ora che voglio spezzare mi devo anche preoccupare dell'input e quindi dovrò preoccuparmi di sostituire il vecchio WsIODev
+
+**OSS**: ogni entità del mio sistema ha un nome univoco
+
+Importante ricordare come mai le callback vengono utilizzate in questi protocolli -> asincronicità 
+
+
+come si implementa una blocking queue?
