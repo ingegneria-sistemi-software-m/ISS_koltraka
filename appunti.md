@@ -217,3 +217,17 @@ Importante ricordare come mai le callback vengono utilizzate in questi protocoll
 
 
 come si implementa una blocking queue?
+
+
+OSS:
+- agente autonomo: un'entità che una volta creata ha un flusso di controllo autonomo (non è un POJO)
+
+
+- WsConwayguiLifeMqtt sostituisce WsIODev nella gestione dei messaggi dei client
+    - inoltre, siccome ora il gioco vive all'interno di un'altro servizio, invia i messaggi di aggiornamento con mqtt e non tramite chiamate di funzione locali
+    - lato game invece cambia il life controller che adesso non invierà più indietro messaggi (con la websocket). Ora utilizza MQTT verso il servizio della gui
+
+- containerizzare conway alone e conwaymqtt
+
+
+fare la transizione coi video
