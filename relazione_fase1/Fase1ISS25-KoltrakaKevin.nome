@@ -1,0 +1,22 @@
+### Punti da chiudere
+1. Quello che lo scrivente ha percepito sia la finalità dei contenuti discussi in questa prima fase, e quello che lo scrivente si aspetta sia lo scopo delle prossime fasi del corso.
+
+2. I sistemi che lo scrivente è riuscito a realizzare e sperimentare, nell’ambito di quelli discussi nella prima fase del corso.
+
+3. Le nuove abilità / competenze che lo scrivente pensa di avere appreso (o che sia possibile apprendere) dopo questa prima fase, sia in relazione alla parte ‘pratica’ del saper-fare (strumenti, tecnologie, etc.) sia con riferimento ad aspetti più ‘concettuali’ (metodologie, modelli, etc.)
+
+4. Quello che lo scrivente pensa sia il motivo per cui, come primo esempio di sistema software da sviluppare, è stato proposto, come caso di studio, il gioco della vita di Conway.
+
+5. Le motivazioni che lo studente ritiene siano alla base della scelta di utilizzare Java e framework (come SpringBoot) legati a Java per lo sviluppo del caso di studio e se ritiente queste scelte limitative oppure obsolete, indicando alternative che ritiene più moderne o più adatte.
+
+6. Gli aspetti di Ingegneria del software (key points) che il caso di studio ha permesso di richiamare o di introdurre nelle varie fasi ‘evolutive’ dei prototipi sviluppati durante la fase 1.
+
+7. Se lo scrivente ritiene oppure no, che il sistema software sviluppato al termine della prima fase sia un sistema distribuito basato su microservizi.
+
+8. Il ruolo che lo scrivente ritiene abbia lo sviluppo di librerie ‘custom’ durante la realizzazione di un sistema software e perchè, per il caso di studio, sono state realizzate classi (relative al protocollo MQTT) inserite nella libreria unibo.basicomm23-1.0.jar
+
+9. Opzionalmente: Il ruolo che lo scrivente ritiene abbia il concetto di linguaggio (di programmazione, ma non solo) più volte evocato dal docente come esempio di un salto evolutivo fondamentale dell’informatica rispetto al solo sviluppo di librerie.
+
+
+### Relazione
+
