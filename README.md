@@ -1,6 +1,5 @@
 # ISS_koltraka
 Repository del corso Ingegneria dei Sistemi Software a.a. 2024/2025 - DISI - University of Bologna dello studente Koltraka Kevin
-* [Materiale didattico](iss25Material/docs/_build/html)
 
 <img src="la_mia_faccia/kevin.jpeg" alt="Descrizione" width="100">
 
