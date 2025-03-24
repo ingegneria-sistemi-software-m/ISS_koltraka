@@ -157,7 +157,7 @@ Keypoints:
         - chi è che chiama i metodi del LifeController? Il controller di Spring!
             - Che cosa provoca l'invocazione dei metodi del controller di Spring? I messaggi sulla websocket! Distinti dalla 
 2) l'invio di messaggi tramite websocket mi apre la possibilità alla M2M interactionù
-
+3) keypoint: vogliamo essere tecnology indipendent
 
 ### MQTT
 l'interazione pub/sub serve a disaccoppiare mittenti e destinatari, l'unica cosa che condividono è l'indirizzo del broker.
