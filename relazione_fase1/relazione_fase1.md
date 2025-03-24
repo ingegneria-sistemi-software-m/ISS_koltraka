@@ -1,4 +1,11 @@
-### Relazione
+### Studente: Koltraka Kevin
+### Matricola: 0001189565
+### Github: https://github.com/ingegneria-sistemi-software-m/ISS_koltraka
+
+<img src="immagini/kevin.jpeg" alt="Descrizione" width="100">
+
+
+# Relazione fine fase 1
 1. Quello che lo scrivente ha percepito sia la finalità dei contenuti discussi in questa prima fase, e quello che lo scrivente si aspetta sia lo scopo delle prossime fasi del corso.
 
 ```
@@ -71,7 +78,7 @@ La libreria è servita a nascondere tutta questo lavoro. In questo caso però, m
 ```
 I linguaggi di programmazione, un po' come le librerie, mettono a disposizione degli strumenti, che in base al sistema che si sta sviluppando, vanno a definire un abstraction gap più o meno grande. In questo senso, più un linguaggio permette di fare operazioni "vicine" al livello di astrazione dell'applicazione, più quel linguaggio risulta espressivo in quel contesto e quindi più l'abstraction gap è piccolo.
 
-La differenza tra sviluppo di librerie e sviluppo di linguaggi penso stia nel fatto che le librerie siano più limitate. Le librerie infatti, possono solo mettere assieme gli strumenti che un determinato linguaggio fornisce, non possono creare qualcosa di completamente originale. Ad esempio: in Java non esistono dei veri tipi funzione ma solo interfacce funzionali, questo significa che quando passo una lambda expression ad una funzione, essa, per invocarla, dovrà invocare un suo metodo ".apply()" e potrà semplicemente utilizzare la notazione con le parentesi tonde come le normali funzioni.  
+La differenza tra sviluppo di librerie e sviluppo di linguaggi penso stia nel fatto che le librerie siano più limitate. Le librerie infatti, possono solo mettere assieme gli strumenti che un determinato linguaggio fornisce, non possono creare qualcosa di completamente originale. Ad esempio: in Java non esistono dei veri tipi funzione ma solo interfacce funzionali, questo significa che quando passo una lambda expression ad una funzione, quest'ultima per invocare la funzione passatale, dovrà chiamare un suo metodo ".apply()"; NON potrà semplicemente utilizzare la notazione con le parentesi tonde come le normali funzioni. In questo contesto, non sarà mai possibile costruire una libreria che permette di costruire oggetti funzione veri.
 ```
 
 
@@ -82,5 +89,3 @@ La differenza tra sviluppo di librerie e sviluppo di linguaggi penso stia nel fa
 
 
 
-
-<img src="immagini/kevin.jpeg" alt="Descrizione" width="200">
