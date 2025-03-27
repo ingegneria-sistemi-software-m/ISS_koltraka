@@ -203,8 +203,27 @@ OSS:
 - containerizzare conway alone e conwaymqtt
 
 
+### Discussione relazione fine fase 1
+...
 
-#### Roba QAK
+- guarda indagine Iron-Man
+- guarda indagine comunicazione vs interazione
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Roba QAK
 la software factory genera codice Kotlin
 - perchè Kotlin? lo capiremo
 
@@ -250,3 +269,8 @@ Conclusione: un linguaggio è l'unica arma che mi da la capacità di esprimere l
 
 ed aggiungere l'auto-valutazione sul sito
 **mettere la motivazione per il B**
+
+
+### Che cosa cerchiamo di fare con i qactor?
+mentre con il principio di iron-man abbiamo creato un sistema come giustapposizione di pezzi con i qactor l'interazione diventa nativa dei miei sistemi
+- boh, non ho ben capito...

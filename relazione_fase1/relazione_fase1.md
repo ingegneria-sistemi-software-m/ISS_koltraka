@@ -79,10 +79,11 @@ I linguaggi di programmazione, un po' come le librerie, mettono a disposizione d
 La differenza tra sviluppo di librerie e sviluppo di linguaggi penso stia nel fatto che le librerie siano più limitate. Le librerie infatti, possono solo mettere assieme gli strumenti che un determinato linguaggio fornisce, non possono creare qualcosa di completamente originale. Ad esempio: in Java non esistono dei veri tipi funzione ma solo interfacce funzionali, questo significa che quando passo una lambda expression ad una funzione, quest'ultima per invocare la funzione passatale, dovrà chiamare un suo metodo ".apply()"; NON potrà semplicemente utilizzare la notazione con le parentesi tonde come le normali funzioni. In questo contesto, non sarà mai possibile costruire una libreria che permette di costruire oggetti funzione veri.
 ```
 
-
-
-
-
+# Autovalutazione
+- mancano dei riferimenti a testing e Junit
+- ho scritto che la libreria serve solo a nascondere e non anche che serve a implementare delle idee
+- non ho citato molti design-patterns come Observer e Singleton
+- manca la tematica sincrono-asincrono e le conseguenze che le comunicazioni asincrone hanno sul codice (geyser, callback) e come mai queste possono fare fastidio? 
 
 
 
