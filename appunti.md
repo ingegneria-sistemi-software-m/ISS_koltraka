@@ -203,4 +203,50 @@ OSS:
 - containerizzare conway alone e conwaymqtt
 
 
-fare la transizione coi video
+
+#### Roba QAK
+la software factory genera codice Kotlin
+- perchè Kotlin? lo capiremo
+
+abbiamo fatto un modello e non un programma
+- modello poi anche eseguibile
+
+i file pl sono file prolog e rappresentano la base di conoscenza del sistema (generati automaticamente nel modello)
+- dentro hanno dei fatti **prolog** 
+
+ogni attore QAK è una risorsa CoAP, un protocollo derivato dopo che si è capito nelle reti che conviene impostare l'interazione tra i servizi in maniera RESTFul
+- CoAP utilizza però UDP e non TCP
+
+A quanto pare abbiamo più server quando eseguiamo il nostro modello, e quindi possiamo comunicare in modi diversi
+- TCP
+- CoAP
+- MQTT
+
+Perchè questo è un modello e non un programma? 
+- l'intenzione di chi ha progettato questo sistema è di catturare degli aspettati fondamentali e di nasconderne altri nella parte sommersa
+
+gli unici programmi che esistono sono quelli in linguaggio macchina?
+- capiamo? domanda strettamente legata a quella dei linguaggi
+- perchè si è sentito il bisogno di creare Java (o qualsiasi altro linguaggio)?
+    - Si sentono delle spinte per avere dei **concetti** di più alto livello rispetto a quelli dei linguaggi del momento 
+    - sfogliando un manuale C non troverò mai il concetto di Oggetto
+    - Vengono in mente dei concetti che possono **aiutare nello sviluppo del software**
+    - Questi concetti esistono nella testa delle persone ma se non esistono nel linguaggio bisogna crearsele con fatica
+    - posso crearmi una libreria dato che i linguaggi sono turing completi e quindi posso fare quello che voglio
+    - Tuttavia, quello che mi manca è la capacità espressiva: se io non catturo le cose che ho in testa con un linguaggio che ha una certa sintassi faccio molta fatica a trasmettere queste idee ad altri esseri umani. 
+        - nota che per la macchina non cambia niente
+    - le librerie stanno solo nel piano semantico ma non comunicano niente delle idee che aveva in testa il creatore della libreria
+    - es. di MqttInteraction come libreria che mi cambia la semantica della comunicazione MQTT ma che ci è voluta della documentazione per spiegarla
+    - i linguaggi aggiungono anche la sintassi che esprime i concetti che ho in testa in maniera evidente 
+        - in QAK abbiamo direttamente nel linguaggio i concetti di "sistema, contesto e attore". In java/kotlin questi concetti non esistono tuttavia li possiamo implementare, tanto è vero che possiamo tradurre i DSL in Java/Kotlin ecc...
+        - **chi fa la traduzione?** i plugin che abbiamo installato (oltre a produrre l'ide) mi definiscono le regole per la valutazione dell'AST 
+
+torniamo alla domanda iniziale: Perchè questo è un modello e non un programma? 
+- in teoria solo il linguaggio macchina produce programmi, tutti gli altri linguaggi infatti hanno concetti che la macchina non ha idea di che cosa siano (oggetti, funzione, ...)
+- in pratica, la differenza sta nel fatto che in un DSL io scelgo di esprimere i concetti che voglio io e ancora di più scelgo di NON esprimere i concetti che non mi interessano. I linguaggi GP esprimono concetti generali per ottenere qualsiasi computazione possibile.
+
+Conclusione: un linguaggio è l'unica arma che mi da la capacità di esprimere le mie idee
+
+
+ed aggiungere l'auto-valutazione sul sito
+**mettere la motivazione per il B**

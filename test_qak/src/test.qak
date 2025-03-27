@@ -1,0 +1,10 @@
+System test 
+
+Context ctxxx ip [host="localhost" port=8920]
+
+QActor a0 context ctxxx{
+	State so initial {
+		[# CommUtils.outgreen("$name | hello world from kotlin") #]
+		println("$name | hello world") color magenta
+	}
+}
