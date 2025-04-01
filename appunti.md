@@ -274,3 +274,55 @@ ed aggiungere l'auto-valutazione sul sito
 ### Che cosa cerchiamo di fare con i qactor?
 mentre con il principio di iron-man abbiamo creato un sistema come giustapposizione di pezzi con i qactor l'interazione diventa nativa dei miei sistemi
 - boh, non ho ben capito...
+
+
+
+
+
+
+
+
+# Perchè abbiamo fatto conway life?
+è un sistema con delle mosse molto limitate (assimilabile alle mosse di una MdT). Tuttavia, il comportamento è impredicibile
+- con poche insignificanti regole (anche stupide) sono capaci di supportare qualsiasi cosa che mi venga in mente, complessa a piacere
+- d'altronde conway life è turing complete 
+
+
+# in che cosa consiste l'essenza del top-down piuttosto che del bottom-up (differenza tra informatico e ingegnere)?
+- non parto dalle mosse del mio linguaggio o di una libreria, piuttosto parte dalle mosse richieste dal problema
+- a questo punto controlliamo se il linguaggio supporta queste mosse o meno
+- se si, godo; altrimenti, abstraction gap, come colmarlo?
+    - esiste qualche libreria nel linguaggio che ho scelto che mi implementa le mosse che mi servono?
+    - se non esiste, esiste qualche altro linguaggio, o una libreria di un altro linguaggio, che implementa questo linguaggio?
+
+
+
+
+# Che cosa si fa quando si viene presentati ad un problema?
+sindrome del foglio bianco
+
+ricorda la differenza tra programmi e modelli
+- UML e non UPL (Unified Programming Language)
+
+
+
+**NMB**: siccome io lavoro nel campo dei sistmi distribuiti, e in questo campo le entità sono "vive" (agenti, idea fumosa), UML NON si presta bene a modellare problemi in questo dominio
+- mi invita a pensare al mio problema come ad un insieme di classi (di morti)
+- mi invita a pensare alla interazione come ad un cedimento di controllo tramite la chiamata di procedura (morti)
+- in questo campo io voglio pensare a degli agenti vivi che interagiscono mediante scambio di messaggi
+- **ho un abstraction gap**
+- l'UML lo butto in quanto non adatto (godo)
+- che cosa uso?
+- **voglio sostituire il metamodello UML con un'altro metamodello**
+
+**Che cos'è un metamodello?**
+- te lo puoi immaginare ma lo definiamo meglio in futuro
+- vai a chiedere a CHATGPT i vari metalivelli di UML (M0, M1, ...)
+- se modelli qualcosa con UML dentro la testa hai i concetti del livello M2 di UML
+- se, come nel nostro caso, abbiamo bisogno di un ML diverso da M2 abbiamo bisogno di un meta-meta-modello che me lo modelli (M3) 
+
+tutta questa teoria nasce da UML, xText mi permette di implementarla
+
+
+perchè voglio fare 400 attori? che vantaggi ho?
+perchè non concentrato?
