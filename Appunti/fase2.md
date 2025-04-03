@@ -119,3 +119,47 @@ tutta questa teoria nasce da UML, xText mi permette di implementarla
 
 perchè voglio fare 400 attori? che vantaggi ho?
 perchè non concentrato?
+
+
+
+
+
+### Roba QAK
+
+una delle prime cose che QAK ci obbliga a definire sono **i tipi di messaggi** che girano nel mio sistema
+- i messaggi sono la "colla" che riunisce i vari servizi in cui ho spezzato il mio sistema
+
+Successivamente, prima della definizione di ogni attore, viene definito un **contesto** per la comunicazione
+
+Una buona idea condivisa per la progettazione di un agente in un sistema distribuito è organizzarlo come un ASF... 
+- **Perchè???**
+- Abbiamo che l'ASF/attore transita in un altro stato quando riceve un messaggio, ma anche con delle **mosse spontanee**
+- abbiamo uno e uno solo stato iniziale
+- molteplici stati finali
+- ho due modi per iniettare degli oggetti dentro ad un attore
+    - tramite delle keyword: **withobj** e **using** 
+    - tramite dichiarazioni classiche in kotlin
+- è meglio scrivere nel DSL o in Kotlin?
+    - nel nostro caso utilizzando withobj mi aggiunge dei "tondi" quando genero l'immagine del modello
+
+
+In questo primo attore abbiamo sostanzialmente sostituito il LifeController vecchio con un attore. Notare che la logica del gioco è comunque implementato dal vecchio gioco tale e quale (monolite)
+
+Interessante: se sono in un determinato stato, transito di stato solamente per le tipologie di messaggio che specifica lo stato in cui sono, il resto viene ignorato
+- questo è interessante dal punto di vista della M2M, i vari attori possono spammare messaggi e grazie a QAK sono in grado di specificare MOLTO PIù FACILMENTE quali e come gli voglio gestire rispetto al caso in cui io debba, ad esempio, ignorare a mano tutti i messaggi che non mi interessano  
+
+i messaggi ignorati vengono messi dall'infrastruttura in una coda separata rispetto a quella dell'attore
+
+NB: dove si trova l'infrastruttura per gli attori QAK? NON dentro a dropins, che contiene solo la parte linguistica di QAK, piuttosto si trova dentro alle unibolibs
+- se cambia la parte linguistica, cambia dropins
+- se cambia il runtime, cambia unibolibs
+
+OutInMqtt manda/riceve messaggi dall'esterno ed eventualemente gli traduce in messaggi all'attore MQTT 
+
+OSS: troviamo delle send ma mai delle receive per scelta di progettazione del linguaggio
+Interessante: potrebbe avere senso gestire alcuni messaggi direttamente a livello di infrastruttura piuttosto che a livello di cervello (vedi messaggi cell in InOutMqttForActor)
+
+
+### Perchè vogliamo rendere ogni cella un microservizio a se stante?
+vai a vedere le risposte sui suoi HTML
+
