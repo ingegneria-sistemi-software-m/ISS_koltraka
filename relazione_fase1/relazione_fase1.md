@@ -80,10 +80,11 @@ La differenza tra sviluppo di librerie e sviluppo di linguaggi penso stia nel fa
 ```
 
 # Autovalutazione
-- mancano dei riferimenti a testing e Junit
-- ho scritto che la libreria serve solo a nascondere e non anche che serve a implementare delle idee
+Il voto che mi do è un B-. I motivi sono i seguenti:
+- non ho parlato del testing che, sempre se si seguono i principi dell'ingegneria del software, sono facilmente implementabili (al posto di ricevere input da un utente lo ricevo da un test, al posto di emettere output su una GUI lo invio ad un test, ecc...)
+- non avevo troppo chiara la differenza sostanziale tra libreria e linguaggio (espressività delle idea del progettista)
 - non ho citato molti design-patterns come Observer e Singleton
-- manca la tematica sincrono-asincrono e le conseguenze che le comunicazioni asincrone hanno sul codice (geyser, callback) e come mai queste possono fare fastidio? 
+- manca la tematica sincrono-asincrono e le conseguenze che le comunicazioni asincrone hanno sul codice (funzioni di callback intrusive) e come mai queste possono fare fastidio
 
 
 
