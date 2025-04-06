@@ -1,4 +1,12 @@
 ## Roba QAK
+Il Linguaggio qak reso disponibile dalla Qak software factory intende fornire un linguaggio per la definizione di **modelli eseguibili** di un sistema,
+basati su un insieme di **concetti** volti a cattuare l'idea che un sistema software (distribuito) possiede le seguenti caratteristiche:
+- il sistema è formato da una insieme di attori
+- gli attori interagiscono scambiandosi messaggi (di tipo IApplMessage, nel nostro caso)
+- un attore è un ente autonomo, capace di elaborare messaggi. **Pertanto la struttura del codice di un attore si presta ad essere modellata come un Automi a stati finiti**
+- gli attori sono raggruppati in contesti che li abilitano a interazioni via rete
+- i contesti possono essere allocati (deployed) su uno o più nodi computazionali, fisici o virtuali
+
 la software factory genera codice Kotlin
 - perchè Kotlin? lo capiremo
 
