@@ -222,3 +222,6 @@ inoltre, prendi due cavetti femmina e un led, cerca di capire come accendere un 
 Coordinazione di microservizi mediante due principali paradigmi:
 - coreografia
 - orchestrazione
+
+
+può essere utile fare un prototipo per capire meglio quali problematiche insorgono (e mi fa capire perchè gli atttori QAK convengono)
