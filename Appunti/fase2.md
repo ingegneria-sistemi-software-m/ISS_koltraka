@@ -140,7 +140,7 @@ una delle prime cose che QAK ci obbliga a definire sono **i tipi di messaggi** c
 Successivamente, prima della definizione di ogni attore, viene definito un **contesto** per la comunicazione
 
 Una buona idea condivisa per la progettazione di un agente in un sistema distribuito è organizzarlo come un ASF... 
-- **Perchè???**
+- **Perchè???** (guarda linea 6)
 - Abbiamo che l'ASF/attore transita in un altro stato quando riceve un messaggio, ma anche con delle **mosse spontanee**
 - abbiamo uno e uno solo stato iniziale
 - molteplici stati finali
@@ -171,3 +171,54 @@ Interessante: potrebbe avere senso gestire alcuni messaggi direttamente a livell
 ### Perchè vogliamo rendere ogni cella un microservizio a se stante?
 vai a vedere le risposte sui suoi HTML
 
+
+
+
+
+
+
+
+### messaggi ms0
+sintassi minuscola prolog
+
+identificatore a sinistra, payload a destra
+
+tipologie
+- request&response
+- dispatch (fire&forget)
+- **evento**: è un'informazione che una sorgente emette **senza specificare alcun destinatario** (le due precedenti si)
+    - cosa fa emit?
+    - l'infrastruttura QAK, propaga l'evento a **tutti** gli attori del sistema
+    - siano essi locali al contesto dell'attore emittente, che appartenenti ad altri contesti
+    - gli eventi vengono inseriti nella coda di ogni attore dall'infrastruttura
+
+Quando un attore entra in un determinato stato
+- inizialmente, fa la sua roba
+- poi controlla la sua coda
+- se è vuota, mi sospendo in attesa di venire risvegliato da un mittente
+- se c'è qualcosa vede se transitare di stato oppure se ignorare (e.g. eventi che non voglio gestire)
+
+con publish pubblico su una topic
+
+con emit lancio un evento verso tutti gli attori del sistema
+
+quando invio dei messaggi al mio sistema qulli non gestiti, che non sono eventi, riempono una coda di sistema che mi devo ricordare di gestire 
+
+
+# RIGUARDA CALLER COAP e MQTT
+
+
+
+# Sfida
+Voglio rendere ciascuna cella di conway autonoma
+- analizza il problema (scordati dei QAK)
+- una volta che ho capito il problema, esplora le tecnologie che mi riducono l'abstraction gap e motiva eventuali scelte
+
+
+inoltre, prendi due cavetti femmina e un led, cerca di capire come accendere un led dal raspberry
+- installaci JAVA
+
+
+Coordinazione di microservizi mediante due principali paradigmi:
+- coreografia
+- orchestrazione

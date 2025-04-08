@@ -21,7 +21,8 @@ import org.json.simple.JSONObject
 //User imports JAN2024
 import main.java.conway.*
 
-class Conway0 ( name: String, scope: CoroutineScope, isconfined: Boolean=false  ) : ActorBasicFsm( name, scope, confined=isconfined ){
+class Conway0 ( name: String, scope: CoroutineScope, isconfined: Boolean=false, isdynamic: Boolean=false ) : 
+          ActorBasicFsm( name, scope, confined=isconfined, dynamically=isdynamic ){
 
 	override fun getInitialState() : String{
 		return "s0"
