@@ -8,3 +8,4 @@ Repository del corso Ingegneria dei Sistemi Software a.a. 2024/2025 - DISI - Uni
 ### Dagli oggetti ai microservizi (in Java)
 * [Conway stuff](conway_stuff): Progetti Java relativi al gioco della vita di Conway (sono presenti esclusivamente quelli con delle modifiche rispetto ai progetti forniti dal professore)
 * [Relazione fine Fase 1](relazione_fase1/Fase1ISS25-KoltrakaKevin.pdf)
+* [Analisi del problema conway celle distribuite](analisi_conway_celle_distribuite/index.html)

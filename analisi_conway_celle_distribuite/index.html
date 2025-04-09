@@ -1,0 +1,331 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/css/foundation.min.css" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/npm/foundation-sites@6.7.4/dist/js/foundation.min.js"crossorigin="anonymous"></script> 
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="./commons/resources/styles/templateISS.css">
+        <link rel="stylesheet" type="text/css" href="./commons/resources/styles/main.css">
+        <link rel="stylesheet" type="text/css" href="./commons/resources/styles/navbar.css">
+        <link rel="stylesheet" type="text/css" href="./commons/resources/styles/table.css">
+        <link rel="stylesheet" type="text/css" href="./commons/resources/styles/code.css">
+        <!-- <script type="text/javascript" src="./commons/resources/scripts/myScripts.js"></script> -->
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.alert{
+	background-color: #f9613b;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+ 
+   
+</head>
+	
+		
+  
+
+
+   
+<title>TemplateToFill</title></head>
+    
+
+<body>
+<div id="top">
+<h1>LABORATORIO DI INGEGNERIA DEI SISTEMI SOFTWARE <font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+<h2>Introduction</h2>
+ 
+ 
+<h2>Requirements</h2> 
+<div class="remark">
+	Spezzare il microservizio che implementa il gioco di conway in svariati nanoservizi indipendenti, uno per cella. 
+</div>
+
+ 
+<h2>Requirement analysis</h2>
+
+ 
+
+<h2>Problem analysis</h2>
+<div class="remark">
+    Passiamo da un problema concentrato ad un problema distribuito:
+    <ul>
+        <li>
+            Precedentemente, il microservizio manteneva la griglia come struttura dati interna (alla classe Life). Lo stato del gioco era
+            concentrato tutto in un unico posto! Distribuendo le celle questo non è più vero!  
+        </li>
+        <li>
+            Per conoscere il suo stato futuro, ogni cella dovrà comunicare con il suo vicinato tramite scambio di messaggi.
+            In particolare, ogni cella dovrà:
+            - dichiarare il suo stato al suo vicinato
+            - recuperare lo stato delle celle del suo vicinato per calcolare il proprio stato futuro
+        </li>
+    </ul>
+
+    <br>
+    Un attimo, è proprio vero che devono essere le celle a gestire la comunicazione con il vicinato e a calcolare il proprio stato? Sembrerebbe sensato
+    siccome ogni cella è diventata un agente autonomo. Tuttavia, come nel caso concentrato (classe life), potrebbe essere un grande gestore superiore, che
+    conosce la locazione di ogni cella ad occuparsi di queste attività. 
+
+    <br><br>
+    Questo gestore centrale onniscente, risolverebbe un problema legato alla visione del vicinato delle celle: come fa la singola cella a sapere quali e 
+    dove sono le celle del suo vicinato?
+    <br><br>
+    La cella, in quanto agente autonomo, sicuramente sa chi è (posizione all'interno della griglia), tuttavia, siccome anche le altre celle sono agenti autonomi
+    tanto quanto lei, non conosce la locazione del suo vicinato. Sembra quindi essere necessaria un entità centrale che faccia da <b>servizio di nomi</b>. 
+    
+    Ad esempio:
+    <ul>
+        <li>la cella (2,3) può chiedere all'entità centrale come può comunicare con le celle del suo vicinato</li>
+        <li>l'entità centrale, in quanto onniscente, può rispondere alla cella con una lista di riferimenti al vicinato</li>
+    </ul>
+
+    <br>
+    A questo punto però chi è l'entità centrale? Il problema mi suggerisce che questa debba essere un microservizio griglia, distinto dalle celle, che
+    mi incapsula dentro di se questa sorta di <b>struttura dati distribuita</b> che sono diventate le celle. 
+    
+    <br><br>
+    L'entità centrale, in quanto unica nel suo genere, dovrà essere conosciuta e resa raggiungibile da tutte le celle.
+
+    <br><br>
+    Come fa la GUI a comunicare con tutte queste celle? Di nuovo, l'entità centrale griglia sembra venirmi in soccorso, quest'ultima può fare da intermediario
+    tra le celle e la GUI: ricevendo i messaggi di START, STOP e di SWITCH e impartendo ordini alle relative celle. In questa maniera poi, la GUI deve poter
+    comunicare solamente con il servizio griglia e non con tutte le (possibili) migliaia di celle singolarmente.
+</div>
+
+<div class="alert">
+    La soluzione tramite entità centrale onniscente mi preoccupa dal punto di vista della scalabilità e della robustezza. 
+    L'entità centrale è un <b>Single Point of Failure del sistema!</b> In quanto tale va sicuramente opportunamente scalata e resa tollerante ai guasti
+    ad esempio tramite replicazione.
+    <br><br>
+    Potrebbe valere la pena pensare ad una soluzione decentralizzata; tuttavia, non sono ancora un ingegnere abbastanza competente per pensare a sistemi 
+    di questo tipo :)   
+</div>
+
+<h2>Test plans</h2> 
+
+
+<h2>Project</h2> 
+ 
+ 
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); width:60%;text-align:left;color:white">
+By Koltraka Kevin; email: kevin.koltraka@studio.unibo.it 
+<img src="./immagini/kevin.jpeg" alt="mbot" width="15%" height="15%">
+GIT repo: <a href="https://github.com/ingegneria-sistemi-software-m/ISS_koltraka">https://github.com/ingegneria-sistemi-software-m/ISS_koltraka</a>
+</div> 
+</body>
+</html>

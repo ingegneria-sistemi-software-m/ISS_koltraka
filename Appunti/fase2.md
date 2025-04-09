@@ -225,3 +225,8 @@ Coordinazione di microservizi mediante due principali paradigmi:
 
 
 può essere utile fare un prototipo per capire meglio quali problematiche insorgono (e mi fa capire perchè gli atttori QAK convengono)
+
+
+
+
+# COME MAI PROLOG PER RAPPRESENTARE LE BASI DI CONOSCENZA? per le query?
