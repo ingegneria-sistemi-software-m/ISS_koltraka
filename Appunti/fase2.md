@@ -230,3 +230,50 @@ può essere utile fare un prototipo per capire meglio quali problematiche insorg
 
 
 # COME MAI PROLOG PER RAPPRESENTARE LE BASI DI CONOSCENZA? per le query?
+
+
+
+
+
+### ANALISI DEL PROBLEMA FATTA IN MANIERA FUMOSA
+in sostanza siamo incerti e abbiamo prodotto fuffa.
+- potrebbe essere coreografato...
+- magari sarebbe meglio centralizzato...
+- potrebbe, magari, ecc.
+
+poca assertività, è normale dato che il problema è complicato. Per comprendere meglio il problema diventa opportuno fare una **prototipazione!**
+- In questo senso **il prodotto finale dell'analisi del problema diventa il modello eseguibile!**
+- un qualcosa che **gira** e non qualcosa di fumoso
+
+
+
+discussione in classe dell'analisi del problema
+- mqtt è più vicino al problema rispetto a TCP come protocollo di comunicazione tra le celle 
+- **intuizione**: posso assegnare un nome ad ogni cella (e.g. cell_0_0) che guarda un po' scelgo che sia anche il nome del topic della cella
+- che semantica utilizzo per i messaggi (eventi, dispatch, request & response)
+    - request&response va anche bene tuttavia è un po' ridondante dato che le celle hanno un comportamento simmetrico
+    - dispatch quindi è sufficiente
+- differenza tra orchestrazione e coreografia
+    - ogni cella ripete il suo comportamento ogni DT tempo? oppure aspetto un segnale di sincronizzazione?
+    - con DT ho praticamente un clock, e sto dicendo che ogni cella ci mettè al più DT tempo ad effettuare la sua evoluzione (considerando messaggi, computazione, ecc... ) -> coreografia
+    - con SYNCH
+- chi è che inizializza le celle? il capo centrale però mi serve 
+
+
+NOTA: prima è utile pensare a qualcosa che sensatamente può funzionare, in un secondo momento penso a come trattare eventuali problemi
+
+
+
+facciamo ora il modello
+
+- dyanmicOnly vuol dire che quell'attore non nasce da solo ma deve venire creato
+
+
+
+**Compiti**
+- sostituire callerTCP con un attore che fa la stessa cosa
+- sistema simulato in cui le celle non sono 4 ma sono determinate dinamicamente da un numero dentro ad una configurazione
+    - ho bisogno di un builder che tra le altre cose assegna i nomi agli attori
+    - vabe, sta roba c'è nell'analisi
+
+Scaricare la roba del rasberry
