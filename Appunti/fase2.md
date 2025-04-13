@@ -229,8 +229,28 @@ può essere utile fare un prototipo per capire meglio quali problematiche insorg
 
 
 
-# COME MAI PROLOG PER RAPPRESENTARE LE BASI DI CONOSCENZA? per le query?
+# La gestione dei messaggi degli attori QAK
+Prima di illustrare cosa un attore qak può fare, è importante sottolienare che:
+- un attore qak **NON dispone di una operazione receive bloccante**
+- la ragione è dovuto al suo comportamento autonomo da ASF
+    - i messaggi ricevuti da un attore non vengono gestiti in maniera FIFO, ma in funzione dello suo stato corrente.
+- Un attore qak ha un comportamento autonomo e quindi, una volta attivato dalla Qak infrastructure con un messaggio iniziale di ‘start’, può eseguire azioni anche ignorando eventuali altri messaggi sulla sua coda di input.
 
+
+gestione messaggi:
+- ogni attore possiede, oltre alla coda dei messaggi principale **msgQueue** , una **seconda coda msgQueueStore**, in cui memorizza messaggi (di tipo request e dispatch) non elaborati dallo stato corrente;
+
+- uno stato è di norma associato a un insieme di transizioni TSET, ciascuna delle quali speciifca lo stato futuro, in corrispondenza a un messaggio con uno specifico identificatore msgId;
+
+- **al termine delle sue azioni**, lo stato corrente dell’attore qak consulta, **nell’ordine**, le sue code msgQueueStore e msgQueue, ciascuna in modo FIFO;
+
+- se l’identificatore del messaggio prelevato da una coda è uguale al msgId di una qualche transizione in TSET, quella transizione è attivabile; in caso contrario, il messaggio ‘esaminato’ viene lasciato: dove è se era nella coda msgQueueStore, oppure, se è un messaggio di tipo request o dispatch prelevato dalla coda principale msgQueue, viene depositato in fondo alla coda msgQueueStore.
+
+- Un messaggio di tipo event il cui identificatore non compare in TSET, viene scartato (e quindi ignorato e dimenticato);
+
+- appena lo stato corrente trova una transizione attivabile,; passa il controllo allo stato futuro specificato da questa transizione;
+
+- se nessuna transizione è attivabile, l’attore qak rimane nello stato corrente; all’arrivo di un nuovo messaggio, si riprende ad eseguire il punto 3.
 
 
 
@@ -268,6 +288,26 @@ facciamo ora il modello
 
 - dyanmicOnly vuol dire che quell'attore non nasce da solo ma deve venire creato
 
+**Cosa sono gli interrupt in QAK?**
+Nel DSL QAK, gli interrupt ti permettono di reagire a eventi speciali o messaggi, senza seguire il classico ciclo State → Transition → State.
+
+Esempio classico:
+```
+State ...
+    ...
+Transition t0  
+  whenInterruptEvent kernel_rawmsg -> handleGuiMsg
+```
+**Significa**: Qualunque sia lo stato corrente, se arriva l’evento kernel_rawmsg, vai **immediatamente** nello stato handleGuiMsg.
+- normalmente, prima si conclude quello che si stava facendo nello stato
+- **chatgpt non mi sta dando delle risposte troppo convincenti, meglio chiedere a Natali**
+
+**RFI**: Questa è una istruzione speciale che ti consente di tornare esattamente nello stato in cui l’attore si trovava prima dell'interrupt.
+
+**Nota**: gli stati di interrupt-handling possono comunque specificare delle transizioni dato che possono essere raggiunti anche normalmente e non solo a causa di interrupt
+
+
+perchè primitive builtin come: "emistreammqtt()" o "createActorDinamically()" non sono keyword di QAK ma bisogna specificarle in Kotlin?
 
 
 **Compiti**
