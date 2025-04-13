@@ -26,11 +26,34 @@ with Diagram('conwaycellsnqakaiveArch', show=False, outformat='png', graph_attr=
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctxcells', graph_attr=nodeattr):
-          cellbuilder=Custom('cellbuilder','./qakicons/symActorWithobjSmall.png')
-          cell=Custom('cell','./qakicons/symActorDynamicWithobj.png')
-     sys >> Edge( label='clearCell', **evattr, decorate='true', fontcolor='darkgreen') >> cell
-     sys >> Edge( label='startthegame', **evattr, decorate='true', fontcolor='darkgreen') >> cell
-     sys >> Edge( label='curstate', **evattr, decorate='true', fontcolor='darkgreen') >> cell
-     sys >> Edge( label='synch', **evattr, decorate='true', fontcolor='darkgreen') >> cell
-     sys >> Edge( label='stopthecell', **evattr, decorate='true', fontcolor='darkgreen') >> cell
+          caller=Custom('caller','./qakicons/symActorWithobjSmall.png')
+          cell_0_0=Custom('cell_0_0','./qakicons/symActorWithobjSmall.png')
+          cell_0_1=Custom('cell_0_1','./qakicons/symActorWithobjSmall.png')
+          cell_1_0=Custom('cell_1_0','./qakicons/symActorWithobjSmall.png')
+          cell_1_1=Custom('cell_1_1','./qakicons/symActorWithobjSmall.png')
+     caller >> Edge( label='clearCell', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     caller >> Edge( label='startthegame', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     sys >> Edge( label='clearCell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_0
+     sys >> Edge( label='startthegame', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_0
+     sys >> Edge( label='curstate', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_0
+     sys >> Edge( label='synch', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_0
+     sys >> Edge( label='stopthecell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_0
+     sys >> Edge( label='clearCell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_1
+     sys >> Edge( label='startthegame', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_1
+     sys >> Edge( label='curstate', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_1
+     sys >> Edge( label='synch', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_1
+     sys >> Edge( label='stopthecell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_0_1
+     sys >> Edge( label='clearCell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_0
+     sys >> Edge( label='startthegame', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_0
+     sys >> Edge( label='curstate', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_0
+     sys >> Edge( label='synch', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_0
+     sys >> Edge( label='stopthecell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_0
+     sys >> Edge( label='clearCell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_1
+     sys >> Edge( label='startthegame', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_1
+     sys >> Edge( label='curstate', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_1
+     sys >> Edge( label='synch', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_1
+     sys >> Edge( label='stopthecell', **evattr, decorate='true', fontcolor='darkgreen') >> cell_1_1
+     caller >> Edge(color='blue', style='solid',  decorate='true', label='<changeCellState &nbsp; >',  fontcolor='blue') >> cell_1_0
+     caller >> Edge(color='blue', style='solid',  decorate='true', label='<changeCellState &nbsp; >',  fontcolor='blue') >> cell_0_1
+     caller >> Edge(color='blue', style='solid',  decorate='true', label='<changeCellState &nbsp; >',  fontcolor='blue') >> cell_0_0
 diag

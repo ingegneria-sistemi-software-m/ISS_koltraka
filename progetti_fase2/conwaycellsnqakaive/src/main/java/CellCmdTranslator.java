@@ -25,7 +25,8 @@ public class CellCmdTranslator {
 			owner.sendMsgToMyself(applMsg);
 		}
 		
-		// NON RISPONDE ALLA GUI MA a CallerLifeActorTcp
+		// Per attivare i messaggi di controllo della GUI ho bisogno di un attore che mi fa da controller
+		// altrimenti tutti gli attori cella mandano un evento
 		/*
 		//Invio messaggi in forma di autodispatch
 		if( msg.equals("start")) {
