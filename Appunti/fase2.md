@@ -317,3 +317,77 @@ perchè primitive builtin come: "emistreammqtt()" o "createActorDinamically()" n
     - vabe, sta roba c'è nell'analisi
 
 Scaricare la roba del rasberry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+## Agenti software situtati
+...
+
+siamo passati dagli oggetti a qualcos'altro (attori/agenti) e siamo interessati ad esplorare alcune caratteristiche di quest'ultimi
+- reattività
+- proattività
+- autonomia
+
+**NB**: il punto non è l'utilizzo di un attore QAK, ma è il passaggio da POJO ad attori/agenti con le caratteristiche sopra 
+
+...
+
+**terzo progetto da realizzare**
+- Differential Drive Robot (quando deve girare tiene ferma una ruota e gira l'altra)
+
+
+
+
+### rasp2025leadalone
+uso un broker o no?
+- inizialmente si
+    - a volte il rpi ha difficoltà a comunicare con il broker, usare un broker pubblico funziona sempre
+
+come scegliere se mandare un dispatch oppure una request?
+- se sono convinto che sia andato tutto bene solo guardando il led che si accende, l'ack non mi serve a niente
+- un evento ha una natura da broadcast se voglio punto a punto non va bene
+
+studia tutte le semantiche di eventi
+- perchè emitstreammqtt non è supportato a livello di linguaggio ma solo a livello di infrastruttura?
+    - perchè si, voleva solo mostrare che il linguaggio si può estendere aggiornando i plugin
+
+- osserva quali eventi arrivano dove
+
+
+
+...
+
+
+
+per eseguire la roba sul raspberry creare una distribuzione con gradle
+
+sul rpi
+- ```unzip <nome.zip>``` della distribuzione
+- c'è uno script di avvio dentro a /bin
+    - bisogna però ricordarsi di copiare gli script python dentro a /bin
+
+- provare anche i caller per comandare il sistema su RPI 
+
+tutorial sugli html
+
+### cellonrasp
+nella vecchia versione naive lanciamo solo 3 attori e li quarto lo lanciamo sul raspberry
+
+**NB**: ci sono due contesti e la cella sul Rasp è un **attore esterno** (non esterno al sistema (alieno) ma esterno ad un determinato file di definzione). Il sistema si aspetta che anche gli attori esterni siano presenti.
+
+
+**COMPITO**: provare a vedere se funziona

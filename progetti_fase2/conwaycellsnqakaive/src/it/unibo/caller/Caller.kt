@@ -19,7 +19,6 @@ import org.json.simple.JSONObject
 
 
 //User imports JAN2024
-import main.java.*
 
 class Caller ( name: String, scope: CoroutineScope, isconfined: Boolean=false, isdynamic: Boolean=false ) : 
           ActorBasicFsm( name, scope, confined=isconfined, dynamically=isdynamic ){
@@ -33,6 +32,7 @@ class Caller ( name: String, scope: CoroutineScope, isconfined: Boolean=false, i
 		return { //this:ActionBasciFsm
 				state("initGrid") { //this:State
 					action { //it:State
+						delay(3000) 
 						CommUtils.outmagenta("$name | inizializzazione celle")
 						emit("clearCell", "clearCell(caller_actor)" ) 
 						forward("changeCellState", "changeCellState(0,0)" ,"cell_0_0" ) 

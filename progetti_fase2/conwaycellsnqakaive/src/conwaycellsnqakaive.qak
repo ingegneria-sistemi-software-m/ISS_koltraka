@@ -41,6 +41,7 @@ Context ctxcells ip [ host="localhost" port=8360]
 // boh, a quanto pare non trova il client mqtt
 QActor caller context ctxcells{
 	State initGrid initial {
+		delay 3000 // aspetta l'inizializzazione della connessione MQTT
 		println("$name | inizializzazione celle") color magenta
 		emit clearCell : clearCell(caller_actor) 
 		forward cell_0_0 -m changeCellState : changeCellState(0, 0)
