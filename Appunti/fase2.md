@@ -381,13 +381,22 @@ sul rpi
     - bisogna però ricordarsi di copiare gli script python dentro a /bin
 
 - provare anche i caller per comandare il sistema su RPI 
-
-tutorial sugli html
+- tutorial sugli html
 
 ### cellonrasp
 nella vecchia versione naive lanciamo solo 3 attori e li quarto lo lanciamo sul raspberry
 
 **NB**: ci sono due contesti e la cella sul Rasp è un **attore esterno** (non esterno al sistema (alieno) ma esterno ad un determinato file di definzione). Il sistema si aspetta che anche gli attori esterni siano presenti.
 
-
 **COMPITO**: provare a vedere se funziona
+
+
+
+**COMPITO CRAZY**: analisi del problema del mettere 4 celle su 4 raspberry diversi
+- il software su ogni cella deve sapere il proprio nome
+- lo chiede a qualcuno (gamebuilder (centralizzato))
+    - all'inizio cella di nome random per avere una risposta
+- il builder saprà quante celle ci sono nel gioco e quindi quando avviare il gioco quando tutte hanno richiesto il nome e sono pronte a giocare
+
+
+mandare mail per avvisare delle cose che funzionano
