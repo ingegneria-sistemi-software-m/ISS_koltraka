@@ -1,0 +1,6 @@
+services:
+  wenv:
+    image: docker.io/natbodocker/virtualrobotdisi23:1.0
+    ports:
+      - 8090:8090
+      - 8091:8091
