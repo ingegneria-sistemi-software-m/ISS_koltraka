@@ -1,0 +1,73 @@
+System sonarled2025
+
+mqttBroker "192.168.1.189" : 1883 eventTopic "sensor/sonar" 
+   
+Dispatch misurazione_disp : misurazione_disp(X)
+
+Event misurazione 	: misurazione(X)
+Event kernel_rawmsg : kernel_rawmsg(ARG)
+
+Context ctx_sonar 		ip [ host="localhost" port=8075] 
+//Context ctx_observers 	ip [ host="192.168.1.189" port=8360] // la emit e i contesti remoti non funzionano come penso
+
+
+QActor sonar_publisher context ctx_sonar {
+import "main.java.*"
+	[#     
+		val soglia = 10
+		
+		fun diplayLed(V : Boolean){
+		  	if(V)
+		  		Runtime.getRuntime().exec("python ledPython25On.py"); 
+		  	else
+		  		Runtime.getRuntime().exec("python ledPython25Off.py");
+		}
+		
+	   	lateinit  var outindev  : OutInSonarRasp
+	   	val sonarInterpreter = main.java.SonarTranslator(myself)
+	#]
+	State s0 initial{
+		println("$name | START") color green
+		delay 3000 // connessione MQTT ....
+		
+ 		// prova led
+ 		[# diplayLed(true) #]
+ 		delay 2000
+ 		[# diplayLed(false) #]
+ 		
+ 		// mi iscrivo alla topic del sonar
+ 		[# outindev = OutInSonarRasp(myself, "sensor/sonar", "sensor/sonar_control") #]
+ 		delay 1000
+ 		// attivo la pubblicazione delle misurazioni
+ 		[# 
+ 			Thread { // lancio un thread a parte dato che questo no termina mai
+		        Runtime.getRuntime().exec("python sonar_mqtt.py")
+		    }.start()
+ 		#]
+    } 
+	Transition t0  
+		whenMsg misurazione_disp			-> handleMisurazione
+		whenInterruptEvent kernel_rawmsg    -> translateMisurazione
+
+
+	State translateMisurazione{
+		printCurrentMessage color green
+		onMsg( kernel_rawmsg : kernel_rawmsg(ARG)){
+			[# sonarInterpreter.cvtToApplMessage( payloadArg(0) ) #] // qua dentro faccio l'autodispatch
+		}
+		returnFromInterrupt
+	}
+	
+	State handleMisurazione {
+        [# 
+            val valRicevuto: Float = payloadArg(0).toString().toFloat()
+            if(valRicevuto <= soglia)
+		  		Runtime.getRuntime().exec("python ledPython25On.py"); 
+		  	else
+		  		Runtime.getRuntime().exec("python ledPython25Off.py");
+        #]
+        emit misurazione : misurazione(valRicevuto)
+        println("$name | Emitted misurazione($valRicevuto)") color yellow
+    }
+    Goto s0
+}

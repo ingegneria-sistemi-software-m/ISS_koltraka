@@ -1,0 +1,46 @@
+System sonarled2025
+
+mqttBroker "localhost" : 1883 eventTopic "sensor/sonar" 
+    
+Event misurazione : misurazione(X)
+
+Context ctx_observers ip [ host="localhost" port=8360] 
+Context ctx_sonar ip [ host="192.168.1.158" port=8075] 
+
+ExternalQActor sonar_publisher context ctx_sonar
+
+
+QActor observer_builder context ctx_observers{
+	 State s0 initial{
+	 	println("$name | STARTS creating 3 observers")
+	 }
+	 Goto work 
+	 
+	 State work{
+	 	println("$name | WORK")
+	 	[# 
+	 	  	createActorDynamically( "sonar_observer", "_0", false) 
+	 	   	createActorDynamically( "sonar_observer", "_1", false)
+	 	   	createActorDynamically( "sonar_observer", "_2", false)	
+	 	#]
+	}
+} 
+
+QActor sonar_observer context ctx_observers dynamicOnly {
+	State s0 initial {  		
+		println("$name started")
+	}	
+	Goto work
+	
+	State work{
+		// in attesa di una misurazione
+	}
+	Transition t0
+		whenEvent misurazione -> handleEvent // emesso dall'attore sonar_publisher
+		
+	State handleEvent{
+		printCurrentMessage color magenta
+		delay 1000
+	}
+	Goto work
+ }
