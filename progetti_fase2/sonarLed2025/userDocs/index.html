@@ -245,18 +245,17 @@ div.imagedesc{
 	Si ha che le misurazioni del sonar vengono prodotte da un programma Python in quanto questo linguaggio ha delle librerie che supportano in maniera
 	agevole la gestione dei pin di GPIO. A questo punto ho due alternative:
 	
-	<s>
-		<ul>
-			<li>
-				Far pubblicare al programma python le misurazioni che recupera dal sonar su una topic MQTT. L'attore che gestisce il sonar si iscriverà a questa topic
-				e ripubblicherà le misurazioni che gli arrivano come eventi per gli altri attori del sistema
-			</li>
-			<li>Oppure, posso far recuperare le misurazioni attivamente all'attore che gestisce il sonar eseguendo un programma  </li>
-
-		</ul>
-	</s>
+	<ul>
+		<li>
+			Posso far pubblicare al programma python le misurazioni che recupera dal sonar su una topic MQTT. L'attore che gestisce il sonar si iscriverà a questa topic
+			e ripubblicherà le misurazioni che gli arrivano come eventi per gli altri attori del sistema.
+		</li>
+		<li>Oppure, posso far recuperare le misurazioni direttamente all'attore che gestisce il sonar senza passare da un broker MQTT. Questa seconda soluzione però mi 
+			obbliga a fa eseguire l'attore che gestisce il sonar sul raspberry dove quest'ultimo è installato; la prima soluzione funziona anche da remota invece.
+		</li>
+	</ul>
 	
-	Per valutare i pro e i contro delle due alternative, è il caso di implementare due prototipi.
+	La prima alternativa sembra quella più conveniente.
 </div>
 
  
