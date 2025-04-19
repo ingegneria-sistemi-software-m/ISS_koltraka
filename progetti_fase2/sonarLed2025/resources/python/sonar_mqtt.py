@@ -6,13 +6,13 @@ import paho.mqtt.client as mqtt
 GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 
-SOGLIA = 10 # cm
+# SOGLIA = 10 # cm
 
-LED  = 25
+# LED  = 25
 TRIG = 17
 ECHO = 27
 
-GPIO.setup(LED, GPIO.OUT)
+# GPIO.setup(LED, GPIO.OUT)
 GPIO.setup(TRIG,GPIO.OUT)   # il trigger lo emettiamo noi e quindi è un output
 GPIO.setup(ECHO,GPIO.IN)    # il segnale di ECHO è un input in quanto gestito automaticamente dal sensore (noi dobbiamo leggere quando torna basso)
 
@@ -48,10 +48,10 @@ def loop():
         distance = pulse_duration * 17165 # espressa in cm 
         distance = round(distance, 1)
     
-        if distance <= SOGLIA:
-            GPIO.output(LED, GPIO.HIGH)
-        else:
-            GPIO.output(LED, GPIO.LOW)
+        # if distance <= SOGLIA:
+        #     GPIO.output(LED, GPIO.HIGH)
+        # else:
+        #     GPIO.output(LED, GPIO.LOW)
 
         # print(f"Distance: {distance} cm")
         # sys.stdout.flush()   # Importante! (immagino che se no l'os bufferizzi)

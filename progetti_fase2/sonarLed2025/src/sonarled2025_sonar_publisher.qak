@@ -40,11 +40,17 @@ import "main.java.*"
  		delay 1000
  		// attivo la pubblicazione delle misurazioni
  		[# 
- 			Thread { // lancio un thread a parte dato che questo no termina mai
+ 			Thread { // lancio un thread dato che questo non termina mai
 		        Runtime.getRuntime().exec("python sonar_mqtt.py")
 		    }.start()
  		#]
     } 
+    Goto work
+    
+    
+    State work {
+    	
+    }
 	Transition t0  
 		whenMsg misurazione_disp			-> handleMisurazione
 		whenInterruptEvent kernel_rawmsg    -> translateMisurazione
@@ -67,7 +73,7 @@ import "main.java.*"
 		  		Runtime.getRuntime().exec("python ledPython25Off.py");
         #]
         emit misurazione : misurazione(valRicevuto)
-        println("$name | Emitted misurazione($valRicevuto)") color yellow
+        println("$name | Emitted misurazione($valRicevuto)") color magenta
     }
-    Goto s0
+    Goto work
 }

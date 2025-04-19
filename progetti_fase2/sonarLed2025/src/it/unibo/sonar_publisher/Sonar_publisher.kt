@@ -53,9 +53,18 @@ class Sonar_publisher ( name: String, scope: CoroutineScope, isconfined: Boolean
 						 outindev = OutInSonarRasp(myself, "sensor/sonar", "sensor/sonar_control")  
 						delay(1000) 
 						 
-						 			Thread { // lancio un thread a parte dato che questo no termina mai
+						 			Thread { // lancio un thread dato che questo non termina mai
 								        Runtime.getRuntime().exec("python sonar_mqtt.py")
 								    }.start()
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="work", cond=doswitch() )
+				}	 
+				state("work") { //this:State
+					action { //it:State
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
@@ -88,13 +97,13 @@ class Sonar_publisher ( name: String, scope: CoroutineScope, isconfined: Boolean
 								  	else
 								  		Runtime.getRuntime().exec("python ledPython25Off.py");
 						emit("misurazione", "misurazione(valRicevuto)" ) 
-						CommUtils.outyellow("$name | Emitted misurazione($valRicevuto)")
+						CommUtils.outmagenta("$name | Emitted misurazione($valRicevuto)")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="s0", cond=doswitch() )
+					 transition( edgeName="goto",targetState="work", cond=doswitch() )
 				}	 
 			}
 		}
