@@ -388,8 +388,15 @@ nella vecchia versione naive lanciamo solo 3 attori e li quarto lo lanciamo sul 
 
 **NB**: ci sono due contesti e la cella sul Rasp è un **attore esterno** (non esterno al sistema (alieno) ma esterno ad un determinato file di definzione). Il sistema si aspetta che anche gli attori esterni siano presenti.
 
-**COMPITO**: provare a vedere se funziona
+## DISTRIBUZIONE DEGLI ATTORI IN QAK
+in qak è molto facile distribuire gli attori su più macchine, basta definire vari contesti.
 
+Per abilitare la comunicazione con attori appartenenti ad un contesto esterno è sufficiente:
+- dichiarare tutti i contesti a cui si vuole inoltrare gli **eventi** all'inizio del file QAK
+- dichiarare gli attori esterni con cui si vuole comunicare punto-a-punto (e.g. forward) come **"externaActor"**
+
+
+**COMPITO**: provare a vedere se funziona
 
 
 **COMPITO CRAZY**: analisi del problema del mettere 4 celle su 4 raspberry diversi
@@ -400,3 +407,14 @@ nella vecchia versione naive lanciamo solo 3 attori e li quarto lo lanciamo sul 
 
 
 mandare mail per avvisare delle cose che funzionano
+
+
+
+
+
+
+
+### Funzionamento di MQTT e CoAP in QAK
+- quando si specifica un broker ed una topic con **'mqttBroker'**, tutti gli attori del file QAK è come se avessero fatto una subscribe su quella topic; in più quando gli attori emettono eventi, questi corrispondono a delle publish su quella topic
+- ad ogni attore corrisponde una topic di nome: "unibo/qak/{nome_actor}" alla quale l'attore è implicitamente iscritto. Entità esterne agli attori possono mandare IApplMessages a questa topic "parlando in questo modo la loro lingua".
+- Ogni attore QAK è anche una risorsa CoAP raggiungibile tramite il suo contesto e osservabile all'enpoint: "{nome_contesto}/{nome_actor}"
