@@ -25,7 +25,7 @@ public class OutInSonarRasp  {
 			mqttConn = owner.getMqtt().getMqttConn();			
  		    if(chcekBrokerConnection()) {
  		    	mqttConn.subscribe(topicin, owner); //genera kernel_rawmsg
- 		    	CommUtils.outcyan(name + " | subscribe a topic: "+ topicin + " done " + owner.getName()); 
+ 		    	CommUtils.outcyan("\t" + name + " | subscribe a topic: "+ topicin + " done " + owner.getName()); 
  		    }
 		} catch (Exception e) {
  			e.printStackTrace();

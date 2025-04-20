@@ -160,6 +160,13 @@ div.remark{
     margin: 10px;
 	border-radius: 25px;
 }
+div.alert{
+	background-color: #f9613b;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
 table, th, td {
   border: 1px solid black;
   border-collapse: collapse;
@@ -250,12 +257,30 @@ div.imagedesc{
 			Posso far pubblicare al programma python le misurazioni che recupera dal sonar su una topic MQTT. L'attore che gestisce il sonar si iscriverà a questa topic
 			e ripubblicherà le misurazioni che gli arrivano come eventi per gli altri attori del sistema.
 		</li>
-		<li>Oppure, posso far recuperare le misurazioni direttamente all'attore che gestisce il sonar senza passare da un broker MQTT. Questa seconda soluzione però mi 
-			obbliga a fa eseguire l'attore che gestisce il sonar sul raspberry dove quest'ultimo è installato; la prima soluzione funziona anche da remota invece.
+		<li>In alternativa, posso far recuperare le misurazioni direttamente all'attore che gestisce il sonar, senza passare da un broker MQTT. Questa soluzione però mi 
+			obbliga a far eseguire l'attore che gestisce il sonar localmente sul raspberry; la prima soluzione funziona anche da remoto.
 		</li>
 	</ul>
 	
-	La prima alternativa sembra quella più conveniente.
+	La prima alternativa sembra quella più conveniente. Facciamo un prototipo con QAK e senza.
+</div>
+
+<div class="alert">
+	Ho avuto qualche difficoltà a prototipare una soluzione con QAK. Siccome, ne con la documentazione ne con i vari oracoli LLM ci sono saltato fuori, faccio
+	un listone qua così da non dimenticarmi dei problemi che ho avuto.
+	
+	<ul>
+		<li>
+			<b>Non ho ben capito come comunicare con attori distribuiti su più macchine.</b> Se è una comunicazione punto a punto mi basta dichiarare un <b>ExternalQActor</b>;
+			In questo sistema però avevo bisogno di emettere eventi e renderli visibili a tutti gli attori del mio sistema (broadcast). Speravo mi bastasse dichiarare tutti i
+			contesti del mio sistema nel file QAK con la definizione dell'attore che emette gli eventi ma questo non funziona.  
+		</li>
+		
+		<li>
+			Non ho ben capito come mandare messaggi che sono diversi da stringhe. Volevo mandare dei float, rappresentativi delle misurazioni del sonar, ma la sintassi di 
+			interpolazione di stringhe '$<nome_variabile>' non funziona. Sono dovuto andare a modificare il codice Kotlin autogenerato.
+		</li>
+	</ul> 
 </div>
 
  

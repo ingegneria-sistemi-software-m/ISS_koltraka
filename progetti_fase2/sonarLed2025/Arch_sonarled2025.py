@@ -27,5 +27,8 @@ with Diagram('sonarled2025Arch', show=False, outformat='png', graph_attr=graphat
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctx_sonar', graph_attr=nodeattr):
           sonar_publisher=Custom('sonar_publisher','./qakicons/symActorWithobjSmall.png')
+          observer_builder=Custom('observer_builder','./qakicons/symActorWithobjSmall.png')
+          sonar_observer=Custom('sonar_observer','./qakicons/symActorDynamicWithobj.png')
      sonar_publisher >> Edge( label='misurazione', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     sys >> Edge( label='misurazione', **evattr, decorate='true', fontcolor='darkgreen') >> sonar_observer
 diag

@@ -53,9 +53,7 @@ class Sonar_publisher ( name: String, scope: CoroutineScope, isconfined: Boolean
 						 outindev = OutInSonarRasp(myself, "sensor/sonar", "sensor/sonar_control")  
 						delay(1000) 
 						 
-						 			Thread { // lancio un thread dato che questo non termina mai
-								        Runtime.getRuntime().exec("python sonar_mqtt.py")
-								    }.start()
+							        Runtime.getRuntime().exec("python sonar_mqtt.py")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

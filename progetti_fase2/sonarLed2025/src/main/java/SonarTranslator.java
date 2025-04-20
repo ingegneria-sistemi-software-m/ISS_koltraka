@@ -12,7 +12,7 @@ public class SonarTranslator {
 	}
 
 	public void cvtToApplMessage(String msg) {
-		CommUtils.outyellow("cvtToApplMessage " +  owner.getName() + " " + msg);
+		CommUtils.outyellow("\tcvtToApplMessage " +  owner.getName() + " " + msg);
 		
 		IApplMessage applMsg = CommUtils.buildDispatch(owner.getName(), "misurazione_disp", msg, owner.getName());
 		owner.sendMsgToMyself(applMsg);

@@ -47,13 +47,12 @@ class Sonar_observer ( name: String, scope: CoroutineScope, isconfined: Boolean=
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t00",targetState="handleEvent",cond=whenEvent("misurazione"))
+					 transition(edgeName="t02",targetState="handleEvent",cond=whenEvent("misurazione"))
 				}	 
 				state("handleEvent") { //this:State
 					action { //it:State
 						CommUtils.outmagenta("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
 						 	   
-						delay(1000) 
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

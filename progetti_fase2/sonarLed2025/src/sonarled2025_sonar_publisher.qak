@@ -40,9 +40,7 @@ import "main.java.*"
  		delay 1000
  		// attivo la pubblicazione delle misurazioni
  		[# 
- 			Thread { // lancio un thread dato che questo non termina mai
-		        Runtime.getRuntime().exec("python sonar_mqtt.py")
-		    }.start()
+	        Runtime.getRuntime().exec("python sonar_mqtt.py")
  		#]
     } 
     Goto work
@@ -72,8 +70,71 @@ import "main.java.*"
 		  	else
 		  		Runtime.getRuntime().exec("python ledPython25Off.py");
         #]
-        emit misurazione : misurazione(valRicevuto)
+        emit misurazione : misurazione(valRicevuto) // qua non so come emettere il valore e non la stringa "valRicevuto"... per adesso modifico il kotlin generato :(
         println("$name | Emitted misurazione($valRicevuto)") color magenta
     }
     Goto work
 }
+
+
+
+
+/* OBSERVERS LOCALI */
+QActor observer_builder context ctx_sonar{
+	 State s0 initial{
+	 	println("$name | STARTS creating 3 observers")
+	 }
+	 Goto work 
+	 
+	 State work{
+	 	println("$name | WORK")
+	 	[# 
+	 	  	createActorDynamically( "sonar_observer", "_0", false) 
+	 	   	createActorDynamically( "sonar_observer", "_1", false)
+	 	   	createActorDynamically( "sonar_observer", "_2", false)	
+	 	#]
+	}
+} 
+
+QActor sonar_observer context ctx_sonar dynamicOnly {
+	State s0 initial {  		
+		println("$name started")
+	}	
+	Goto work
+	
+	State work{
+		// in attesa di una misurazione
+	}
+	Transition t0
+		whenEvent misurazione -> handleEvent // emesso dall'attore sonar_publisher
+		
+	State handleEvent{
+		printCurrentMessage color magenta
+	}
+	Goto work
+}
+
+//QActor sonar_observer context ctx_sonar dynamicOnly {
+//	[# var evento_misurazione = "0.0" #]
+//	
+//	State s0 initial {  		
+//		println("$name started")
+//	}	
+//	Goto work
+//	
+//		
+//	State work{
+//		// in attesa di una misurazione
+//	}
+//	Transition t0
+//		whenEvent misurazione -> handleEvent // emesso dall'attore sonar_publisher
+//		
+//	State handleEvent{
+//		onMsg( misurazione : misurazione(X)){
+//			[# evento_misurazione = payloadArg(0) #]
+//		}
+//		println("$name | Misurazione ricevuta=$evento_misurazione") color magenta
+//		delay 1000
+//	}
+//	Goto work
+//}

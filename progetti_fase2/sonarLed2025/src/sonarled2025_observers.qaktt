@@ -43,4 +43,4 @@ QActor sonar_observer context ctx_observers dynamicOnly {
 		delay 1000
 	}
 	Goto work
- }
+}
