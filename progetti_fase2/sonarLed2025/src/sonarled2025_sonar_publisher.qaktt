@@ -8,7 +8,7 @@ Event misurazione 	: misurazione(X)
 Event kernel_rawmsg : kernel_rawmsg(ARG)
 
 Context ctx_sonar 		ip [ host="localhost" port=8075] 
-//Context ctx_observers 	ip [ host="192.168.1.189" port=8360] // la emit e i contesti remoti non funzionano come penso
+Context ctx_observers 	ip [ host="192.168.1.189" port=8360] // la emit e i contesti remoti non funzionano come penso
 
 
 QActor sonar_publisher context ctx_sonar {
@@ -80,39 +80,42 @@ import "main.java.*"
 
 
 /* OBSERVERS LOCALI */
-QActor observer_builder context ctx_sonar{
-	 State s0 initial{
-	 	println("$name | STARTS creating 3 observers")
-	 }
-	 Goto work 
-	 
-	 State work{
-	 	println("$name | WORK")
-	 	[# 
-	 	  	createActorDynamically( "sonar_observer", "_0", false) 
-	 	   	createActorDynamically( "sonar_observer", "_1", false)
-	 	   	createActorDynamically( "sonar_observer", "_2", false)	
-	 	#]
-	}
-} 
 
-QActor sonar_observer context ctx_sonar dynamicOnly {
-	State s0 initial {  		
-		println("$name started")
-	}	
-	Goto work
-	
-	State work{
-		// in attesa di una misurazione
-	}
-	Transition t0
-		whenEvent misurazione -> handleEvent // emesso dall'attore sonar_publisher
-		
-	State handleEvent{
-		printCurrentMessage color magenta
-	}
-	Goto work
-}
+
+
+//QActor observer_builder context ctx_sonar{
+//	 State s0 initial{
+//	 	println("$name | STARTS creating 3 observers")
+//	 }
+//	 Goto work 
+//	 
+//	 State work{
+//	 	println("$name | WORK")
+//	 	[# 
+//	 	  	createActorDynamically( "sonar_observer", "_0", false) 
+//	 	   	createActorDynamically( "sonar_observer", "_1", false)
+//	 	   	createActorDynamically( "sonar_observer", "_2", false)	
+//	 	#]
+//	}
+//} 
+
+//QActor sonar_observer context ctx_sonar dynamicOnly {
+//	State s0 initial {  		
+//		println("$name started")
+//	}	
+//	Goto work
+//	
+//	State work{
+//		// in attesa di una misurazione
+//	}
+//	Transition t0
+//		whenEvent misurazione -> handleEvent // emesso dall'attore sonar_publisher
+//		
+//	State handleEvent{
+//		printCurrentMessage color magenta
+//	}
+//	Goto work
+//}
 
 //QActor sonar_observer context ctx_sonar dynamicOnly {
 //	[# var evento_misurazione = "0.0" #]

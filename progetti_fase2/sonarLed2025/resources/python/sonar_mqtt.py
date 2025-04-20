@@ -23,7 +23,13 @@ time.sleep(2)
 # --- MQTT Setup ---
 MQTT_BROKER = "192.168.1.189"
 MQTT_PORT = 1883
-MQTT_TOPIC = "sensor/sonar"
+MQTT_TOPIC = "sensor/sonar" # topic di default
+
+# Ottieni la topic dalla linea di comando oppure usa un valore di default
+if len(sys.argv) > 1:
+    MQTT_TOPIC = sys.argv[1]
+else:
+    print(f"Nessuna topic specificata. Uso topic di default: {MQTT_TOPIC}")
 
 client = mqtt.Client()
 client.connect(MQTT_BROKER, MQTT_PORT, 60)
@@ -31,7 +37,7 @@ client.connect(MQTT_BROKER, MQTT_PORT, 60)
 
 def loop():
     while True:
-        GPIO.output(TRIG, True)    # invia impulsoTRIG
+        GPIO.output(TRIG, True)    # invia impulso TRIG
         time.sleep(0.00001)        # dura 10 us
         GPIO.output(TRIG, False)
 

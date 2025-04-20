@@ -1,6 +1,6 @@
 System sonarled2025
 
-mqttBroker "localhost" : 1883 eventTopic "sensor/sonar" 
+//mqttBroker "localhost" : 1883 eventTopic "sensor/sonar" 
     
 Event misurazione : misurazione(X)
 
@@ -13,7 +13,7 @@ ExternalQActor sonar_publisher context ctx_sonar
 QActor observer_builder context ctx_observers{
 	 State s0 initial{
 	 	println("$name | STARTS creating 3 observers")
-	 }
+	 } 
 	 Goto work 
 	 
 	 State work{
@@ -40,7 +40,7 @@ QActor sonar_observer context ctx_observers dynamicOnly {
 		
 	State handleEvent{
 		printCurrentMessage color magenta
-		delay 1000
+//		delay 1000
 	}
 	Goto work
 }

@@ -266,21 +266,8 @@ div.imagedesc{
 </div>
 
 <div class="alert">
-	Ho avuto qualche difficoltà a prototipare una soluzione con QAK. Siccome, ne con la documentazione ne con i vari oracoli LLM ci sono saltato fuori, faccio
-	un listone qua così da non dimenticarmi dei problemi che ho avuto.
-	
-	<ul>
-		<li>
-			<b>Non ho ben capito come comunicare con attori distribuiti su più macchine.</b> Se è una comunicazione punto a punto mi basta dichiarare un <b>ExternalQActor</b>;
-			In questo sistema però avevo bisogno di emettere eventi e renderli visibili a tutti gli attori del mio sistema (broadcast). Speravo mi bastasse dichiarare tutti i
-			contesti del mio sistema nel file QAK con la definizione dell'attore che emette gli eventi ma questo non funziona.  
-		</li>
-		
-		<li>
-			Non ho ben capito come mandare messaggi che sono diversi da stringhe. Volevo mandare dei float, rappresentativi delle misurazioni del sonar, ma la sintassi di 
-			interpolazione di stringhe '$<nome_variabile>' non funziona. Sono dovuto andare a modificare il codice Kotlin autogenerato.
-		</li>
-	</ul> 
+	Non ho ben capito come mandare messaggi che sono diversi da stringhe. Volevo mandare dei float, rappresentativi delle misurazioni del sonar, ma la sintassi di 
+	interpolazione di stringhe '$nome_variabile' non funziona. Sono dovuto andare a modificare il codice Kotlin autogenerato :(
 </div>
 
  
