@@ -1,0 +1,140 @@
+System evalarea
+
+Dispatch resume_left_wall 	: resume_left_wall(X)
+Dispatch resume_bottom_wall : resume_bottom_wall(X)
+Event collisione     		: collisione(X)
+// Eventi del sonar
+Event misurazione 			: misurazione(X)
+Event ostacolo 				: ostacolo(X)
+Event ostacolo_sparito 		: ostacolo_sparito(X)
+ 
+Context ctx_evalarea 	ip [host="localhost" port=8075]
+Context ctx_sonar 		ip [host="192.168.1.158" port=8075]
+
+ExternalQActor sonar_publisher context ctx_sonar
+
+QActor wenv_caller context ctx_evalarea {
+	import "main.java.*"
+	
+	[# 
+		lateinit  var vr : VrobotLLMoves24 // a quanto pare inizializzarlo qua fuori non fa funzionare niente
+		var tempo_altezza = 0
+		var tempo_base = 0
+		var doing_left_wall = false
+		var doing_bottom_wall = false
+	#]
+	
+	State s0 initial{ 
+		println("$name | STARTS") color blue 
+		[#
+	 		vr = VrobotLLMoves24.create("localhost", myself)
+	 		vr.halt() // per sbloccare eventuali not allowed
+	 	#] 
+	}
+	Transition t0 
+		whenEvent misurazione  -> doLeftWall	// faccio partire il robot solo quando il sonar è attivo ed incominciano ad arrivare misurazioni
+	 
+	 
+	 
+	State doLeftWall {
+		println("$name | DOING LEFT WALL") color blue 
+		delay 200
+		[#
+			doing_left_wall = true
+			vr.startTimer()
+			vr.forward(-1);
+		#]
+	} 
+	Transition t0 
+		whenEvent collisione  -> turnLeft
+		whenEvent ostacolo    -> handleOstacolo
+	    
+	    
+	// non posso andare direttamente
+	State turnLeft {
+		println("$name | turning") color blue 
+		delay 200
+		[#
+			vr.halt()
+			tempo_altezza += vr.getDuration()
+			CommUtils.outgreen("$name | left wall long $tempo_altezza ms");
+			doing_left_wall = false
+	        vr.turnLeft();
+		#]
+	}
+	Goto doBottomWall
+	    
+	    
+	State doBottomWall {
+		println("$name | DOING BOTTOM WALL") color blue 
+		delay 200
+		[#
+			doing_bottom_wall = true
+			vr.startTimer()
+			vr.forward(-1);
+		#]
+	}
+	Transition t0 
+		whenEvent collisione  -> calcArea
+		whenEvent ostacolo    -> handleOstacolo
+	
+	
+	
+	
+	State handleOstacolo {
+		printCurrentMessage
+		[# 
+			vr.halt()
+			if(doing_left_wall) {
+				tempo_altezza += vr.getDuration()
+				CommUtils.outyellow("	fino ad adesso tempo altezza = $tempo_altezza");
+			}
+			else {
+				tempo_base += vr.getDuration()
+				CommUtils.outyellow("	fino ad adesso tempo base = $tempo_base");
+			}
+		#]
+	}
+	Transition t0 
+		whenEvent ostacolo_sparito  -> handleOstacoloSparito
+	
+	State handleOstacoloSparito {
+		printCurrentMessage
+		
+		if [# doing_left_wall #] {
+			autodispatch resume_left_wall : resume_left_wall(si)
+		}	 
+		else{
+			autodispatch resume_bottom_wall : resume_bottom_wall(si)
+		}
+	}
+	Transition t0 
+		whenMsg resume_left_wall	-> doLeftWall
+		whenMsg resume_bottom_wall  -> doBottomWall
+	
+	
+	
+	
+	
+	
+	State calcArea {
+		[#
+			vr.halt()
+			tempo_base += vr.getDuration()
+			CommUtils.outgreen("$name | bottom wall long $tempo_base ms");
+	        vr.turnLeft();
+	        doing_bottom_wall = false
+	        
+			// assumo una velocità di 1 m/s, ovvero 100cm/s
+			// ho il tempo in millisecondi e quindi divido per 1000 
+			// spazio = velocità * tempo
+			val altezza = 100.0f * (tempo_altezza/1000.0f)
+			val base 	= 100.0f * (tempo_base/1000.0f)
+			val area 	= base * altezza
+		#]
+		
+		println("$name | Area = $area cm^2 (se il robot ha una velocità di un 1 m/s)") color green
+		[# System.exit(0) #]
+	}
+}
+	

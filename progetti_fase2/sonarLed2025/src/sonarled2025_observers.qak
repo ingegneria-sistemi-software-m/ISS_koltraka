@@ -3,6 +3,8 @@ System sonarled2025
 //mqttBroker "localhost" : 1883 eventTopic "sensor/sonar" 
     
 Event misurazione : misurazione(X)
+Event ostacolo 			: ostacolo(X)
+Event ostacolo_sparito 	: ostacolo_sparito(X)
 
 Context ctx_observers ip [ host="localhost" port=8360] 
 Context ctx_sonar ip [ host="192.168.1.158" port=8075] 
@@ -36,11 +38,22 @@ QActor sonar_observer context ctx_observers dynamicOnly {
 		// in attesa di una misurazione
 	}
 	Transition t0
-		whenEvent misurazione -> handleEvent // emesso dall'attore sonar_publisher
+		whenEvent ostacolo -> handleOstacolo
+		whenEvent ostacolo_sparito -> handleOstacoloSparito
+//		whenEvent misurazione -> handleEvent
 		
+	State handleOstacolo{
+		printCurrentMessage color magenta
+	}
+	Goto work
+	
+	State handleOstacoloSparito{
+		printCurrentMessage color magenta
+	}
+	Goto work
+	
 	State handleEvent{
 		printCurrentMessage color magenta
-//		delay 1000
 	}
 	Goto work
 }

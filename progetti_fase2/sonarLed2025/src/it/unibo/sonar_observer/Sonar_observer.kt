@@ -47,7 +47,30 @@ class Sonar_observer ( name: String, scope: CoroutineScope, isconfined: Boolean=
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t00",targetState="handleEvent",cond=whenEvent("misurazione"))
+					 transition(edgeName="t00",targetState="handleOstacolo",cond=whenEvent("ostacolo"))
+					transition(edgeName="t01",targetState="handleOstacoloSparito",cond=whenEvent("ostacolo_sparito"))
+				}	 
+				state("handleOstacolo") { //this:State
+					action { //it:State
+						CommUtils.outmagenta("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="work", cond=doswitch() )
+				}	 
+				state("handleOstacoloSparito") { //this:State
+					action { //it:State
+						CommUtils.outmagenta("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="work", cond=doswitch() )
 				}	 
 				state("handleEvent") { //this:State
 					action { //it:State

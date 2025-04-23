@@ -32,6 +32,7 @@ class Sonar_publisher ( name: String, scope: CoroutineScope, isconfined: Boolean
 		//IF actor.withobj !== null val actor.withobj.name» = actor.withobj.method»ENDIF
 		     
 				val soglia = 10
+				var ostacolo = false 
 				
 				fun diplayLed(V : Boolean){
 				  	if(V)
@@ -90,11 +91,25 @@ class Sonar_publisher ( name: String, scope: CoroutineScope, isconfined: Boolean
 					action { //it:State
 						 
 						            val valRicevuto: Float = payloadArg(0).toString().toFloat()
-						            if(valRicevuto <= soglia)
-								  		Runtime.getRuntime().exec("python ledPython25On.py"); 
-								  	else
+						            
+						            if(valRicevuto <= soglia) {
+								  		Runtime.getRuntime().exec("python ledPython25On.py"); 	
+								  		
+								  		if(!ostacolo) {
+								  			emit("ostacolo", "ostacolo($valRicevuto)")
+								  			ostacolo = true	
+								  		}
+								  	}
+								  	else {
 								  		Runtime.getRuntime().exec("python ledPython25Off.py");
-						emit("misurazione", "misurazione(valRicevuto)" ) 
+								  		
+								  		if(ostacolo) {
+								  			emit("ostacolo_sparito", "ostacolo_sparito(si)")
+								  			ostacolo = false
+								  		}
+									}
+								  	
+								  	emit("misurazione", "misurazione($valRicevuto)")
 						CommUtils.outmagenta("$name | Emitted misurazione($valRicevuto)")
 						//genTimer( actor, state )
 					}

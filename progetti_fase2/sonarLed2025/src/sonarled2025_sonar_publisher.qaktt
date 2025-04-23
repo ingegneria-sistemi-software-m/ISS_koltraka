@@ -4,8 +4,10 @@ mqttBroker "192.168.1.189" : 1883 eventTopic "sensor/sonar"
    
 Dispatch misurazione_disp : misurazione_disp(X)
 
-Event misurazione 	: misurazione(X)
-Event kernel_rawmsg : kernel_rawmsg(ARG)
+Event misurazione 		: misurazione(X)
+Event ostacolo 			: ostacolo(X)
+Event ostacolo_sparito 	: ostacolo_sparito(X)
+Event kernel_rawmsg 	: kernel_rawmsg(ARG)
 
 Context ctx_sonar 		ip [ host="localhost" port=8075] 
 Context ctx_observers 	ip [ host="192.168.1.189" port=8360] // la emit e i contesti remoti non funzionano come penso
@@ -15,6 +17,7 @@ QActor sonar_publisher context ctx_sonar {
 import "main.java.*"
 	[#     
 		val soglia = 10
+		var ostacolo = false 
 		
 		fun diplayLed(V : Boolean){
 		  	if(V)
@@ -65,12 +68,28 @@ import "main.java.*"
 	State handleMisurazione {
         [# 
             val valRicevuto: Float = payloadArg(0).toString().toFloat()
-            if(valRicevuto <= soglia)
-		  		Runtime.getRuntime().exec("python ledPython25On.py"); 
-		  	else
+            
+            if(valRicevuto <= soglia) {
+		  		Runtime.getRuntime().exec("python ledPython25On.py"); 	
+		  		
+		  		if(!ostacolo) {
+		  			emit("ostacolo", "ostacolo($valRicevuto)")
+		  			ostacolo = true	
+		  		}
+		  	}
+		  	else {
 		  		Runtime.getRuntime().exec("python ledPython25Off.py");
+		  		
+		  		if(ostacolo) {
+		  			emit("ostacolo_sparito", "ostacolo_sparito(si)")
+		  			ostacolo = false
+		  		}
+			}
+		  	
+		  	emit("misurazione", "misurazione($valRicevuto)")
         #]
-        emit misurazione : misurazione(valRicevuto) // qua non so come emettere il valore e non la stringa "valRicevuto"... per adesso modifico il kotlin generato :(
+        // qua non so come emettere il valore e non la stringa "valRicevuto"... per adesso faccio in kotlin :(
+        // emit misurazione : misurazione(valRicevuto) 
         println("$name | Emitted misurazione($valRicevuto)") color magenta
     }
     Goto work
@@ -98,7 +117,7 @@ import "main.java.*"
 //	 	#]
 //	}
 //} 
-
+//
 //QActor sonar_observer context ctx_sonar dynamicOnly {
 //	State s0 initial {  		
 //		println("$name started")
@@ -109,8 +128,20 @@ import "main.java.*"
 //		// in attesa di una misurazione
 //	}
 //	Transition t0
-//		whenEvent misurazione -> handleEvent // emesso dall'attore sonar_publisher
+//		whenEvent ostacolo -> handleOstacolo
+//		whenEvent ostacolo_sparito -> handleOstacoloSparito
+//		whenEvent misurazione -> handleEvent 
 //		
+//	State handleOstacolo{
+//		printCurrentMessage color magenta
+//	}
+//	Goto work
+//	
+//	State handleOstacoloSparito{
+//		printCurrentMessage color magenta
+//	}
+//	Goto work
+//	
 //	State handleEvent{
 //		printCurrentMessage color magenta
 //	}

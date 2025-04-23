@@ -2,6 +2,8 @@
 % sonarled2025 description   
 %====================================================================================
 event( misurazione, misurazione(X) ).
+event( ostacolo, ostacolo(X) ).
+event( ostacolo_sparito, ostacolo_sparito(X) ).
 %====================================================================================
 context(ctx_observers, "localhost",  "TCP", "8360").
 context(ctx_sonar, "192.168.1.158",  "TCP", "8075").

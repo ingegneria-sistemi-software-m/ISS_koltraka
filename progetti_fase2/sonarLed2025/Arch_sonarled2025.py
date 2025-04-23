@@ -30,5 +30,6 @@ with Diagram('sonarled2025Arch', show=False, outformat='png', graph_attr=graphat
           sonar_observer=Custom('sonar_observer','./qakicons/symActorDynamicWithobj.png')
      with Cluster('ctx_sonar', graph_attr=nodeattr):
           sonar_publisher=Custom('sonar_publisher(ext)','./qakicons/externalQActor.png')
-     sys >> Edge( label='misurazione', **evattr, decorate='true', fontcolor='darkgreen') >> sonar_observer
+     sys >> Edge( label='ostacolo', **evattr, decorate='true', fontcolor='darkgreen') >> sonar_observer
+     sys >> Edge( label='ostacolo_sparito', **evattr, decorate='true', fontcolor='darkgreen') >> sonar_observer
 diag
