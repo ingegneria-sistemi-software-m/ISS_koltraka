@@ -418,3 +418,28 @@ mandare mail per avvisare delle cose che funzionano
 - quando si specifica un broker ed una topic con **'mqttBroker'**, tutti gli attori del file QAK è come se avessero fatto una subscribe su quella topic; in più quando gli attori emettono eventi, questi corrispondono a delle publish su quella topic
 - ad ogni attore corrisponde una topic di nome: "unibo/qak/{nome_actor}" alla quale l'attore è implicitamente iscritto. Entità esterne agli attori possono mandare IApplMessages a questa topic "parlando in questo modo la loro lingua".
 - Ogni attore QAK è anche una risorsa CoAP raggiungibile tramite il suo contesto e osservabile all'enpoint: "{nome_contesto}/{nome_actor}"
+
+- gli eventi emessi con MQTT vengono ricevuti anche da chi ha mandato quell'evento (possibile loop)
+
+
+
+
+### Analisi (dei requisiti e del problema)
+interessante le analisi in linguaggio naturale, in quanto ambigue, non vengono più accettate dal prof. Noi vogliamo modelli formali!
+
+Che cosa sono i modelli?
+- classi Java
+- attori QAK
+- float
+
+Insomma, cose che sono comprensibili da una macchina
+
+Ma queste non sono scelte implementative? 
+
+
+Come faccio a discriminare se qualcosa è più un oggetto o più un attore?
+- Caratteristiche di un attore
+    - autonomia
+    - capacità intrinseca di scambiare informazioni con l'esterno
+
+l'attore non è necessariamente un attore QAK, intendiamo qualcosa che è più di un oggetto!
