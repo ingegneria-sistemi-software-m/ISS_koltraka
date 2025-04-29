@@ -490,3 +490,7 @@ cambiare il nome di un attore non è un operazione banale
 
 
 ### DEFUFFARE SIGNIFICA RENDERE LE COSE COMPRENSIBILI ALLA MACCHINA!
+
+...
+
+i contesti sostituiscono l'armatura di iron-man
