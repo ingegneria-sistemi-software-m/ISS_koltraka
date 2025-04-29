@@ -4,6 +4,9 @@ basati su un insieme di **concetti** volti a cattuare l'idea che un sistema soft
 - il sistema è formato da una insieme di attori
 - gli attori interagiscono scambiandosi messaggi (di tipo IApplMessage, nel nostro caso)
 - un attore è un ente autonomo, capace di elaborare messaggi. **Pertanto la struttura del codice di un attore si presta ad essere modellata come un Automi a stati finiti**
+- **NB**: questi stati sarebbero comunque presenti implicitamente anche in un programma normale.
+    - qundo faccio una **receive bloccante** è come se stessi aspettando una transizione
+    - **comando con guardia** equivale a transioni multiple
 - gli attori sono raggruppati in contesti che li abilitano a interazioni via rete
 - i contesti possono essere allocati (deployed) su uno o più nodi computazionali, fisici o virtuali
 
@@ -443,3 +446,47 @@ Come faccio a discriminare se qualcosa è più un oggetto o più un attore?
     - capacità intrinseca di scambiare informazioni con l'esterno
 
 l'attore non è necessariamente un attore QAK, intendiamo qualcosa che è più di un oggetto!
+
+
+**Eureka**: microservizio di discovery
+...
+
+host: "discovered"
+
+...
+
+in commUtils alcune funzioni per l'interfacciamento con Eureka
+- .checkEureka() -> verifica se il sistema riesce a trovare Eureka o meno
+- configurazioni caricate
+    - file main/resources/eureka-client-properties contiene la lista di indirizzi in cui Eureka può essere trovato
+
+
+
+
+
+...
+gamemaster (orchestratore) è **un'entità discovered**
+- le celle non conoscono l'ip del gamemaster. Tuttavia, facendo il suo nome, esse lo riescono comunque a raggiungere magicamente (Discovery con Eureka)
+    - non si ripropono il problema con l'indirizzo di Eureka?
+
+... 
+
+in GridConfig, si può anche impostare una configurazione 1x3 (più comodo a casa)
+
+
+...
+
+se vuoi usare payloadArg(...) devo essere dentro ad onMsg
+
+
+
+...
+
+cambiare il nome di un attore non è un operazione banale
+- devo rendere tutta l'infrastruttura coerente
+- modifica la KB prolog
+
+
+
+
+### DEFUFFARE SIGNIFICA RENDERE LE COSE COMPRENSIBILI ALLA MACCHINA!
