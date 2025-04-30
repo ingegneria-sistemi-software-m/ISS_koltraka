@@ -232,6 +232,16 @@ può essere utile fare un prototipo per capire meglio quali problematiche insorg
 
 
 
+
+
+
+
+
+
+
+
+
+
 # La gestione dei messaggi degli attori QAK
 Prima di illustrare cosa un attore qak può fare, è importante sottolienare che:
 - un attore qak **NON dispone di una operazione receive bloccante**
@@ -247,7 +257,10 @@ gestione messaggi:
 
 - **al termine delle sue azioni**, lo stato corrente dell’attore qak consulta, **nell’ordine**, le sue code msgQueueStore e msgQueue, ciascuna in modo FIFO;
 
-- se l’identificatore del messaggio prelevato da una coda è uguale al msgId di una qualche transizione in TSET, quella transizione è attivabile; in caso contrario, il messaggio ‘esaminato’ viene lasciato: dove è se era nella coda msgQueueStore, oppure, se è un messaggio di tipo request o dispatch prelevato dalla coda principale msgQueue, viene depositato in fondo alla coda msgQueueStore.
+- se l’identificatore del messaggio prelevato da una coda è uguale al msgId di una qualche transizione in TSET, quella transizione è attivabile;
+- in caso contrario, il messaggio ‘esaminato’ viene lasciato:
+    - dove è se era nella coda msgQueueStore,
+    - oppure, se è un messaggio di tipo request o dispatch, prelevato dalla coda principale msgQueue e depositato in fondo alla coda msgQueueStore.
 
 - Un messaggio di tipo event il cui identificatore non compare in TSET, viene scartato (e quindi ignorato e dimenticato);
 
