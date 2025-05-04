@@ -18,3 +18,4 @@ Repository del corso Ingegneria dei Sistemi Software a.a. 2024/2025 - DISI - Uni
     - [Analisi del problema](progetti_fase2/sonarLed2025/userDocs/index.html)   
 * [EvalArea](progetti_fase2/evalarea/): Sistema che controllo un DDR robot virtuale in maniera tale da calcolare l'area di una stanza rettangolare (anch'essa virtuale) tenendo conto della possibile comparsa di ostacoli rilevati da un sonar presente sul robot
     - [Analisi del problema](progetti_fase2/evalarea/userDocs/index.html)   
+* [Relazione fine Fase 2](relazione_fase2/Fase2ISS25-KoltrakaKevin.pdf)

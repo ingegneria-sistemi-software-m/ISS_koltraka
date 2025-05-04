@@ -480,7 +480,7 @@ in commUtils alcune funzioni per l'interfacciamento con Eureka
 ...
 gamemaster (orchestratore) è **un'entità discovered**
 - le celle non conoscono l'ip del gamemaster. Tuttavia, facendo il suo nome, esse lo riescono comunque a raggiungere magicamente (Discovery con Eureka)
-    - non si ripropono il problema con l'indirizzo di Eureka?
+    - non si ripropone il problema con l'indirizzo di Eureka?
 
 ... 
 
