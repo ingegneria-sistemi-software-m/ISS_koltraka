@@ -507,3 +507,72 @@ cambiare il nome di un attore non è un operazione banale
 ...
 
 i contesti sostituiscono l'armatura di iron-man
+
+
+
+
+
+
+
+
+
+
+
+
+### Tutta una parte sul logging che non so quanto possa servire
+stack ELK per logging distribuito
+
+**NB**:
+aggiungere questa dipendenza sotto log4j per utilizzare il logging distribuito
+    /* Elasticsearch   */
+    // https://mvnrepository.com/artifact/net.logstash.logback/logstash-logback-encoder
+	implementation("net.logstash.logback:logstash-logback-encoder:7.3")  //7.3 permette di usare 1.2.11
+
+**logback.xml** per configurare come e dove vengono registrati i log
+
+se logghiamo in maniera "classica" ogni macchina ha il suo log ... ci manca la visione del sistema
+
+STACK ELK
+
+**logastash.conf** per ...
+
+
+
+**Domandona**: che rapporto c'è tra un'informazione di log ed un evento?
+- i log SONO eventi
+- informazione emessa che deve essere percepita e processata da qualcuno
+- ma anche se non c'è nessuno che gli percepisce vengono persi e basta (analogmante agli eventi)
+- sarebbe molto facile, creare un sistema di loggin con QAK
+
+
+
+
+
+
+
+nota: il contesto non è solo un qualcosa associato ad un nodo fisico me raggruppa entità logicamente 
+
+
+
+
+**i due file che mi servono per eureka sono**:
+- EurekaClientProperties: per query
+- EurekaServiceConfig: per registrarmi
+
+
+
+
+Ogni quanto tempo il sonar fisico emette informazione?
+- come facciamo a regolare questo tempo?
+
+consigliabile fare un programma in python separato per il blink 
+
+che rapporto c'è tra la frequenza di aggiornamento del sonar e la frequenza del blinking?
+
+notare che il sistema è **sia proattivo che reattivo**
+
+considerare un attore perceiver che converte gli eventi del corpo (sonar) in eventi della mente (livello applicativo QAK)
+
+
+
+differenza tra changeActorName e updateCellNameInContext? 

@@ -46,3 +46,9 @@ La caratteristica fondamentale di un modello è quindi l'essere comprensibile da
 ---
 
 Infine, l'ultimo obiettivo di questa fase penso sia stato quello di dare un esempio pratico che combinasse i vari concetti esplorati fino ad ora nel corso (microservizi, attori, scambio di messaggi, interazione, ...) esplorando il mondo degli agenti software situati; sia reali (raspberry pi) che virtuali (wenv). 
+
+
+
+### Autovalutazione
+
+A-, non ho evidenziato in concetto di rapida prototipazione
