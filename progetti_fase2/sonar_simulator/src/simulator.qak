@@ -1,0 +1,63 @@
+System sonar_simulator
+
+Event misurazione  : misurazione(X)
+
+Context ctx_simulator ip [host="localhost"    port=8360]
+
+QActor emitter context ctx_simulator {
+ 	State s0 initial{
+ 		println("$name | STARTS ") color cyan
+ 	}
+ 	Goto work  
+ 	
+ 	State work{
+ 		println("$name | working") color cyan
+ 		
+		[#
+			var I = 30;
+			
+			while (I > 5) {
+		#]
+			emit misurazione : misurazione($I)
+			delay 1000
+		[#				
+				I--;
+			}
+		#] 		
+ 	}
+ }
+
+
+
+
+QActor perceiver context ctx_simulator {
+	[#
+		var soglia_on = 10
+		var soglia_blink = 20
+		var mis = -1
+	#]
+	
+ 	State s0 initial{
+ 	}
+ 	Transition t0  
+ 		whenEvent misurazione -> handle_misurazione
+ 	
+ 	State handle_misurazione{
+ 		println("$name | misurazione=$mis ") color cyan
+ 		
+ 		onMsg( misurazione : misurazione(X) ){
+ 			[#
+ 				mis = payloadArg(0).toString().toInt()
+ 				
+ 				if(soglia_on < mis && mis <= soglia_blink) {
+ 					CommUtils.outblue("$name | blinko")
+ 				} else if( mis <= soglia_on) {
+ 					CommUtils.outblue("$name | mi accendo")
+ 				} else {
+ 					CommUtils.outblue("$name | mi spengo")
+ 				}
+ 			#]
+ 		} 
+ 	}
+ 	Goto s0
+ }
