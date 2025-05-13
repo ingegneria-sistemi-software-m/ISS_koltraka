@@ -120,7 +120,14 @@ step: nuova mossa che mi fa andare avanti per un tempo tale che il robot si spos
 io vorrei rendere i miei ragionamenti di livello applicativo **technology indipendent!**
 - nel nostro caso se io cambiassi robot, non potrei più interagirci con CRIL in quanto questo è il linguaggio di interazione con il robot virtuale
 - io non voglio cambiare tutte le volte il codice ogni volta che cambio il robot
+- allora incapsulo i dettagli di comunicazione in un adapter VLLMoves24 (VLowLevelMoves)
 
 
 Il robot non sa nulla di chi sono i suoi utilizzatori in quanto i suoi messaggi di stato sono **eventi**
 
+
+step può essere sia asincrono che sincrono
+- sincrono mi restituisce true se è riuscito a completare il passo
+- asincrono mi da l'informazione sulle collisioni tramite messaggi di stato
+
+**COMPITO**: calcolare l'area 
