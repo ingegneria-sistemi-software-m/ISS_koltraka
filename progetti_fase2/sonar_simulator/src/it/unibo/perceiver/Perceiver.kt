@@ -45,6 +45,7 @@ class Perceiver ( name: String, scope: CoroutineScope, isconfined: Boolean=false
 				}	 
 				state("handle_misurazione") { //this:State
 					action { //it:State
+						CommUtils.outcyan("$name | misurazione=$mis ")
 						if( checkMsgContent( Term.createTerm("misurazione(X)"), Term.createTerm("misurazione(X)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								
@@ -58,7 +59,6 @@ class Perceiver ( name: String, scope: CoroutineScope, isconfined: Boolean=false
 								 					CommUtils.outblue("$name | mi spengo")
 								 				}
 						}
-						CommUtils.outcyan("$name | misurazione=$mis ")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
