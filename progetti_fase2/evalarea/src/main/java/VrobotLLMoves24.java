@@ -39,7 +39,7 @@ public class VrobotLLMoves24 extends ApplAbstractObserver implements IVrobotLLMo
     protected int threadCount = 1;
     protected ActorBasic owner;
     protected String toApplMsg   ;
-    protected boolean tracing         = false;
+    public boolean tracing         = false;
     protected boolean doingStepSynch  = false;
     protected boolean doingStepAsynch = false;
 
@@ -130,7 +130,7 @@ public class VrobotLLMoves24 extends ApplAbstractObserver implements IVrobotLLMo
     protected void handleMoveok(String move) {
     	elapsed = getDuration();
         if( tracing )              
-        CommUtils.outgreen("     VRLL24 | handleMoveok:" + move + " elapsed=" + elapsed );               
+        	CommUtils.outgreen("     VRLL24 | handleMoveok:" + move + " elapsed=" + elapsed );               
        if( ( move.equals("turnLeft") || move.equals("turnRight")) ){
             activateWaiting( move,"true" );
             return;
@@ -140,6 +140,9 @@ public class VrobotLLMoves24 extends ApplAbstractObserver implements IVrobotLLMo
                     .replace("CONTENT", "vrinfo(" + move + ", elapsed)");
             IApplMessage msg = new ApplMessage(wenvInfo);
             sendInfo(msg);
+            if(tracing)
+                CommUtils.outmagenta("     VRLL24 | dispatch:" + msg);               
+
        }else {  //move is a forwardcmd for step synch
             activateWaiting(move,"true" );
        }        
@@ -154,10 +157,12 @@ public class VrobotLLMoves24 extends ApplAbstractObserver implements IVrobotLLMo
                          .replace("CONTENT","vrinfo(" + elapsed + ", collision )");
                  IApplMessage msg = new ApplMessage(wenvInfo);  //DISPATCH
                  sendInfo(msg);
+                 if(tracing)
+                     CommUtils.outmagenta("     VRLL24 | dispatch:" + msg);   
             } else {
                 IApplMessage collisionEvent = CommUtils.buildEvent(
                         "VRLL24","collisione","collisione(unknown)" );
-                emitInfo(collisionEvent);
+                // emitInfo(collisionEvent);
             }
             activateWaiting(move,"false"  );
         }    	
@@ -303,11 +308,11 @@ public class VrobotLLMoves24 extends ApplAbstractObserver implements IVrobotLLMo
     public static void main(String[] args) throws Exception {
         CommUtils.aboutThreads("Before start - ");
         VrobotLLMoves24 appl = VrobotLLMoves24.create("localhost", null); //new VrobotLLMoves24("localhost",null);
-        appl.forward(-1);
-        CommUtils.delay(500);
+        appl.tracing = true;
+        
         appl.halt();
-        CommUtils.delay(2000);
-        appl.forward(-1);
+        while(appl.step(350))
+        	CommUtils.delay(500);
         
 //        appl.turnLeft();
 //        
@@ -316,7 +321,7 @@ public class VrobotLLMoves24 extends ApplAbstractObserver implements IVrobotLLMo
 //        appl.turnLeft();
         
 //        CommUtils.aboutThreads("At end - ");
-//        System.exit(0);
+        System.exit(0);
     }
 }
 

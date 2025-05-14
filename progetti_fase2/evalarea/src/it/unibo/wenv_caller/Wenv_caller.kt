@@ -19,6 +19,7 @@ import org.json.simple.JSONObject
 
 
 //User imports JAN2024
+import main.java.*
 
 class Wenv_caller ( name: String, scope: CoroutineScope, isconfined: Boolean=false, isdynamic: Boolean=false ) : 
           ActorBasicFsm( name, scope, confined=isconfined, dynamically=isdynamic ){
@@ -29,20 +30,128 @@ class Wenv_caller ( name: String, scope: CoroutineScope, isconfined: Boolean=fal
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		//IF actor.withobj !== null val actor.withobj.name» = actor.withobj.method»ENDIF
+		 
+				lateinit  var vr : VrobotLLMoves24 // a quanto pare inizializzarlo qua fuori non fa funzionare niente
+				var doing_left_wall = false
+				var doing_bottom_wall = false
+				var steps_left_wall = 0
+				var steps_bottom_wall = 0
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name | STARTS")
+						
+							 		vr = VrobotLLMoves24.create("localhost", myself)
+							 		// vr.tracing = true
+							 		vr.halt() // per sbloccare eventuali not allowed
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="doboundary", cond=doswitch() )
+					 transition( edgeName="goto",targetState="stepLeftWall", cond=doswitch() )
 				}	 
-				state("doboundary") { //this:State
+				state("stepLeftWall") { //this:State
 					action { //it:State
-						CommUtils.outblue("$name | i'm evaluating the area")
+						CommUtils.outblue("$name | stepLeftWall")
+						delay(200) 
+						
+									doing_left_wall = true
+									var step_ok = vr.step(350)
+									if( step_ok) {
+										steps_left_wall++
+						CommUtils.outmagenta("		$name | steps_left_wall = $steps_left_wall")
+						forward("resume_left_wall", "resume_left_wall(ok)" ,name ) 
+						
+										CommUtils.delay(500)
+									}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t00",targetState="stepLeftWall",cond=whenDispatch("resume_left_wall"))
+					transition(edgeName="t01",targetState="handleSonar",cond=whenEvent("sonardata"))
+					transition(edgeName="t02",targetState="turnLeft",cond=whenEvent("collisione"))
+				}	 
+				state("turnLeft") { //this:State
+					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						CommUtils.outblue("$name | turning")
+						delay(200) 
+						
+									vr.halt()
+									doing_left_wall = false
+							        vr.turnLeft();
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="stepBottomWall", cond=doswitch() )
+				}	 
+				state("stepBottomWall") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name | stepBottomWall")
+						delay(200) 
+						
+									doing_bottom_wall = true
+									var step_ok = vr.step(350)
+									if(step_ok) {
+										steps_bottom_wall++
+						CommUtils.outmagenta("		$name | steps_bottom_wall = $steps_bottom_wall")
+						forward("resume_bottom_wall", "resume_bottom_wall(ok)" ,name ) 
+						
+										CommUtils.delay(500)
+									}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t03",targetState="stepBottomWall",cond=whenDispatch("resume_bottom_wall"))
+					transition(edgeName="t04",targetState="handleSonar",cond=whenEvent("sonardata"))
+					transition(edgeName="t05",targetState="calcArea",cond=whenEvent("collisione"))
+				}	 
+				state("handleSonar") { //this:State
+					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						
+									var step_ok = vr.step(350) // mi scanso da sotto il sonar
+						if(  doing_left_wall && step_ok  
+						 ){ steps_left_wall++  
+						CommUtils.outmagenta("		$name | steps_left_wall = $steps_left_wall")
+						}
+						if(  doing_bottom_wall && step_ok  
+						 ){ steps_bottom_wall++  
+						CommUtils.outmagenta("		$name | steps_bottom_wall = $steps_bottom_wall")
+						}
+						delay(2000) 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t06",targetState="stepLeftWall",cond=whenDispatch("resume_left_wall"))
+					transition(edgeName="t07",targetState="stepBottomWall",cond=whenDispatch("resume_bottom_wall"))
+				}	 
+				state("calcArea") { //this:State
+					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						CommUtils.outblue("$name | calcArea")
+						
+									vr.halt()
+							        vr.turnLeft();
+							        doing_bottom_wall = false
+							        
+									val area 	= steps_left_wall * steps_bottom_wall
+						CommUtils.outgreen("$name | Area = $area passi quadrati")
+						CommUtils.outgreen("		$name | steps_left_wall = $steps_left_wall passi")
+						CommUtils.outgreen("		$name | steps_bottom_wall = $steps_bottom_wall passi")
+						 System.exit(0)  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

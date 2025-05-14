@@ -27,4 +27,6 @@ with Diagram('evalareaArch', show=False, outformat='png', graph_attr=graphattr) 
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctx_evalarea', graph_attr=nodeattr):
           wenv_caller=Custom('wenv_caller','./qakicons/symActorWithobjSmall.png')
+     sys >> Edge( label='sonardata', **evattr, decorate='true', fontcolor='darkgreen') >> wenv_caller
+     sys >> Edge( label='collisione', **evattr, decorate='true', fontcolor='darkgreen') >> wenv_caller
 diag
