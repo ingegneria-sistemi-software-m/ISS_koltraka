@@ -131,3 +131,63 @@ step può essere sia asincrono che sincrono
 - asincrono mi da l'informazione sulle collisioni tramite messaggi di stato
 
 **COMPITO**: calcolare l'area 
+
+
+
+
+
+
+
+## La parte più importante!
+```data una serie di requisiti come affrontiamo il processo di produzione del software?```
+
+esempio:
+- requisito: scrivere un programma che fa fare delle mosse elementari al robot (farlo girare e sbattere sul muro a sinistra)
+
+Poniamoci delle domande:
+- innanzitutto esiste già un programma/componente che è in grado di pilotare il robot?
+- se si qual'è l'interfaccia/contratto/documentazione/**LINGUAGGIO** che questo componente è in grado di comprendere? 
+    - il mio obiettivo è **capire come usare questo pezzo di software**
+ 
+Mettiamo che mi danno un pezzo di software in Java
+- a questo punto andrei a cercare un interfaccia con dei metodi del tipo: forward(), backward(), ...
+
+Se il pezzo di software è in C
+- io vado a cercare direttamente delle funzioni di movimento
+
+Se il pezzo di software è in Kotlin/QAK 
+- io vado a cercare l'attore che è sensibile ai messaggi di movimento
+
+**OSS**: Per un informatico, **il robot NON esiste**; esiste un attore che implementa un robot, oppure una collezione di funzioni che implementa il robot, oppure ancora una classe.
+
+
+
+**conclusione**: dipendentemente da come è stato rappresentato il robot (che non esiste) io vado a cercare cose diverse (funzioni, metodi di un interfaccia o un attore e dei messaggi)
+
+
+
+
+**Domanda fondamentale**: quando in un requisito mi evocano **un'entità** di qualche tipo (tipo robot), che domanda mi devo fare?
+- il robot è un insieme di funzioni, una classe o un attore?
+
+Abbiamo vari concetti software con cui possiamo rappresentare entità nominate nei requisiti:
+- variabili
+- funzioni
+- classi
+- attori
+
+NB: Una prima fase nell'analisi dei requisiti è cercare di capire cosa intende il committente con una determinata parola
+
+
+Se mi danno un componenente che mi implementa il robot con delle funzioni e basta, è facile che io abbia un abstraction gap più grande a fronte di nuovi requisiti rispetto ad un componente fatto ad attori
+- esempio: il robot quando passa davanti al sonar deve fermarsi per 2 secondi e poi riprendere
+    - ennesimo esempoi di sistema proattivo e reattivo
+
+Facciamo l'analisi di questo problema
+- ...
+- sistemi reattivi implicano **operazioni interrompibili**
+
+...
+
+Perchè io comunico con wenv mediante stringhe json? perchè non con dei metodi?
+- **perchè io sto comunicando con un attore**
