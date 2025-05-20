@@ -197,6 +197,8 @@ difficile, c'è un altro abstraction gap, ad esempio:
 - non posso muovermi facilmente in un punto della mappa
 
 
+```Osservazione interessante del prof: nei sistemi proattivi e reattivi strutturati come un automa a stati finiti è facile individuare in quale stato bisognerà gestire gli eventi che causano una reazione. Questo è uno dei motivi per cui i QAK semplificano la prototipazione di sistemi di questo tipo. Sviluppare un sistema proattivo e reattivo in un linguaggio che non supporta gli attori bisognerebbe generare dei thread il cui compito è fare da listenere di eventi, magari aggiornare una variabile condivisa, corse critiche, ...; insomma, un casino incomprensibile```
+
 quando c'è un abstraction gap bisogna estendere quello che si ha già a disposizione
 - scrivendo nuovo software
 - andanda a cercare librerie già fatta, linguaggi DSL, ecc.
