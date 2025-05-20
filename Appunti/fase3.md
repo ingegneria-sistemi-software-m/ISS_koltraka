@@ -178,7 +178,6 @@ Abbiamo vari concetti software con cui possiamo rappresentare entità nominate n
 
 NB: Una prima fase nell'analisi dei requisiti è cercare di capire cosa intende il committente con una determinata parola
 
-
 Se mi danno un componenente che mi implementa il robot con delle funzioni e basta, è facile che io abbia un abstraction gap più grande a fronte di nuovi requisiti rispetto ad un componente fatto ad attori
 - esempio: il robot quando passa davanti al sonar deve fermarsi per 2 secondi e poi riprendere
     - ennesimo esempoi di sistema proattivo e reattivo
@@ -191,3 +190,39 @@ Facciamo l'analisi di questo problema
 
 Perchè io comunico con wenv mediante stringhe json? perchè non con dei metodi?
 - **perchè io sto comunicando con un attore**
+
+
+### Usare il pojo VrLLMoves come supporto per il problema è adeguato al problema riguardante il governo del robot
+difficile, c'è un altro abstraction gap, ad esempio:
+- non posso muovermi facilmente in un punto della mappa
+
+
+quando c'è un abstraction gap bisogna estendere quello che si ha già a disposizione
+- scrivendo nuovo software
+- andanda a cercare librerie già fatta, linguaggi DSL, ecc.
+
+
+### Come faccio a spostare il robot in dei punti che voglio io?
+Innanzitutto ho bisogno di conoscere dove sono i punti in cui voglio andare. Come faccio?
+- ho bisogno di avere un sistema di coordinate con cui assegnare delle posizioni ai miei obiettivi
+- Il robot poi deve conoscere la propria posizione
+
+Come faccio a sapere quali sono le posizioni dei miei obiettivi?
+- possono essere predefinite
+- posso esplorare il mio ambiente e calcolare una mappa
+
+Come faccio a calcolare la mappa del mio ambiente?
+- lasciamo stare questo per adesso...
+
+Una volta che ho posizione corrente del robot e posizione del mio obiettivo nel mio sistema di coordinate posso usare i miei movimenti elementari per far raggiungere al robot il mio obiettivo. Come?
+- un primo algoritmo che mi viene in mente è di raggiungere la coordinata x e poi la coordinata y un passo alla volta
+
+Cosa succede se ci sono degli ostacoli nel mezzo?
+- se ho una mappa dell'ambiente, prima di partire posso calcolare un percorso per raggiungere il mio obiettivo
+    - percorso inteso come sequenza di mosse elementari
+- se non ho una mappa, e incontro un ostacolo posso provare a:
+    - girarmi verso la direzione del mio obiettivo
+    - fare uno step
+    - rigirarmi per controllare se c'è ancora l'ostacolo
+    - quando, vedo che l'ostacolo è sparito posso riprendere con il mio algoritmo naive
+    - se l'ostacolo non sparisce posso provare ad utilizzare un algoritmo che fa backtracking sulle scelte fatte per aggirare l'ostacolo
