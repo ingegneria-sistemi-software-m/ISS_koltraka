@@ -228,3 +228,8 @@ Cosa succede se ci sono degli ostacoli nel mezzo?
     - rigirarmi per controllare se c'è ancora l'ostacolo
     - quando, vedo che l'ostacolo è sparito posso riprendere con il mio algoritmo naive
     - se l'ostacolo non sparisce posso provare ad utilizzare un algoritmo che fa backtracking sulle scelte fatte per aggirare l'ostacolo
+
+
+
+## compito
+risolvere lo stesso problema con HL al posto di LL

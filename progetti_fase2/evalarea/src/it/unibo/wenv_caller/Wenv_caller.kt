@@ -19,6 +19,7 @@ import org.json.simple.JSONObject
 
 
 //User imports JAN2024
+import main.java.*
 
 class Wenv_caller ( name: String, scope: CoroutineScope, isconfined: Boolean=false, isdynamic: Boolean=false ) : 
           ActorBasicFsm( name, scope, confined=isconfined, dynamically=isdynamic ){
@@ -29,20 +30,130 @@ class Wenv_caller ( name: String, scope: CoroutineScope, isconfined: Boolean=fal
 	override fun getBody() : (ActorBasicFsm.() -> Unit){
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		//IF actor.withobj !== null val actor.withobj.name» = actor.withobj.method»ENDIF
+		 
+				lateinit  var vr : VrobotHLMoves24 // a quanto pare inizializzarlo qua fuori non fa funzionare niente
+				var doing_left_wall = false
+				var doing_bottom_wall = false
+				var steps_left_wall = 0
+				var steps_bottom_wall = 0
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name | STARTS")
+						
+							 		vr = VrobotHLMoves24.create("localhost", myself)
+							 		// vr.setTrace(true)
+							 		vr.move("h") // per sbloccare eventuali not allowed
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition( edgeName="goto",targetState="doboundary", cond=doswitch() )
+					 transition( edgeName="goto",targetState="step", cond=doswitch() )
 				}	 
-				state("doboundary") { //this:State
+				state("step") { //this:State
 					action { //it:State
-						CommUtils.outblue("$name | i'm evaluating the area")
+						CommUtils.outblue("$name | stepLeftWall")
+						
+									if(!doing_left_wall && !doing_bottom_wall)
+										doing_left_wall = true
+						
+									vr.stepAsynch(370)
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t00",targetState="handleStepDone",cond=whenReply("stepdone"))
+					transition(edgeName="t01",targetState="handleStepFailed",cond=whenReply("stepfailed"))
+					transition(edgeName="t02",targetState="handleSonar",cond=whenEvent("sonardata"))
+				}	 
+				state("handleStepDone") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name | handleStepDone")
+									
+									if(doing_left_wall) {
+										steps_left_wall++
+										CommUtils.outmagenta("		$name | steps_left_wall = $steps_left_wall");
+									} else if (doing_bottom_wall) {
+										steps_bottom_wall++
+										CommUtils.outmagenta("		$name | steps_bottom_wall = $steps_bottom_wall");
+									} else {
+										CommUtils.outred("sono finito in step done in uno stato misterioso");
+									}
+						delay(500) 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition( edgeName="goto",targetState="step", cond=doswitch() )
+				}	 
+				state("handleStepFailed") { //this:State
+					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						CommUtils.outblue("$name | turning")
+						
+									vr.move("h")
+									
+									if(doing_left_wall) {
+										doing_left_wall	  = false
+										doing_bottom_wall = true
+										CommUtils.outmagenta("		$name | doing_left_wall = $doing_left_wall");
+						forward("continua", "continua(ok)" ,name ) 
+						
+									} else if (doing_bottom_wall) {
+										doing_bottom_wall = false
+										CommUtils.outmagenta("		$name | doing_bottom_wall = $doing_bottom_wall");
+						forward("finito", "finito(ok)" ,name ) 
+						
+									} 
+									
+							        vr.move("l");
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t03",targetState="step",cond=whenDispatch("continua"))
+					transition(edgeName="t04",targetState="calcArea",cond=whenDispatch("finito"))
+				}	 
+				state("handleSonar") { //this:State
+					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						if(  doing_left_wall  
+						 ){ steps_left_wall++  
+						CommUtils.outmagenta("		$name | steps_left_wall = $steps_left_wall")
+						}
+						if(  doing_bottom_wall  
+						 ){ steps_bottom_wall++  
+						CommUtils.outmagenta("		$name | steps_bottom_wall = $steps_bottom_wall")
+						}
+						
+									vr.stepAsynch(370) 
+						delay(2000) 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t05",targetState="handleStepDone",cond=whenReply("stepdone"))
+					transition(edgeName="t06",targetState="handleStepFailed",cond=whenReply("stepfailed"))
+				}	 
+				state("calcArea") { //this:State
+					action { //it:State
+						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
+						 	   
+						CommUtils.outblue("$name | calcArea")
+						
+									vr.move("h")
+									val area 	= steps_left_wall * steps_bottom_wall
+						CommUtils.outgreen("$name | Area = $area passi quadrati")
+						CommUtils.outgreen("		$name | steps_left_wall = $steps_left_wall passi")
+						CommUtils.outgreen("		$name | steps_bottom_wall = $steps_bottom_wall passi")
+						 System.exit(0)  
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002

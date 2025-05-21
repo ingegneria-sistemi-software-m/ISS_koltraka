@@ -1,0 +1,162 @@
+System evalarea
+
+Request step       	: step(TIME)
+Reply stepdone     	: stepdone(V)                 for step
+Reply stepfailed   	: stepfailed(DURATION, CAUSE) for step
+
+Event  sonardata    : sonar( DISTANCE )  "emesso dal SONAR"	   
+Event obstacle      : obstacle(X)		 "emesso dal supporto"
+
+Dispatch continua 	: continua(X)
+Dispatch finito		: finito(X)
+
+ 
+Context ctx_evalarea 	ip [host="localhost" port=8075]
+
+QActor wenv_caller context ctx_evalarea {
+	import "main.java.*"
+	
+	[# 
+		lateinit  var vr : VrobotHLMoves24 // a quanto pare inizializzarlo qua fuori non fa funzionare niente
+		var doing_left_wall = false
+		var doing_bottom_wall = false
+		var steps_left_wall = 0
+		var steps_bottom_wall = 0
+	#]
+	
+	State s0 initial{ 
+		println("$name | STARTS") color blue 
+		[#
+	 		vr = VrobotHLMoves24.create("localhost", myself)
+	 		// vr.setTrace(true)
+	 		vr.move("h") // per sbloccare eventuali not allowed
+	 	#] 
+	}
+	Goto step 
+	 
+	 
+	State step {
+		println("$name | stepLeftWall") color blue 
+		[#
+			if(!doing_left_wall && !doing_bottom_wall)
+				doing_left_wall = true
+
+			vr.stepAsynch(370)
+		#]
+				
+	} 
+	Transition t0 
+		whenReply stepdone 			-> handleStepDone
+		whenReply stepfailed 		-> handleStepFailed
+		whenEvent sonardata 		-> handleSonar
+	   
+	   
+	   
+	   
+	   
+	  
+	 State handleStepDone {
+		println("$name | handleStepDone") color blue 
+		[#			
+			if(doing_left_wall) {
+				steps_left_wall++
+				CommUtils.outmagenta("		$name | steps_left_wall = $steps_left_wall");
+			} else if (doing_bottom_wall) {
+				steps_bottom_wall++
+				CommUtils.outmagenta("		$name | steps_bottom_wall = $steps_bottom_wall");
+			} else {
+				CommUtils.outred("sono finito in step done in uno stato misterioso");
+			}
+		#]
+
+		delay 500	// pausina tra uno step e l'altro
+	} 
+	Goto step
+	   
+	   
+	   
+	   
+	   
+	State handleStepFailed {
+		printCurrentMessage
+		println("$name | turning") color blue 
+
+		[#
+			vr.move("h")
+			
+			if(doing_left_wall) {
+				doing_left_wall	  = false
+				doing_bottom_wall = true
+				CommUtils.outmagenta("		$name | doing_left_wall = $doing_left_wall");
+		#]
+				autodispatch continua : continua(ok)
+		[#
+			} else if (doing_bottom_wall) {
+				doing_bottom_wall = false
+				CommUtils.outmagenta("		$name | doing_bottom_wall = $doing_bottom_wall");
+		#]
+				autodispatch finito : finito(ok)
+		[#
+			} 
+			
+	        vr.move("l");
+		#]
+	}
+	Transition t0 
+		whenMsg continua -> step
+		whenMsg finito 	 -> calcArea
+	    
+	    
+	    
+	   	
+	
+	
+	
+	State handleSonar {
+		printCurrentMessage
+		
+		// aggiorno lo stato considerando il passo che mi ha fatto passare sotto il sonar
+		if [# doing_left_wall #] {
+			[# steps_left_wall++ #]
+			println("		$name | steps_left_wall = $steps_left_wall") color magenta
+		} 
+		
+		if [# doing_bottom_wall #] {
+			[# steps_bottom_wall++ #]
+			println("		$name | steps_bottom_wall = $steps_bottom_wall") color magenta
+		}
+		
+		// mi scanso da sotto il sonar e aspetto
+		[#
+			vr.stepAsynch(370) 
+		#]
+		delay 2000
+	}
+	Transition t0 
+		whenReply stepdone 			-> handleStepDone
+		whenReply stepfailed 		-> handleStepFailed
+	
+	
+	
+
+	
+	
+	
+	
+	
+	
+	State calcArea {
+		printCurrentMessage
+		println("$name | calcArea") color blue 
+		[#
+			vr.move("h")
+			val area 	= steps_left_wall * steps_bottom_wall
+		#]
+		
+		println("$name | Area = $area passi quadrati") color green
+		println("		$name | steps_left_wall = $steps_left_wall passi") color green
+		println("		$name | steps_bottom_wall = $steps_bottom_wall passi") color green
+		[# System.exit(0) #]
+	}
+}
+	
