@@ -82,8 +82,6 @@ QActor wenv_caller context ctx_evalarea {
 		println("$name | turning") color blue 
 
 		[#
-			vr.move("h")
-			
 			if(doing_left_wall) {
 				doing_left_wall	  = false
 				doing_bottom_wall = true
@@ -114,6 +112,8 @@ QActor wenv_caller context ctx_evalarea {
 	
 	State handleSonar {
 		printCurrentMessage
+		
+		[# vr.move("h") #]
 		
 		// aggiorno lo stato considerando il passo che mi ha fatto passare sotto il sonar
 		if [# doing_left_wall #] {

@@ -197,7 +197,7 @@ difficile, c'è un altro abstraction gap, ad esempio:
 - non posso muovermi facilmente in un punto della mappa
 
 
-```Osservazione interessante del prof: nei sistemi proattivi e reattivi strutturati come un automa a stati finiti è facile individuare in quale stato bisognerà gestire gli eventi che causano una reazione. Questo è uno dei motivi per cui i QAK semplificano la prototipazione di sistemi di questo tipo. Sviluppare un sistema proattivo e reattivo in un linguaggio che non supporta gli attori bisognerebbe generare dei thread il cui compito è fare da listenere di eventi, magari aggiornare una variabile condivisa, corse critiche, ...; insomma, un casino incomprensibile```
+```Osservazione interessante del prof: nei sistemi proattivi e reattivi strutturati come un automa a stati finiti è facile individuare in quale stato bisognerà gestire gli eventi che causano una reazione. Questo è uno dei motivi per cui i QAK semplificano la prototipazione di sistemi di questo tipo. Sviluppare un sistema proattivo e reattivo in un linguaggio che non supporta gli attori bisognerebbe generare dei thread il cui compito è fare da listener di eventi, magari aggiornare una variabile condivisa, corse critiche, ...; insomma, un casino incomprensibile```
 
 quando c'è un abstraction gap bisogna estendere quello che si ha già a disposizione
 - scrivendo nuovo software
@@ -230,6 +230,77 @@ Cosa succede se ci sono degli ostacoli nel mezzo?
     - se l'ostacolo non sparisce posso provare ad utilizzare un algoritmo che fa backtracking sulle scelte fatte per aggirare l'ostacolo
 
 
+### Keypoints dell'esercitazione su boundary walk con halt stimolato dal sonar
+- in java avrei scritto un while
+    - ma senza precauzioni non sarei stato reattivo
+- oppure avrei potuto scrivere uno step molto lungo
+    - di nuovo non sono reattivo
+- sistemi reattivi/proattivi implicano la creazione di listener thread che modificano variabili condivise in shared memory ecc...
+- sfruttando una struttura del sistema ad ASF
+    - diventa facile ... (vedi sopra)
 
-## compito
-risolvere lo stesso problema con HL al posto di LL
+
+**conclusione interessante**: Il linguaggio non solo è un abilitatore (mi permette di implementare ciò a cui penso) ma **mi vincola** nelle idee che mi vengono in mente; in Java non penserei mai al sistema come un ASF, nonostante questa idea magari è quella che si presta meglio al sistema.  
+- Alan Kay diceva che il linguaggio che si usa sono sia delle ali che delle catene
+    - ti introduce a delle idee che magari non avresti mai pensato
+    - ti obbliga ad usare esattamente solamente le idee e i concetti che ti introduce e che supporta
+
+
+
+
+### step asincrono
+è meglio che la risposta allo step sia una *reply* oppure un *evento*?
+- se penso al mio step come a una richiesta 
+
+la request non la vedo a livello di messaggio qak, viene implementata piuttosto come vr.stepAsynch()
+- l'infrastruttura qak non si lamenta, prende e mette in coda
+
+### analogia mente-corpo
+il corpo riceve degli stimoli sensoriali (json da wenv), gli traduce in segnali (linguaggio diverso da quello del corpo | messaggi QAK) che invia attraverso i nervi (websocket o qualsiasi Interaction) alla mente.
+
+la mente invia istruzioni (step) al corpo, il corpo esegue (invia json a wenv)
+
+POJO è il corpo, l'attore (che passo con _myself_) è la mente
+
+
+
+
+
+
+### compito
+impostare un microservizio che mi permette di usare il robot con il linguaggio aril e con gli step asincroni
+- nb: non un pojo ma un microservizio
+
+analizziamo il problema
+- la responsabilità del microservizio è comandare il robot una volta stimolato da richieste. 
+- Come devono essere fatte queste richieste?
+- abbiamo bisogno di un linguaggio che mi esprima sintassi e semantica delle richieste
+- dobbiamo definire la struttura dei messaggi 
+    - in generale con i servizio abbiamo sempre due tipologie logiche di messaggi
+        - comandi (dispatch)
+        - richieste 
+    - a noi interessa fare delle richieste stepAsynch per un certo numero di ms
+    - e quindi definiamo un tipo di messaggio -> request stepAsynch : stepAsynch(Time)
+        - NB: Time con la T maiuscola in quanto variabile (senza non puoi fare interpolazione con il $)
+    - ci interessa poi anche che il servizio ci risponda dicendoci se lo step è andato a buon fine o meno
+        - response stepDone : stepDone(X)
+        - responde stepFail : stepFail(T) "T = tempo del step che mi mancava per completare lo step"
+    - il robot poi è anche sensibili agli altri comandi aril 
+        - siccome sono tanti e di tipo diverso possiamo mandare una dispatch
+            - dispatch move : move(X) "X = mossa aril"
+    - i vari messaggi move che mando però possono andare bene o male, come faccio a far emettere queste informazioni al microservizio per i suoi clienti
+        - creaiamo un evento apposta
+    - abbiamo poi il sonar; il servizio dovrà rendere disponibili le informazioni del sonar
+        - altro evento ancora   
+
+
+
+
+
+### qual'è la differenza tra un pojo e servizio?
+con gli oggetti ci interagisco tramite chiamate di metodi, con i servizi ci interagisco tramite messaggi 
+
+per rispondere a questo tipo di domande devo pensare a tre cose 
+- struttura
+- interazione
+- funzionamento

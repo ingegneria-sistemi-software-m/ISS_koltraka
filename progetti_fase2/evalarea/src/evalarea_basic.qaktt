@@ -101,6 +101,7 @@ QActor wenv_caller context ctx_evalarea {
 	State handleSonar {
 		printCurrentMessage
 		[#
+			// vr.halt() // eventualmente faccio un passo a partire dal sonar
 			var step_ok = vr.step(350) // mi scanso da sotto il sonar
 		#]
 		

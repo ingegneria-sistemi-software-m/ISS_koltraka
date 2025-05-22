@@ -95,8 +95,6 @@ class Wenv_caller ( name: String, scope: CoroutineScope, isconfined: Boolean=fal
 						 	   
 						CommUtils.outblue("$name | turning")
 						
-									vr.move("h")
-									
 									if(doing_left_wall) {
 										doing_left_wall	  = false
 										doing_bottom_wall = true
@@ -123,6 +121,7 @@ class Wenv_caller ( name: String, scope: CoroutineScope, isconfined: Boolean=fal
 					action { //it:State
 						CommUtils.outcyan("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
 						 	   
+						 vr.move("h")  
 						if(  doing_left_wall  
 						 ){ steps_left_wall++  
 						CommUtils.outmagenta("		$name | steps_left_wall = $steps_left_wall")
