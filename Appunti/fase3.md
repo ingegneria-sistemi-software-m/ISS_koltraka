@@ -285,8 +285,8 @@ analizziamo il problema
     - ci interessa poi anche che il servizio ci risponda dicendoci se lo step è andato a buon fine o meno
         - response stepDone : stepDone(X)
         - responde stepFail : stepFail(T) "T = tempo del step che mi mancava per completare lo step"
-    - il robot poi è anche sensibili agli altri comandi aril 
-        - siccome sono tanti e di tipo diverso possiamo mandare una dispatch
+    - il robot poi è anche sensibile agli altri comandi aril 
+        - siccome sono tanti e di tipo diverso possiamo mandare un dispatch
             - dispatch move : move(X) "X = mossa aril"
     - i vari messaggi move che mando però possono andare bene o male, come faccio a far emettere queste informazioni al microservizio per i suoi clienti
         - creaiamo un evento apposta
