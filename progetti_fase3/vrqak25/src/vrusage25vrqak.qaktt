@@ -1,26 +1,20 @@
 System /*-trace*/ virtualrobotusage25
 mqttBroker "192.168.1.189" : 1883 eventTopic "vrevents"  
-/*
- * vrusage25vrqak.qak
- */
 
 /*
+ * vrusage25vrqak.qak
  * Accede al virtual robot usando il micro-servizio vrqak (non-discoverable)
- *  
- * 
  */
   
- 
 Dispatch move   : move(M)  "M= w | a | d | h | p"
 Dispatch halt   : halt(X)
 
 Request step       : step(TIME)   
 Reply stepdone     : stepdone(V)                 for step
-Reply stepfailed   : stepfailed(DURATION, CAUSE) for step
+Reply stepfailed   : stepfailed(PERCENT, CAUSE)  for step
 
-Event  sonardata   : sonar( DISTANCE ) 	    "emesso dal SONAR"	
-Event  sonarval    : distance( DISTANCE )  "emesso dal vrqak"	   
-Dispatch vrinfo    : vrinfo(A,B)        "inviato dal supporto"
+Event  sonardata   : sonar( DISTANCE ) 	   	"emesso dal SONAR"	
+Event  sonarval    : distance( DISTANCE )  	"emesso dal vrqak"	   
 
 //Event vrinfo        : vrinfo(A,B)        "emesso dal supporto remoto"
 //Event obstacle      : obstacle(X)		 "emesso dal supporto remoto"
@@ -34,14 +28,19 @@ ExternalQActor vrqak context ctxvrqak
  QActor vrboundary context ctxvrusage25   {
  	import "main.java.*"
  	
- 	[#  var N=0; 
- 		var StepCount = 0 
+ 	[#  
+ 		var N=0; 
+ 		var StepCount = 0.0 
  	#]  
 	State s0 initial{ 
 		println("$name STARTS") color blue 
  	}
 	Goto doboundary
 //  	Goto testmoves
+//		Goto test
+
+
+
 
 // ---------------------------------------------------------------
 	State testmoves{
@@ -64,6 +63,10 @@ ExternalQActor vrqak context ctxvrqak
 	}
 	Transition t0 		 
  		whenEvent sonarval  -> handlesonar 
+	
+	
+	
+	
 	
 //---------------------------------------------------------	
 	State test{
@@ -102,6 +105,8 @@ ExternalQActor vrqak context ctxvrqak
 //------------------------------------	
 
 
+
+
 /*
  * -------------------------------------------------------
  * BUSINESS LOGIC
@@ -109,7 +114,7 @@ ExternalQActor vrqak context ctxvrqak
  */
 	State doboundary{ 
         delay 200	//avoid toofast trip	  
-		[# StepCount++ #]
+		[# StepCount++ #] // qua sto contando il passo anche se non va a buon fine... lo dovrò annullare dopo ma è una bruttura
 		request vrqak -m step : step(370)
 		println("stepAsynch $StepCount") color blue 		 
 	} 
@@ -121,8 +126,28 @@ ExternalQActor vrqak context ctxvrqak
  
 	    
 	State turnAndgo{
+		onMsg( stepfailed : stepfailed(PERCENT, CAUSE) ){
+			[# 
+				val Percent = payloadArg(0).toFloat();
+			#]	
+				
+			if [# Percent < 1 #] {
+				[# val PercentStampa = Percent*100 #]
+				println("ho completato solo il $PercentStampa % di un passo") color magenta
+				[#
+					StepCount-- // annullo il passo che ho contato ottimisticamente in dooundary
+					StepCount+=Percent
+				#]
+				println("stepAsynch $StepCount") color blue 	
+			}
+		}
+		
+		
+		
 		[# N = N + 1 #]
 		println("turn N=$N") color blue
+		
+		
         forward vrqak -m move : move(l)
 		if [# N == 4 #]{
 			delay 500 //La rotazione richiede tempo ....
