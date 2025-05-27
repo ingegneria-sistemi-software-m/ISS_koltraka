@@ -304,3 +304,61 @@ per rispondere a questo tipo di domande devo pensare a tre cose
 - struttura
 - interazione
 - funzionamento
+
+
+
+
+Ricorda che ogni attore è anche una risorsa CoAP nomeContext/nomeActor osservabile dagli alieni
+- alternativa rispetto a mqtt
+
+
+
+### keypoint
+```è meglio usare il pojo o il microservizio?```
+
+Scordiamoci momentaneamente dei qak. Per creare un servizio classico normalmente ci si appoggia a dei framework come Spring boot che realizzano la dimensione dell'interazione. L'armatura di ironman
+
+```perchè un microservizio fatto con qak è preferibile ad un microservizio fatto con spring```
+
+posso prendere la specifica del servizio così com'è ed usarla sia in locale che in remoto senza modificare il codice del servizio
+
+
+questo si unisce agli altri vantaggi di concorrenza semplificata e modellazione dello stato come DFA
+
+### keypoint
+```come si progetta un servizio```
+
+dal di dentro o da fuori?
+
+specifico prima i messaggi a cui il servizio dovrà rispondere (mi adeguo alle esigenze del cliente esterno) oppure prima definisco il comportamente del servizio e i clienti si sviluppano (mi adeguo alle esigenze dello sviluppatore)?
+
+non c'è una risposta, gli adapter nascono per soddisfare le esigenze di entrambi
+
+
+
+
+
+
+
+
+
+### Mapping della stanza
+rappresentare a livello software la stanza è fondamentale
+- se nel mio programma non c'è una rappresentazione della stanza (oggetto, attore, struttura dati) la stanza allora non esiste
+
+
+operazione centrale di robot mapper è doMove()
+- il robot mapper non muove il robot, piuttosto muove la sua idea del robot nella sua testa (stato)
+
+mapbuildconmapper.qak. è dove il robot si muove realmente 
+
+
+una sola assunzione: il bordo superiore è libero
+
+
+compito:
+- guardare uniboplanner25
+- scrivere un planexecutor. Un servizio che date le mosse sottoforma di richiesta mi risponde 
+    - o con done
+    - o con fail e dove è arrivato nella sequenza
+- integrarlo con il mapbuilder  

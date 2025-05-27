@@ -1,7 +1,7 @@
 %====================================================================================
 % vrqak25 description   
 %====================================================================================
-mqttBroker("192.168.1.189", "1883", "vrevents").
+mqttBroker("localhost", "1883", "vrevents").
 dispatch( halt, halt(X) ).
 dispatch( move, move(M) ).
 request( cmd, cmd(MOVE,T) ). %MOVE = w|s|a|d|p   mosse del virtual robot
