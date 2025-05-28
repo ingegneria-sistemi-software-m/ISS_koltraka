@@ -154,9 +154,9 @@ task dovesiamo {
 
 distributions {
     main {
-        distributionBaseName = 'vrqak25'
+        distributionBaseName = 'vrqak'
         contents { 
-             from './vrqak25.pl'
+             from './vrqak.pl'
              from './sysRules.pl'
              from './facadeConfig.json'
         }

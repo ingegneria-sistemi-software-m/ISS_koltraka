@@ -19,7 +19,7 @@ import org.json.simple.JSONObject
 
 
 //User imports JAN2024
-import main.java.VrobotLLMoves24
+import main.resources.robotvirtual.VrobotLLMoves24
 
 class Vrqak ( name: String, scope: CoroutineScope, isconfined: Boolean=false, isdynamic: Boolean=false ) : 
           ActorBasicFsm( name, scope, confined=isconfined, dynamically=isdynamic ){
@@ -56,23 +56,6 @@ class Vrqak ( name: String, scope: CoroutineScope, isconfined: Boolean=false, is
 					transition(edgeName="t02",targetState="domoverequest",cond=whenRequest("cmd"))
 					transition(edgeName="t03",targetState="handleAsynchStep",cond=whenRequest("step"))
 				}	 
-				state("handleAsynchStep") { //this:State
-					action { //it:State
-						CommUtils.outblue("$name | handleAsynchStep $currentMsg")
-						 doingAsynchStep = true   
-						if( checkMsgContent( Term.createTerm("step(TIME)"), Term.createTerm("step(T)"), 
-						                        currentMsg.msgContent()) ) { //set msgArgList
-								 vr.forward(payloadArg(0).toInt() )  
-						}
-						//genTimer( actor, state )
-					}
-					//After Lenzi Aug2002
-					sysaction { //it:State
-					}	 	 
-					 transition(edgeName="t04",targetState="handleSonarData",cond=whenEvent("sonardata"))
-					transition(edgeName="t05",targetState="handleVrinfoMsgReply",cond=whenDispatch("vrinfo"))
-					transition(edgeName="t06",targetState="dohalt",cond=whenDispatch("halt"))
-				}	 
 				state("dohalt") { //this:State
 					action { //it:State
 						CommUtils.outred("$name in ${currentState.stateName} | $currentMsg | ${Thread.currentThread().getName()} n=${Thread.activeCount()}")
@@ -103,7 +86,7 @@ class Vrqak ( name: String, scope: CoroutineScope, isconfined: Boolean=false, is
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t07",targetState="handleVrinfoMsgReply",cond=whenDispatch("vrinfo"))
+					 transition(edgeName="t04",targetState="handleVrinfoMsgReply",cond=whenDispatch("vrinfo"))
 				}	 
 				state("domove") { //this:State
 					action { //it:State
@@ -141,9 +124,7 @@ class Vrqak ( name: String, scope: CoroutineScope, isconfined: Boolean=false, is
 						 	   
 						if( checkMsgContent( Term.createTerm("cmd(MOVE,T)"), Term.createTerm("cmd(M,T)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
-								 
-												val Move = payloadArg(0);
-												val T = payloadArg(1).toInt()
+								 val Move = payloadArg(0); val T = payloadArg(1).toInt()  
 								CommUtils.outblue("$name | domoverequest $Move $T")
 								if(  Move == "h"  
 								 ){ vr.halt()  
@@ -169,8 +150,8 @@ class Vrqak ( name: String, scope: CoroutineScope, isconfined: Boolean=false, is
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t08",targetState="handleSonarData",cond=whenEvent("sonardata"))
-					transition(edgeName="t09",targetState="handleVrinfoMsgReply",cond=whenDispatch("vrinfo"))
+					 transition(edgeName="t05",targetState="handleSonarData",cond=whenEvent("sonardata"))
+					transition(edgeName="t06",targetState="handleVrinfoMsgReply",cond=whenDispatch("vrinfo"))
 				}	 
 				state("handleVrinfoMsgReply") { //this:State
 					action { //it:State
@@ -193,8 +174,7 @@ class Vrqak ( name: String, scope: CoroutineScope, isconfined: Boolean=false, is
 								 val T = payloadArg(0)  
 								if(  doingAsynchStep  
 								 ){CommUtils.outyellow("$name | reply asynchstep ko")
-								 val Percent = T.toFloat()/370  
-								answer("step", "stepfailed", "stepfailed($Percent,collision)"   )  
+								answer("step", "stepfailed", "stepfailed($T,collision)"   )  
 								 doingAsynchStep = false  
 								}
 								else
@@ -208,6 +188,23 @@ class Vrqak ( name: String, scope: CoroutineScope, isconfined: Boolean=false, is
 					sysaction { //it:State
 					}	 	 
 					 transition( edgeName="goto",targetState="work", cond=doswitch() )
+				}	 
+				state("handleAsynchStep") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name | handleAsynchStep $currentMsg")
+						 doingAsynchStep = true   
+						if( checkMsgContent( Term.createTerm("step(TIME)"), Term.createTerm("step(T)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								 vr.forward(payloadArg(0).toInt() )  
+						}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t07",targetState="handleSonarData",cond=whenEvent("sonardata"))
+					transition(edgeName="t08",targetState="handleVrinfoMsgReply",cond=whenDispatch("vrinfo"))
+					transition(edgeName="t09",targetState="dohalt",cond=whenDispatch("halt"))
 				}	 
 			}
 		}
