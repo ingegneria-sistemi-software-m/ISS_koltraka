@@ -361,4 +361,117 @@ compito:
 - scrivere un planexecutor. Un servizio che date le mosse sottoforma di richiesta mi risponde 
     - o con done
     - o con fail e dove è arrivato nella sequenza
-- integrarlo con il mapbuilder  
+- integrarlo con il mapbuilder 
+
+
+
+
+
+
+
+
+### Urti causati da disallineamenti
+quando sbatto contro un ostacolo non riesco a completare lo step e quindi mi disallineo. Per questo motivo il robottino torna in home in modo da annullare questi disallineamenti e partire con uno stato consistente.
+
+nello tornare in home potrei avere delle collisioni appena prima di girare, queste vengono ignorate in quanto causate dal disallineamento
+
+una volta raggiunta la home mi devo incastrare nel punto giusto eliminando i disallineamenti
+
+
+
+
+
+### Strategia di sviluppo
+prima faccio dei prototipi in locale con QAK che è agnostico rispetto a locale/distribuito. Poi distribuisco senza cambiare nulla
+
+magari rendendo il servizio discoverable con eureka
+
+
+
+
+
+
+
+## Considerazioni finali
+ci sono due dimensioni che giustificano quello che abbiamo fatto
+- la dimensione del prodotto
+    - cosa bisogna produrre
+- la dimensione del processo
+    - come si produce il prodotto
+
+In merito al processo il nostro modello di riferimento è SCRUM. Questo modello è diverso rispetto ai classici processi dell'ingegneria, quest'ultimi non sono infatti adeguati per l'informatica.
+
+SCRUM
+- processi agili e incrementali
+- ha posto l'attenzione sull'interazione tra umani
+- frequente prototipazione e interazione con il committente
+    - questo ci permette di cambiare direzione rapidamente se i requisiti cambiano o se non si erano capiti bene in primo luogo
+
+
+...
+
+
+Sprint review si reifica in ricevimento studenti con il committente = prof
+
+
+
+sprint retrospective
+- la sprint review riguarda il prodotto
+- la sprint retrospective riguarda il processo (dobbiamo cambiare il nostro modo organizzativo?)
+
+
+
+gli sprint vengono individuati suddividendo i requisiti in una lista di priorità
+- il primo sprint fa le cose più importanti
+- il secondo sprint fa le cose un po' meno importanti
+- ...
+
+
+
+
+### top-down vs bottom-up
+io posso muovermi anche se nella testa non ho nella testa le ultime tecnologie (con le loro nuove mosse)
+
+
+
+
+### Keypoint - Domain Driven Design
+...
+
+
+bounded context: ogni modello ha un ambito di validità
+
+
+
+
+
+perchè i microservizi sono più adatti rispetto ai POJO nel rappresentare i bounded context?
+- perchè i POJO mi inducono a pensare ad un monolite tutto nella stessa macchina in cui l'interazione avviene tramite chiamata di procedura.
+    - ambiente locale
+- rappresentare i bounded context come microservizi mi permette di pensarli a come entità autonome distribuite con cui ci interagisco mediante scambio di messaggi
+
+
+
+...
+
+
+il contesto QAK rappresenta una bounded context
+
+
+
+
+### Traccia dell'esame
+- per ogni sprint un progetto
+    - ogni sprint ha un goal definito da dei requisiti del committente
+    - i requisiti del committente vanno copiati
+- ogni goal ha un piano di test che andrà implementato una volta terminato lo sprint e implementato il goal
+
+tutti i documenti di uno sprint stanno dentro la cartella userDocs
+
+
+**Sprint0**
+lo sprint0 deve definire inequivocabilmente il goal dello sprint1; a sua volta lo sprint1 definirà il goal dello sprint2 ecc...
+
+il committente è parte integrante del team di sviluppo dello sprint0
+
+il risultato dello sprint0 è il piano di lavoro 
