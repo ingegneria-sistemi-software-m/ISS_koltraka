@@ -3,15 +3,24 @@ System cargo_service
 /*
  * Messaggi
  */
-Request load  	    : load(PID, PESO) 			   "la richiesta di carico di un container contiene il PID del prodotto e il peso del container"
+Request load  	    : load(PID, PESO) 			   "la richiesta di carico di un container che arriva a cargo_service: contiene il PID del prodotto e il peso del container"
 Reply load_accepted : load_accepted(SLOT) for load "la richiesta di carico può essere accettata, con restituzione dello slot assegnato al container"
-Reply load_refused  : load_refused(CAUSA) for load "oppure può essere rifiutata per due motivi: cur_load > MAX_LOAD, oppure perchè tutti e 4 gli sloto sono occupati" 
+Reply load_refused  : load_refused(CAUSA) for load "oppure può essere rifiutata per due motivi: cur_load > MAX_LOAD, oppure perchè tutti e 4 gli sloto sono occupati"
+
+Request move  : move(x_robot, y_robot, x_goal, y_goal) "la richiesta di movimento del robot prodotta da cargo_service e ricevuta dal basic_robot"
+Reply move_ok : move_ok(NEW_MAP_STATE) 		  for move "potrei aggiornare lo stato direttamente dentro a cargo_service ma se lo ritorno da basic_robot è meglio"
+Reply move_ko : move_ko(NEW_MAP_STATE, CAUSA) for move "in generale, è possibile che il robot non riesca a raggiungere il punto richiesto (no plan)"
+
+Event sonar_measurement : sonar_measurement(MISURA) "misura della distanza del robot dal container davanti alla IO port e durante il trasporto"
+
+
 
 Context ctx_cargo_service  ip [host="localhost" port=8000]
+Context ctx_basic_robot    ip [host="localhost" port=8001]
 
-Context ctxvrqak      ip [host="127.0.0.1"  port=8125   ]
-
-ExternalQActor vrqak context ctxvrqak
+// cargo_service e basic_robot è importante che carichino la stessa mappa!
+// potrei anche prevedere un dispatch (sarebbe meglio per evitare inconsistenze)
+ExternalQActor basic_robot context ctx_basic_robot
 
 
 
@@ -22,12 +31,34 @@ QActor cargo_service context ctx_cargo_service /* withobj vr using "VrobotLLMove
 	[#
 		val MAX_LOAD = 100
 		var cur_load = 0
+		
+		// oggetto che conterrà tutto lo stato relativo al deposito:
+		//		- mappa del deposito
+		//		- posizione dell'io/port e degli slot
+		//		- posizione del robot
+		//		- stato degli slot (occupato/libero)
+		// 		- ...
+		lateinit var deposito : CargoHold
+		
+		/*
+		 * Uso queste variabili per avere una idea degli stati che dovrò definire 
+		 * e per ricordarmi dei messaggi a cui dovranno essere sensibili.
+		 * Non sono da usare veramente!
+		 */
+		// fino a che il container associato alla richiesta corrente non è stato depositato other requests are not elaborated!
+		var serving_request	= false
+		// se durante il trasporto il container cade (sonar misura una distanza troppo grande) il robot si deve interrompere 
+		// fino a che il container non viene riposizionato
+		var container_caduto = false
 	#]
 	
 	
 	State s0 initial{
 		println("$name STARTS") color blue
-
+		// carica lo stato leggendo la mappa
+		[#
+			deposito = new Deposito("mappa.bin")
+		#]
 	} 
 //	Goto work
 }

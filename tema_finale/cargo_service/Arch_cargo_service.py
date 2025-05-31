@@ -27,6 +27,6 @@ with Diagram('cargo_serviceArch', show=False, outformat='png', graph_attr=grapha
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
      with Cluster('ctx_cargo_service', graph_attr=nodeattr):
           cargo_service=Custom('cargo_service','./qakicons/symActorWithobjSmall.png')
-     with Cluster('ctxvrqak', graph_attr=nodeattr):
-          vrqak=Custom('vrqak(ext)','./qakicons/externalQActor.png')
+     with Cluster('ctx_basic_robot', graph_attr=nodeattr):
+          basic_robot=Custom('basic_robot(ext)','./qakicons/externalQActor.png')
 diag

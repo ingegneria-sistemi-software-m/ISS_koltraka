@@ -32,10 +32,31 @@ class Cargo_service ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 		
 				val MAX_LOAD = 100
 				var cur_load = 0
+				
+				// oggetto che conterrà tutto lo stato relativo al deposito:
+				//		- mappa del deposito
+				//		- posizione dell'io/port e degli slot
+				//		- posizione del robot
+				//		- stato degli slot (occupato/libero)
+				// 		- ...
+				lateinit var deposito : CargoHold
+				
+				/*
+				 * Uso queste variabili per avere una idea degli stati che dovrò definire 
+				 * e per ricordarmi dei messaggi a cui dovranno essere sensibili.
+				 * Non sono da usare veramente!
+				 */
+				// fino a che il container associato alla richiesta corrente non è stato depositato other requests are not elaborated!
+				var serving_request	= false
+				// se durante il trasporto il container cade (sonar misura una distanza troppo grande) il robot si deve interrompere 
+				// fino a che il container non viene riposizionato
+				var container_caduto = false
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name STARTS")
+						
+									deposito = new Deposito("mappa.bin")
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
