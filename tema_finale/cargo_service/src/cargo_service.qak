@@ -1,0 +1,33 @@
+System cargo_service
+
+/*
+ * Messaggi
+ */
+Request load  	    : load(PID, PESO) 			   "la richiesta di carico di un container contiene il PID del prodotto e il peso del container"
+Reply load_accepted : load_accepted(SLOT) for load "la richiesta di carico può essere accettata, con restituzione dello slot assegnato al container"
+Reply load_refused  : load_refused(CAUSA) for load "oppure può essere rifiutata per due motivi: cur_load > MAX_LOAD, oppure perchè tutti e 4 gli sloto sono occupati" 
+
+Context ctx_cargo_service  ip [host="localhost" port=8000]
+
+Context ctxvrqak      ip [host="127.0.0.1"  port=8125   ]
+
+ExternalQActor vrqak context ctxvrqak
+
+
+
+QActor cargo_service context ctx_cargo_service /* withobj vr using "VrobotLLMoves24.create(\"localhost\",myself)" */ {  
+//	import "main.java.VrobotLLMoves24"
+
+	// stato e costanti
+	[#
+		val MAX_LOAD = 100
+		var cur_load = 0
+	#]
+	
+	
+	State s0 initial{
+		println("$name STARTS") color blue
+
+	} 
+//	Goto work
+}

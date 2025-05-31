@@ -42,3 +42,14 @@ The company asks us to build a software systems (named cargoservice) that:
     - quando invece il cargorobot sta trasportando un carico (è avvenuto D < DFREE/2 davanti ad IOport per almeno 3 secondi) devo essere sensibile alle misurazioni del sonar durante il trasporto
 
     - abbiamo quindi delle misurazioni come messaggio
+
+
+### Formalizzazione dei termini del testo dei requisiti
+```Lo scopo dello SPRINT0 è quello di formalizzare i singoli termini del testo (usando un qualche linguaggio di programmazione e/o con modelli) e anche quello di fornire una prima visione di insieme del sistema da realizzare.```
+
+devo definire 
+- i messaggi
+- i contesti (bounded)
+- i serivizi
+- gli attori
+- i pojo
