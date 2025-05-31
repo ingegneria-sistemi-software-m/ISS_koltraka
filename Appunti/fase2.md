@@ -242,7 +242,7 @@ può essere utile fare un prototipo per capire meglio quali problematiche insorg
 
 
 
-# La gestione dei messaggi degli attori QAK
+# La gestione dei messaggi degli attori QAK ( trovit tutto dentro a ./iss25Material/docs/_build/html/QakActors25Actors.html)
 Prima di illustrare cosa un attore qak può fare, è importante sottolienare che:
 - un attore qak **NON dispone di una operazione receive bloccante**
 - la ragione è dovuto al suo comportamento autonomo da ASF

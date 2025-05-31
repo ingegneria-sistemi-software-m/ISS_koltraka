@@ -475,3 +475,14 @@ lo sprint0 deve definire inequivocabilmente il goal dello sprint1; a sua volta l
 il committente è parte integrante del team di sviluppo dello sprint0
 
 il risultato dello sprint0 è il piano di lavoro 
+
+
+
+
+
+
+
+
+Ricorda la **definizione di modello**:
+rappresentazione del problema che mira a catturarne gli aspetti essenziali, fornendone una visione semplificata e più comprensibili (sia all'uomo che alla macchina)
+
