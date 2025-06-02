@@ -1,64 +1,175 @@
 System cargo_service
 
-/*
- * Messaggi
- */
+mqttBroker "192.168.1.189" : 1883 eventTopic "sonar_emitter_topic"  
+
+
+
 Request load  	    : load(PID, PESO) 			   "la richiesta di carico di un container che arriva a cargo_service: contiene il PID del prodotto e il peso del container"
 Reply load_accepted : load_accepted(SLOT) for load "la richiesta di carico può essere accettata, con restituzione dello slot assegnato al container"
 Reply load_refused  : load_refused(CAUSA) for load "oppure può essere rifiutata per due motivi: cur_load > MAX_LOAD, oppure perchè tutti e 4 gli sloto sono occupati"
+Dispatch refuse		: refuse(X)					   "autodispatch che cargo_service si manda da solo per transitare nello stato giusto quando rifiuta una richiesta di carico"
 
-Request move  : move(x_robot, y_robot, x_goal, y_goal) "la richiesta di movimento del robot prodotta da cargo_service e ricevuta dal basic_robot"
-Reply move_ok : move_ok(NEW_MAP_STATE) 		  for move "potrei aggiornare lo stato direttamente dentro a cargo_service ma se lo ritorno da basic_robot è meglio"
-Reply move_ko : move_ko(NEW_MAP_STATE, CAUSA) for move "in generale, è possibile che il robot non riesca a raggiungere il punto richiesto (no plan)"
+Request move  : move(x_goal, y_goal) 	"la richiesta di movimento del robot prodotta da cargo_service e ricevuta dal robot_service che conosce la posizione del robot"
+Reply move_ok : move_ok(OK)    for move 
+Reply move_ko : move_ko(CAUSA) for move "in generale, è possibile che il robot non riesca a raggiungere il punto richiesto (no plan)"
+Dispatch halt : halt(X)					"messaggio da inviare al robot_service per interrompere tutte le operazioni quando il container è caduto"
 
-Event sonar_measurement : sonar_measurement(MISURA) "misura della distanza del robot dal container davanti alla IO port e durante il trasporto"
-
-
-
-Context ctx_cargo_service  ip [host="localhost" port=8000]
-Context ctx_basic_robot    ip [host="localhost" port=8001]
-
-// cargo_service e basic_robot è importante che carichino la stessa mappa!
-// potrei anche prevedere un dispatch (sarebbe meglio per evitare inconsistenze)
-ExternalQActor basic_robot context ctx_basic_robot
+Event container_present : container_present(X) "emesso dal sonar_emitter tramite MQTT quando il container è stato rilevato dal sonar per un certo numero di secondi"
+Event container_absent  : container_absent(X)  "emesso dal sonar emitter tramite MQTT quando il container NON è stato rilevato dal sonar per un certo numero di secondi"
 
 
 
-QActor cargo_service context ctx_cargo_service /* withobj vr using "VrobotLLMoves24.create(\"localhost\",myself)" */ {  
-//	import "main.java.VrobotLLMoves24"
+Context ctx_cargo_service ip [host="localhost" port=8000]
+Context ctx_robot_service ip [host="localhost" port=8001]
+
+ExternalQActor robot_service context ctx_robot_service
+
+
+
+QActor cargo_service context ctx_cargo_service {  
 
 	// stato e costanti
 	[#
-		val MAX_LOAD = 100
-		var cur_load = 0
+		val MAX_LOAD = 999
 		
-		// oggetto che conterrà tutto lo stato relativo al deposito:
-		//		- mappa del deposito
+		// il cargo_service mantiene il seguente stato per effettuare le sue operazioni
+		// 		- peso dei container già posizionati 
 		//		- posizione dell'io/port e degli slot
-		//		- posizione del robot
 		//		- stato degli slot (occupato/libero)
-		// 		- ...
-		lateinit var deposito : CargoHold
+		// 		- posizione della home del robot
+		//
+		// questo stato lo posso recuperare leggendo un file prodotto dal mapper (ad esempio un .json)
+		var cur_load = 0
+		var slots : List<Slot>
+		var io_port : Position
+		var robot_home : Position
 		
-		/*
-		 * Uso queste variabili per avere una idea degli stati che dovrò definire 
-		 * e per ricordarmi dei messaggi a cui dovranno essere sensibili.
-		 * Non sono da usare veramente!
-		 */
-		// fino a che il container associato alla richiesta corrente non è stato depositato other requests are not elaborated!
-		var serving_request	= false
-		// se durante il trasporto il container cade (sonar misura una distanza troppo grande) il robot si deve interrompere 
-		// fino a che il container non viene riposizionato
-		var container_caduto = false
+		// variabile globale usata in vari stati
+		var destination_slot : Slot
 	#]
 	
 	
 	State s0 initial{
 		println("$name STARTS") color blue
-		// carica lo stato leggendo la mappa
+		
 		[#
-			deposito = new Deposito("mappa.bin")
+			// inizializzo lo stato leggendo un file prodotto dal mapper
+			Deposito deposito = new Deposito("deposito.json")
+			slots = deposito.getSlots()
+			// ...
 		#]
 	} 
-//	Goto work
+	Goto wait_request
+	
+	
+	
+	State wait_request{
+		println("$name WAITING FOR REQUEST") color blue
+	}
+	Transition t0
+	   whenRequest load -> serve_load_request
+	   
+	
+	
+	
+	
+	State serve_load_request {
+		println("$name SERVING REQUEST") color blue
+		
+		onMsg( load : load(PID, PESO) ) {
+			[# 
+				val pid		 = payloadArg(0).toString()
+				val peso_req = payloadArg(1).toFloat()
+			#]
+			
+			if [# cur_peso+peso_req < MAX_LOAD && slots.numEmpty() > 0 #] {
+				[#
+					destination_slot = slots.getNextEmpty()
+					destination_slot.associateProduct(pid)
+					val SlotId = destination_slot.getId()
+					
+					val IO_Port_X = io_port.getX()
+					val IO_Port_Y = io_port.getY()
+				#]
+				replyTo load with load_accepted : load_accepted($SlotId)
+				request robot_service -m move : move($IO_Port_X, $IO_Port_Y)
+			}
+			else {
+				autodispatch refuse : refuse(si)
+			}
+		}
+	}
+	Transition t0
+		whenMsg refuse -> wait_request
+		whenReply move_ok -> wait_container 
+//		whenReply move_ko -> wait_request // se questo succede vuol dire che è impossibile caricare il robot
+	   
+	   
+	   
+	   
+	   
+	State wait_container {	
+		println("$name WAITING FOR CONTAINER AT I/O-PORT") color blue	
+	}
+	Transition t0
+		whenEvent container_present -> load_container
+
+
+	State wait_fallen_container {	
+		println("$name WAITING FOR FALLEN CONTAINER AT I/O-PORT") color blue	
+		// ricorda di interrompere il robot
+		forward robot_service -m halt: halt(ora)
+	}
+	Transition t0
+		whenEvent container_present -> load_container
+
+	
+	State load_container {
+		println("$name LOADING CONTAINER") color blue
+		
+		[#
+			val Slot_X = destination_slot.getX()
+			val Slot_Y = destination_slot.getY()
+		#]
+		
+		// chiedo al robot_service di spostare il robot dove voglio
+		// (nota che se il container cade, ritorno qua e semplicemente ricalcolo il percorso...
+		//  non il massimo dell'efficenza)
+		request robot_service -m move : move($Slot_X, $Slot_Y)
+	}
+	Transition t0
+		whenEvent container_absent -> wait_fallen_container
+		whenReply move_ok -> handle_move_ok
+//		whenReply move_ko -> handle_move_ko // se questo succede vuol dire che il deposito è impossibile da riempire
+		
+		
+		
+		
+	
+	State handle_move_ok {
+		// aggiorna lo stato dello slot
+		[# 
+			// così se questo è un riferimento diretto
+			destination_slot.setEmpty(false)
+			// altrimenti faccio un for each 
+			for(Slot s : slots) {
+				if( s.getId().equals(destination_slot.getId()) ) {
+					s.setEmpty(false)
+				}
+			}
+		#]
+		
+		// ritorna in home
+		[#
+			val Home_X = robot_home.getX()
+			val Home_Y = robot_home.getY()
+		#]
+		request robot_service -m move : move($Home_X, $Home_Y)
+	} 
+	Transition t0
+		whenReply move_ok -> wait_request // finito di gestire la richiesta, passa alla prossima
+		// whenReply move_ko -> panico // questo non dovrebbe succedere mai
+	
+//	  whenReply stepdone and [# stepok == 0 #] -> turnAndStep
+//	Goto doMove if [# (CurMove.length > 0) #] else endOfPlan
 }

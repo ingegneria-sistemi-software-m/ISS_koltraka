@@ -1,0 +1,75 @@
+System cargo_service
+
+mqttBroker "192.168.1.189" : 1883 eventTopic "sonar_emitter_topic"  
+
+
+
+Event container_present : container_present(X) "emesso dal sonar_emitter tramite MQTT quando il container è stato rilevato dal sonar per un certo numero di secondi"
+Event container_absent  : container_absent(X)  "emesso dal sonar emitter tramite MQTT quando il container NON è stato rilevato dal sonar per un certo numero di secondi"
+
+
+Context ctx_sonar_emitter ip [host="localhost" port=8002]
+
+QActor sonar_emitter context ctx_sonar_emitter {
+	[# 
+		lateinit var reader : java.io.BufferedReader
+	    lateinit var p : Process	
+	    var Distance = 0
+		
+		// variabili e costanti per la rilevazione del container
+		val D_FREE   = 10
+		val Sonar_measurement_frequency = 1.0  	// Hz (misurazioni al secondo)
+		val tempo_per_conferma_container = 3 	// secondi
+		val tick_per_conferma_container = sonar_measurment_frequency * tempo_conferma_container
+	    var cur_tick_container_present = 0
+	    var cur_tick_container_absent  = 0
+	#]	
+	
+	State s0 initial{
+		println("$name | start") 
+	 	[#
+			p      = Runtime.getRuntime().exec("python sonar.py")
+			reader = java.io.BufferedReader( java.io.InputStreamReader(p.getInputStream()) )	
+		#]		
+	}
+	Goto readSonarData
+	
+	State readSonarData{
+		[# 
+			var data = reader.readLine()
+			if( data != null ){
+				try{ 
+					val vd = data.toFloat()
+					val v  = vd.toInt()
+					
+					// filtro per dati sporchi
+					if( v <= 100 ) {	
+						Distance = v				
+					} 
+					else
+						Distance = 0
+				}catch(e: Exception){
+					CommUtils.outred("$name readSonarDataERROR: $e "   )
+				}
+			}
+		#]
+		
+		// gestione di variabili per capire che evento emettere
+		if [# distanza < D_FREE/2 #]  {
+			[# cur_tick++ #]
+		}
+			
+		if [# distanza > D_FREE #]  {
+			println("$name IL CONTAINER é CADUTO!!!") color red
+		}
+			
+		if [# #] {
+			emit container_present : container_present(si)
+		}
+		
+		if [# #] {
+			emit container_absent : container_absent(si)
+		}
+	}
+	Goto readSonarData
+}

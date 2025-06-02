@@ -25,8 +25,8 @@ with Diagram('cargo_serviceArch', show=False, outformat='png', graph_attr=grapha
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
-     with Cluster('ctx_cargo_service', graph_attr=nodeattr):
-          cargo_service=Custom('cargo_service','./qakicons/symActorWithobjSmall.png')
-     with Cluster('ctx_basic_robot', graph_attr=nodeattr):
-          basic_robot=Custom('basic_robot(ext)','./qakicons/externalQActor.png')
+     with Cluster('ctx_sonar_emitter', graph_attr=nodeattr):
+          sonar_emitter=Custom('sonar_emitter','./qakicons/symActorWithobjSmall.png')
+     sonar_emitter >> Edge( label='container_present', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     sonar_emitter >> Edge( label='container_absent', **eventedgeattr, decorate='true', fontcolor='red') >> sys
 diag

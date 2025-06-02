@@ -1,0 +1,66 @@
+System cargo_service
+
+Request move  : move(x_goal, y_goal) 	"la richiesta di movimento del robot prodotta da cargo_service e ricevuta dal robot_service che conosce la posizione del robot"
+Reply move_ok : move_ok(OK)    for move 
+Reply move_ko : move_ko(CAUSA) for move "in generale, è possibile che il robot non riesca a raggiungere il punto richiesto (no plan)"
+Dispatch halt : halt(X)					"messaggio da inviare al robot_service per interrompere tutte le operazioni quando il container è caduto"
+
+
+Context ctx_basic_robot ip [host="localhost" port=8001]
+
+QActor robot_service context ctx_basic_robot withobj vr
+			using "VrobotHLMoves24.create(\"localhost\",myself)"{   
+	import  "main.java.*"
+	import "main.resources.map.*" 
+	
+	// stato e costanti			
+	[#
+		val MapName     = "deposito.json"
+		var Step        = 350
+		// val RobotState = ...
+		// val MapState   = ...
+		lateinit var planner:PlanAima 
+		var CurPlan = ""
+	#]
+	
+	
+	State activate initial {
+		 
+		[#
+			// inizializzo lo stato leggendo un file prodotto dal mapper
+			Deposito deposito = new Deposito("deposito.json")
+			RobotState = deposito.getRobotState()
+			// ...
+		#]
+	} 
+	Goto wait_request
+	
+	
+	
+	State wait_request{
+		println("$name WAITING FOR REQUEST") color blue
+	}
+	Transition t0
+	   whenRequest move -> serve_move_request
+	   
+	
+	State serve_move_request {
+		println("$name SERVING REQUEST") color blue
+		
+		onMsg( move : move(x_goal, y_goal) ) {
+			[# 
+				val X_goal = payloadArg(0).toInt()
+				val Y_goal = payloadArg(1).toInt()
+				
+				CurPlan = planner.planForNextDirtyCompact()
+			#]
+	}
+	Goto execThePlan if [# CurPlan.lenght #] else reply_failure
+	
+	
+	/*
+	 * riutilizziamo il software già a disposizione
+	 */
+	
+	   
+}
