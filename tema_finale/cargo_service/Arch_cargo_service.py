@@ -25,8 +25,12 @@ with Diagram('cargo_serviceArch', show=False, outformat='png', graph_attr=grapha
   with Cluster('env'):
      sys = Custom('','./qakicons/system.png')
 ### see https://renenyffenegger.ch/notes/tools/Graphviz/attributes/label/HTML-like/index
-     with Cluster('ctx_sonar_emitter', graph_attr=nodeattr):
-          sonar_emitter=Custom('sonar_emitter','./qakicons/symActorWithobjSmall.png')
-     sonar_emitter >> Edge( label='container_present', **eventedgeattr, decorate='true', fontcolor='red') >> sys
-     sonar_emitter >> Edge( label='container_absent', **eventedgeattr, decorate='true', fontcolor='red') >> sys
+     with Cluster('ctx_cargo_service', graph_attr=nodeattr):
+          cargo_service=Custom('cargo_service','./qakicons/symActorWithobjSmall.png')
+     with Cluster('ctx_robot_service', graph_attr=nodeattr):
+          robot_service=Custom('robot_service(ext)','./qakicons/externalQActor.png')
+     sys >> Edge( label='container_present', **evattr, decorate='true', fontcolor='darkgreen') >> cargo_service
+     sys >> Edge( label='container_absent', **evattr, decorate='true', fontcolor='darkgreen') >> cargo_service
+     cargo_service >> Edge(color='magenta', style='solid', decorate='true', label='<move<font color="darkgreen"> move_ok move_ko</font> &nbsp; >',  fontcolor='magenta') >> robot_service
+     cargo_service >> Edge(color='blue', style='solid',  decorate='true', label='<halt &nbsp; >',  fontcolor='blue') >> robot_service
 diag

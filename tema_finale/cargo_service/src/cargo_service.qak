@@ -4,10 +4,10 @@ mqttBroker "192.168.1.189" : 1883 eventTopic "sonar_emitter_topic"
 
 
 
-Request load  	    : load(PID, PESO) 			   "la richiesta di carico di un container che arriva a cargo_service: contiene il PID del prodotto e il peso del container"
-Reply load_accepted : load_accepted(SLOT) for load "la richiesta di carico può essere accettata, con restituzione dello slot assegnato al container"
-Reply load_refused  : load_refused(CAUSA) for load "oppure può essere rifiutata per due motivi: cur_load > MAX_LOAD, oppure perchè tutti e 4 gli sloto sono occupati"
-Dispatch refuse		: refuse(X)					   "autodispatch che cargo_service si manda da solo per transitare nello stato giusto quando rifiuta una richiesta di carico"
+Request load_product : load_product(PID) 			    	"la richiesta di carico di un container che arriva a cargo_service: contiene il PID del prodotto e il peso del container"
+Reply load_accepted  : load_accepted(SLOT) for load_product "la richiesta di carico può essere accettata, con restituzione dello slot assegnato al container"
+Reply load_refused   : load_refused(CAUSA) for load_product "oppure può essere rifiutata per due motivi: cur_load > MAX_LOAD, oppure perchè tutti e 4 gli sloto sono occupati"
+Dispatch refuse		 : refuse(X)					   "autodispatch che cargo_service si manda da solo per transitare nello stato giusto quando rifiuta una richiesta di carico"
 
 Request move  : move(x_goal, y_goal) 	"la richiesta di movimento del robot prodotta da cargo_service e ricevuta dal robot_service che conosce la posizione del robot"
 Reply move_ok : move_ok(OK)    for move 
@@ -67,7 +67,7 @@ QActor cargo_service context ctx_cargo_service {
 		println("$name WAITING FOR REQUEST") color blue
 	}
 	Transition t0
-	   whenRequest load -> serve_load_request
+	   whenRequest load_product -> serve_load_request
 	   
 	
 	
@@ -76,7 +76,7 @@ QActor cargo_service context ctx_cargo_service {
 	State serve_load_request {
 		println("$name SERVING REQUEST") color blue
 		
-		onMsg( load : load(PID, PESO) ) {
+		onMsg( load_product : load_product(PID) ) {
 			[# 
 				val pid		 = payloadArg(0).toString()
 				val peso_req = payloadArg(1).toFloat()
@@ -91,7 +91,7 @@ QActor cargo_service context ctx_cargo_service {
 					val IO_Port_X = io_port.getX()
 					val IO_Port_Y = io_port.getY()
 				#]
-				replyTo load with load_accepted : load_accepted($SlotId)
+				replyTo load_product with load_accepted : load_accepted($SlotId)
 				request robot_service -m move : move($IO_Port_X, $IO_Port_Y)
 			}
 			else {

@@ -70,12 +70,12 @@ class Cargo_service ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
-					 transition(edgeName="t00",targetState="serve_load_request",cond=whenRequest("load"))
+					 transition(edgeName="t00",targetState="serve_load_request",cond=whenRequest("load_product"))
 				}	 
 				state("serve_load_request") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name SERVING REQUEST")
-						if( checkMsgContent( Term.createTerm("load(PID,PESO)"), Term.createTerm("load(PID,PESO)"), 
+						if( checkMsgContent( Term.createTerm("load_product(PID)"), Term.createTerm("load_product(PID)"), 
 						                        currentMsg.msgContent()) ) { //set msgArgList
 								 
 												val pid		 = payloadArg(0).toString()
@@ -88,7 +88,7 @@ class Cargo_service ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 													
 													val IO_Port_X = io_port.getX()
 													val IO_Port_Y = io_port.getY()
-								answer("load", "load_accepted", "load_accepted($SlotId)"   )  
+								answer("load_product", "load_accepted", "load_accepted($SlotId)"   )  
 								request("move", "move($IO_Port_X,$IO_Port_Y)" ,"robot_service" )  
 								}
 								else
