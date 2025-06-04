@@ -85,4 +85,16 @@ se ho il dubbio pojo/attore, ricordiamoci che **l'attore è intrinsecamente thre
 
 
 
+
+
+
+
+
+
+### Piano di lavoro
+ripartizione del lavoro tra i membri del gruppo
+
+
+
+
 ```chiedere a natali dei modelli di AI``` 

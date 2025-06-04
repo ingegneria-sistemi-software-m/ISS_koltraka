@@ -486,3 +486,10 @@ il risultato dello sprint0 è il piano di lavoro
 Ricorda la **definizione di modello**:
 rappresentazione del problema che mira a catturarne gli aspetti essenziali, fornendone una visione semplificata e più comprensibili (sia all'uomo che alla macchina)
 
+
+
+
+### cargo_product_service
+
+### delega degli attori
+serve ad eliminare la concorrenza / parallelizzare attività tramite delega dei messaggi 
