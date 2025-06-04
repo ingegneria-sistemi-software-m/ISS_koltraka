@@ -491,5 +491,9 @@ rappresentazione del problema che mira a catturarne gli aspetti essenziali, forn
 
 ### cargo_product_service
 
-### delega degli attori
-serve ad eliminare la concorrenza / parallelizzare attività tramite delega dei messaggi 
+**delega degli attori**
+delegando ad un attore statico otteniamo atomicità delle operazioni e processamento FIFO
+
+delegando ad un attore dinamico, creato sul momento, parallelizziamo le operazioni
+
+
