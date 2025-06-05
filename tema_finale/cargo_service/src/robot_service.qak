@@ -54,6 +54,7 @@ QActor robot_service context ctx_basic_robot withobj vr
 				
 				CurPlan = planner.planForNextDirtyCompact()
 			#]
+		}
 	}
 	Goto execThePlan if [# CurPlan.lenght #] else reply_failure
 	

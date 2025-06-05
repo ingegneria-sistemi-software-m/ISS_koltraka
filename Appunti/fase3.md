@@ -490,10 +490,33 @@ rappresentazione del problema che mira a catturarne gli aspetti essenziali, forn
 
 
 ### cargo_product_service
-
 **delega degli attori**
 delegando ad un attore statico otteniamo atomicità delle operazioni e processamento FIFO
-
 delegando ad un attore dinamico, creato sul momento, parallelizziamo le operazioni
+
+meccanismo simile alla creazione di thread nei server paralleli
+- le operazioni da eseguire sequenzialmente utilizzano una delega statica in modo da poter essere accodate mentre si eseguono in parallelo altre operazioni
+- le operazioni da eseguire concorrentemente vengono delegata ad attori dinamici in modo da non essere accodate
+
+
+
+
+
+### micro-cosmo e macro-cosmo
+macro-cosmo sono i sistemi distribuiti
+- servizi distribuiti su più nodi che comunicano tramite messaggi
+
+micro-cosmo come zooming all'interno di un singolo servizio
+- tradizionalmente composto da oggetti
+- con il modello attori però possiamo implementare un microcosmo formato da attori
+    - **interessante**
+    - macro-cosmo e micro-cosmo si unificano
+- a questo punto, io potrei portare il micro nel macro, ovvero rendere un attore locale un servizio remoto, **in maniera trasparente**
+
+L'idea è quella di progettare il micro-cosmo esattamente come il macro-cosmo, ottenendo tutti i vantaggi di quest'ultimo
+- thread-safety
+- delegazioni
+- gestione/transizione dei stati/messaggi
+
 
 
