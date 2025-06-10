@@ -519,4 +519,9 @@ L'idea è quella di progettare il micro-cosmo esattamente come il macro-cosmo, o
 - gestione/transizione dei stati/messaggi
 
 
+### Compass
+gui per mongo
 
+
+### runCaller
+per lanciare applicazioni aliene che utilizzano eureka

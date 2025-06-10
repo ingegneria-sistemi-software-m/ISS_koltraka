@@ -30,16 +30,136 @@ class Cargo_service ( name: String, scope: CoroutineScope, isconfined: Boolean=f
 		//val interruptedStateTransitions = mutableListOf<Transition>()
 		//IF actor.withobj !== null val actor.withobj.name» = actor.withobj.method»ENDIF
 		
-				// var doingAsynchStep = false
+				val MAX_LOAD = 999
+				
+				// il cargo_service mantiene il seguente stato per effettuare le sue operazioni
+				// 		- peso dei container già posizionati 
+				//		- posizione dell'io/port e degli slot
+				//		- stato degli slot (occupato/libero)
+				// 		- posizione della home del robot
+				//
+				// questo stato lo posso recuperare leggendo un file prodotto dal mapper (ad esempio un .json)
+				var cur_load = 0
+				var slots : List<Slot>
+				var io_port : Position
+				var robot_home : Position
+				
+				// variabile globale usata in vari stati
+				var destination_slot : Slot
 		return { //this:ActionBasciFsm
 				state("s0") { //this:State
 					action { //it:State
 						CommUtils.outblue("$name STARTS")
+						
+									// inizializzo lo stato leggendo un file prodotto dal mapper
+									Deposito deposito = new Deposito("deposito.json")
+									slots = deposito.getSlots()
+									// ...
 						//genTimer( actor, state )
 					}
 					//After Lenzi Aug2002
 					sysaction { //it:State
 					}	 	 
+					 transition( edgeName="goto",targetState="wait_request", cond=doswitch() )
+				}	 
+				state("wait_request") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name WAITING FOR REQUEST")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t00",targetState="serve_load_request",cond=whenRequest("load_product"))
+				}	 
+				state("serve_load_request") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name SERVING REQUEST")
+						if( checkMsgContent( Term.createTerm("load_product(PID)"), Term.createTerm("load_product(PID)"), 
+						                        currentMsg.msgContent()) ) { //set msgArgList
+								 
+												val pid		 = payloadArg(0).toString()
+												val peso_req = payloadArg(1).toFloat()
+								if(  cur_peso+peso_req < MAX_LOAD && slots.numEmpty() > 0  
+								 ){
+													destination_slot = slots.getNextEmpty()
+													destination_slot.associateProduct(pid)
+													val SlotId = destination_slot.getId()
+													
+													val IO_Port_X = io_port.getX()
+													val IO_Port_Y = io_port.getY()
+								answer("load_product", "load_accepted", "load_accepted($SlotId)"   )  
+								request("move", "move($IO_Port_X,$IO_Port_Y)" ,"robot_service" )  
+								}
+								else
+								 {forward("refuse", "refuse(si)" ,name ) 
+								 }
+						}
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t01",targetState="wait_request",cond=whenDispatch("refuse"))
+					transition(edgeName="t02",targetState="wait_container",cond=whenReply("move_ok"))
+				}	 
+				state("wait_container") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name WAITING FOR CONTAINER AT I/O-PORT")
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t03",targetState="load_container",cond=whenEvent("container_present"))
+				}	 
+				state("wait_fallen_container") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name WAITING FOR FALLEN CONTAINER AT I/O-PORT")
+						forward("halt", "halt(ora)" ,"robot_service" ) 
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t04",targetState="load_container",cond=whenEvent("container_present"))
+				}	 
+				state("load_container") { //this:State
+					action { //it:State
+						CommUtils.outblue("$name LOADING CONTAINER")
+						
+									val Slot_X = destination_slot.getX()
+									val Slot_Y = destination_slot.getY()
+						request("move", "move($Slot_X,$Slot_Y)" ,"robot_service" )  
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t05",targetState="wait_fallen_container",cond=whenEvent("container_absent"))
+					transition(edgeName="t06",targetState="handle_move_ok",cond=whenReply("move_ok"))
+				}	 
+				state("handle_move_ok") { //this:State
+					action { //it:State
+						 
+									// così se questo è un riferimento diretto
+									destination_slot.setEmpty(false)
+									// altrimenti faccio un for each 
+									for(Slot s : slots) {
+										if( s.getId().equals(destination_slot.getId()) ) {
+											s.setEmpty(false)
+										}
+									}
+						
+									val Home_X = robot_home.getX()
+									val Home_Y = robot_home.getY()
+						request("move", "move($Home_X,$Home_Y)" ,"robot_service" )  
+						//genTimer( actor, state )
+					}
+					//After Lenzi Aug2002
+					sysaction { //it:State
+					}	 	 
+					 transition(edgeName="t07",targetState="wait_request",cond=whenReply("move_ok"))
 				}	 
 			}
 		}
