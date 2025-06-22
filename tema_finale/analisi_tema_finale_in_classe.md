@@ -96,5 +96,3 @@ ripartizione del lavoro tra i membri del gruppo
 
 
 
-
-```chiedere a natali dei modelli di AI``` 

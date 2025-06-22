@@ -16,7 +16,7 @@ Facendo una scelta, stiamo **formalizzando il termine DDR con un pezzo di softwa
 
 **Formalizzare significa tradurre da linguaggio naturale a qualcosa che la macchina capisce**
 
-**NB**: Dovendo caricare dei prodotti nel deposito HLMoves ha un abstraction gap troppo alto, basic robot si presta meglio
+**NB**: Dovendo caricare dei prodotti nel deposito, HLMoves ha un abstraction gap troppo alto, basic robot si presta meglio
 
 - prodotti
 - deposito
@@ -24,7 +24,7 @@ Facendo una scelta, stiamo **formalizzando il termine DDR con un pezzo di softwa
 Verbi:
 - loading
     - **NB**: il basic robot si sa muovere, ma non sa caricare/scaricare i prodotti
-        - Non sa fare tutto quello server
+        - Non sa fare tutto quello serve
 
 **NMB**: ma il cargoRobot sa fare anche questo! **Il cargo-robot è quindi diverso dal basic-robot**
 
