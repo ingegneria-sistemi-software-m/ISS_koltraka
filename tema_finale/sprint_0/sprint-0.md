@@ -23,6 +23,11 @@ Obiettivi sprint0:
     - distribuendo il lavoro tra i membri del gruppo
 
 
+**Inoltre**
+- cosa è un attore, cosa è un POJO
+- attributi e invarianti di ogni entità del sistema
+- quali parti del sistema possono essere distribuite e quali no
+
 
 ## analisi requisiti
 
