@@ -6,7 +6,7 @@ risposta oracolo:
 1. contesto gestione del carico (equivalente al mio cargo_service)
     - **NB**: questo contesto include anche il movimento del robot. 
     - questo è quindi un bounded context che contiene più microservizi 
-2. sonar_emitter
+2. Interazione Fisica/Sensori
 3. inventario stiva
     - gestisce lo stato fisico della stiva, tiene traccia dello stato degli slot
     - questo è un aggregato 
